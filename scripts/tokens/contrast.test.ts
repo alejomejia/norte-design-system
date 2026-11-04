@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { describe, it } from 'node:test'
 
-import { contrastRatio, isInSrgbGamut, oklchToLinearRgb, parseOklch } from './color.ts'
-import { readColors } from './theme.ts'
+import { contrastRatio, isInSrgbGamut, oklchToLinearRgb, parseOklch } from '../../src/handbook/tokens/color.ts'
+import { parseTokens } from '../../src/handbook/tokens/tokens.ts'
+
+const tokens = parseTokens(readFileSync(new URL('../../src/styles/theme.css', import.meta.url), 'utf8'))
 
 /** WCAG 2.2 AA: 4.5:1 for text (1.4.3), 3:1 for the borders and focus rings that outline a control (1.4.11). */
 const TEXT = 4.5
@@ -29,12 +32,10 @@ const PAIRS: [string, string, number][] = [
 ]
 
 describe('color roles', () => {
-  const colors = readColors()
-
   function rgb(role: string) {
-    const value = colors.get(`color-${role}`)
-    if (value === undefined) throw new Error(`No --color-${role} token`)
-    return oklchToLinearRgb(parseOklch(value))
+    const token = tokens.get(`color-${role}`)
+    if (!token) throw new Error(`No --color-${role} token`)
+    return oklchToLinearRgb(parseOklch(token.value))
   }
 
   for (const [foreground, background, minimum] of PAIRS) {
@@ -47,9 +48,9 @@ describe('color roles', () => {
 
 describe('primitives', () => {
   it('stay inside the sRGB gamut, so they look the same on every screen', () => {
-    const outside = [...readColors()]
-      .filter(([, value]) => !isInSrgbGamut(oklchToLinearRgb(parseOklch(value))))
-      .map(([name]) => name)
+    const outside = [...tokens.values()]
+      .filter(({ name, value }) => name.startsWith('color-') && !isInSrgbGamut(oklchToLinearRgb(parseOklch(value))))
+      .map(({ name }) => name)
     assert.deepEqual(outside, [])
   })
 })

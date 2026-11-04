@@ -46,3 +46,16 @@ export function contrastRatio(a: LinearRgb, b: LinearRgb): number {
   const [lighter, darker] = [luminance(a), luminance(b)].sort((x, y) => y - x) as [number, number]
   return (lighter + 0.05) / (darker + 0.05)
 }
+
+/** A linear sRGB color as `#rrggbb`, gamma-encoded and clamped to the gamut. */
+export function toHex(rgb: LinearRgb): string {
+  return `#${rgb
+    .map((channel) => {
+      const clamped = Math.min(Math.max(channel, 0), 1)
+      const encoded = clamped <= 0.0031308 ? 12.92 * clamped : 1.055 * clamped ** (1 / 2.4) - 0.055
+      return Math.round(encoded * 255)
+        .toString(16)
+        .padStart(2, '0')
+    })
+    .join('')}`
+}
