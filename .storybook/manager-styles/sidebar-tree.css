@@ -177,6 +177,7 @@
  * the row's hover color. It fades with the row: Storybook shows and hides it with `visibility`, which a transition
  * flips at the start of a fade in and at the end of a fade out. */
 #storybook-explorer-tree .sidebar-item button[data-testid="context-menu"] {
+  height: 100%;
   border-radius: var(--sb-radius-s);
   background-color: transparent;
   box-shadow: 0 0 0.25rem 0.25rem var(--sb-color-accent); /* 4px, 4px */

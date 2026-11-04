@@ -48,6 +48,8 @@ export const Danger: Story = { args: { variant: 'danger', children: 'Delete agen
 
 /** `m` everywhere, `s` in toolbars and dense rows. */
 export const Sizes: Story = {
+  // Each button sets its own size: the other controls still apply to both.
+  parameters: { controls: { exclude: ['size'] } },
   render: (args) => (
     <div className="sb-row">
       <Button {...args} size="s" />
@@ -58,6 +60,8 @@ export const Sizes: Story = {
 
 /** Every variant side by side, to compare their weight. */
 export const Variants: Story = {
+  // Each button sets its own variant and label: the other controls still apply to all of them.
+  parameters: { controls: { exclude: ['variant', 'children'] } },
   render: (args) => (
     <div className="sb-row">
       {BUTTON_VARIANTS.map((variant) => (
@@ -108,6 +112,8 @@ const submitForm = fn()
 /** Inside a form, a button never submits it unless it says so with `type="submit"`. */
 export const InAForm: Story = {
   name: 'In a form',
+  // A behavior, checked by its play function: no controls.
+  parameters: { controls: { disable: true } },
   render: (args) => (
     <form
       className="sb-row"

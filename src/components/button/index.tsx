@@ -7,7 +7,7 @@ import { type BUTTON_SIZES, type BUTTON_VARIANTS } from './button.const'
 import { button, buttonContent } from './button.styles'
 import { ButtonSpinner } from './button-spinner'
 
-export type ButtonProps = Omit<BaseButton.Props, 'className' | 'children'> & {
+export type ButtonProps = Omit<BaseButton.Props, 'className' | 'children' | 'disabled'> & {
   /**
    * Its look: `primary` for the main action of a screen (one per view), `secondary` beside it, `ghost` for quiet actions
    * in toolbars and lists, and `danger` for what can't be undone.

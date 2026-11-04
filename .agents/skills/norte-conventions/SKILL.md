@@ -145,7 +145,9 @@ ships in the same change with:
   the code leaves defaults out (`.storybook/story-source.ts`).
 - **Overview stories** (sizes, states, variants side by side) lay out with the helpers in `.storybook/preview.css`
   (`sb-row`, `sb-stack`, `sb-box-*`, `sb-panel`, `sb-surface-inverse`), never Tailwind classes: elements that carry only
-  helpers are left out of the code, anything else lands in it.
+  helpers are left out of the code, anything else lands in it. They keep only the controls that still apply
+  (`parameters.controls.exclude`: the props each item sets itself), and stories that show a behavior keep none
+  (`controls: { disable: true }`).
 - **Number props are sliders** (`control: { type: 'range', min, max }`); the step follows from the span.
 - Props group under Props and `on…` handlers under Events on their own (`.storybook/arg-categories.ts`).
 
