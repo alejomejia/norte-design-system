@@ -150,6 +150,24 @@
     0.9984,
     1
   ); /* Motion's spring(0.3, 0.3): a short overshoot, then it settles */
+
+  /* Animations, read with `animate-*`. `nudge`: one small shake, for something that failed. */
+  --animate-nudge: nudge 320ms var(--ease-standard);
+
+  @keyframes nudge {
+    20% {
+      translate: -0.25rem; /* -4px */
+    }
+    40% {
+      translate: 0.25rem; /* 4px */
+    }
+    60% {
+      translate: -0.125rem; /* -2px */
+    }
+    80% {
+      translate: 0.125rem; /* 2px */
+    }
+  }
 }
 
 @layer theme {
