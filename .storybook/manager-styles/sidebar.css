@@ -90,4 +90,3 @@ div:has(> div > #storybook-sidebar-region) {
   background-color: var(--sb-color-accent);
   color: var(--sb-color-text);
 }
-

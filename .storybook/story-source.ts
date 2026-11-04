@@ -12,6 +12,9 @@ import { getDefaults } from './default-args'
 /** The spies of `fn()`, which Storybook prints as `onClick={function…}`: noise in code meant to be copied. */
 const HANDLER = /\s+on[A-Z]\w*=\{(?:function\s*\w*\(\)\s*\{\}|\(\)\s*=>\s*\{\})\}/g
 
+/** An element that carries only story helper classes (`preview.css`), opening on a line of its own. */
+const HELPER_OPEN = /^(\s*)<(\w+) className="sb-[\w-]+(?: sb-[\w-]+)*">$/
+
 /** A tag longer than this keeps one prop per line. */
 const MAX_TAG_LENGTH = 80
 
@@ -58,6 +61,29 @@ function withShortTags(code: string) {
   )
 }
 
+/**
+ * Leaves out the elements that only lay out the canvas (`sb-row`, `sb-stack`…): an app has none of them. Their content
+ * stays, one level less indented. Storybook writes an element with children over several lines, its closing tag at its
+ * opening tag's indent, which tells where each one ends.
+ */
+function withoutHelpers(code: string) {
+  const open: { indent: string; tag: string }[] = []
+  const lines: string[] = []
+
+  for (const line of code.split('\n')) {
+    const helper = HELPER_OPEN.exec(line)
+    const last = open.at(-1)
+    if (helper) {
+      open.push({ indent: helper[1] ?? '', tag: helper[2] ?? '' })
+    } else if (last && line === `${last.indent}</${last.tag}>`) {
+      open.pop()
+    } else {
+      lines.push(line.slice(Math.min(open.length * 2, line.length - line.trimStart().length)))
+    }
+  }
+  return lines.join('\n')
+}
+
 /** Imports the package's components the code uses. */
 function withImports(code: string) {
   const exported = new Set(Object.keys(library))
@@ -70,6 +96,6 @@ function withImports(code: string) {
 
 /** `parameters.docs.source.transform`. The docs pages keep their snippets short, without the import. */
 export function transformSource(code: string, context: StoryContext) {
-  const clean = withShortTags(withoutDefaults(code.replace(HANDLER, ''), context))
+  const clean = withShortTags(withoutDefaults(withoutHelpers(code.replace(HANDLER, '')), context))
   return context.viewMode === 'story' ? withImports(clean) : clean
 }

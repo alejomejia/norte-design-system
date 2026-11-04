@@ -136,6 +136,26 @@ ships in the same change with:
 3. its place in the sidebar (`storySort` in `.storybook/preview.ts`), replacing its placeholder;
 4. its export in `src/index.ts`, and a changeset.
 
+### Stories
+
+- **Playground first,** with every control live. It's the canvas at the top of the docs page, so it shows its code
+  (`parameters: { docs: { canvas: { sourceState: 'shown' } } }`); every other story keeps it behind "Show code".
+- **One story per variant or state,** with a JSDoc line above it: it's the story's description on the docs page.
+- **Don't repeat a prop's default in `args`.** Controls start at each prop's default (`.storybook/default-args.ts`), and
+  the code leaves defaults out (`.storybook/story-source.ts`).
+- **Overview stories** (sizes, states, variants side by side) lay out with the helpers in `.storybook/preview.css`
+  (`sb-row`, `sb-stack`, `sb-box-*`, `sb-panel`, `sb-surface-inverse`), never Tailwind classes: elements that carry only
+  helpers are left out of the code, anything else lands in it.
+- **Number props are sliders** (`control: { type: 'range', min, max }`); the step follows from the span.
+- Props group under Props and `on…` handlers under Events on their own (`.storybook/arg-categories.ts`).
+
+### Handbook pages
+
+- Every page opens with `PageHeader`; sections are `##`, subsections `###` with a one-line description under them.
+- Foundation pages render **live tokens** through the blocks in `src/handbook/blocks/`, never a value typed by hand.
+- Every token is a `CopyToken` chip that copies its **variable** (`var(--color-ink)`), never the raw value. A new
+  token gets its card or row on its foundation page in the same change.
+
 ## Tests
 
 - **Unit tests** (Vitest, project `unit`, `pnpm test`) cover pure logic: a `<name>.test.ts` next to the file it tests.

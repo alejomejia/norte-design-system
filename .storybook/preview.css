@@ -24,3 +24,61 @@
   background-size: var(--sb-canvas-pattern-size);
   pointer-events: none;
 }
+
+/*
+ * Layout helpers for stories that show several components at once (sizes, states, a component on a dark surface). They
+ * only lay out the canvas: `story-source.ts` leaves the elements that carry nothing but these classes out of a story's
+ * code, so an app never copies them. Lay stories out with these, never with Tailwind classes, which would land in the
+ * code.
+ */
+
+/* Side by side, wrapping, centered on a line: variants, sizes. */
+.sb-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem; /* 16px */
+}
+
+/* One under the other, each at its own width: states, content shapes. */
+.sb-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem; /* 24px */
+}
+
+/* A stack whose items take its full width: fields, messages. */
+.sb-stack--stretch {
+  align-items: stretch;
+}
+
+/* Fixed widths, for components that take the width of their container. */
+.sb-box-s {
+  width: 10rem; /* 160px */
+}
+
+.sb-box-m {
+  width: 20rem; /* 320px */
+}
+
+.sb-box-l {
+  width: 40rem; /* 640px */
+}
+
+/* A panel of the workspace, for components that live inside one: a conversation, a run's timeline. */
+.sb-panel {
+  max-width: 40rem; /* 640px */
+  padding: 1.5rem; /* 24px */
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem; /* 12px */
+  background-color: var(--color-surface);
+}
+
+/* A dark surface, for components shown on one (inverse variants, the page header's badges). */
+.sb-surface-inverse {
+  padding: 1.5rem; /* 24px */
+  border-radius: 0.75rem; /* 12px */
+  background-color: var(--color-neutral-950);
+  color: var(--color-white);
+}

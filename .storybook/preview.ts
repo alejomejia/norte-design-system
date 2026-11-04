@@ -65,8 +65,9 @@ const preview: Preview = {
           collapseDepth: 6,
         },
       },
-      // Every story shows its code under it, ready to copy (`story-source.ts`).
-      canvas: { sourceState: 'shown' },
+      // Code stays behind "Show code" (`story-source.ts`). The Playground, the canvas at the top of a component's page,
+      // shows it, so it follows the props table's controls live.
+      canvas: { sourceState: 'hidden' },
       source: { type: 'dynamic', transform: transformSource },
       // The Code panel under each story: its code with the current controls, ready to paste into an app.
       codePanel: true,
