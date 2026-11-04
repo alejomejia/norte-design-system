@@ -4,7 +4,7 @@ import { create } from 'storybook/theming'
 
 import { DocsPage } from '@/handbook/blocks/docs-page'
 
-import { THEME_VARS } from './theme'
+import { PALETTE, THEME_VARS } from './theme'
 
 import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
@@ -19,7 +19,8 @@ const preview: Preview = {
     a11y: { test: 'error' },
     controls: { expanded: true },
     docs: {
-      theme: create(THEME_VARS),
+      // Ink instead of blue for the docs' secondary color: it marks the current section in the page index.
+      theme: create({ ...THEME_VARS, colorSecondary: PALETTE.neutral900 }),
       // Every component page opens with the same header card as the handbook pages.
       page: DocsPage,
       toc: { title: 'On this page', headingSelector: 'h2, h3' },

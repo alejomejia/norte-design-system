@@ -8,7 +8,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem; /* 8px */
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.125rem; /* 18px */
   font-weight: 600;
   letter-spacing: -0.02em;
   color: #15171b;
@@ -37,12 +37,12 @@
 
 .nt-status {
   flex-shrink: 0;
-  padding: 0 0.375rem; /* 6px */
+  padding: 0 0.5rem; /* 8px */
   border: 1px solid transparent;
   border-radius: 0.25rem; /* 4px */
-  font-size: 0.6875rem; /* 11px */
+  font-size: 0.75rem; /* 12px */
   font-weight: 500;
-  line-height: 1.125rem; /* 18px */
+  line-height: 1rem; /* 16px */
 }
 
 .nt-status--ready {
@@ -73,7 +73,7 @@
 
 #storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] {
   padding-left: 0.5rem; /* 8px */
-  font-size: 0.8125rem; /* 13px */
+  font-size: 0.875rem; /* 14px */
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
@@ -131,13 +131,13 @@
 /* Groups and components open with a chevron on the right, after the status badge, as in a file tree. */
 #storybook-explorer-tree .sidebar-item:is([data-nodetype="group"], [data-nodetype="component"]) > button {
   position: relative;
-  padding-right: 1.75rem; /* 28px */
+  padding-right: 2rem; /* 32px */
 }
 
 #storybook-explorer-tree .sidebar-item > button > div:first-child > div:has(> svg[width="8"]) {
   position: absolute;
   top: 50%;
-  right: 0.625rem; /* 10px */
+  right: 0.75rem; /* 12px */
   margin: 0;
   translate: 0 -50%;
 }
