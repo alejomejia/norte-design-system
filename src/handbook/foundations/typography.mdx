@@ -2,7 +2,7 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 import { PageHeader } from '@/handbook/blocks/page-header'
 
-import { FontFamilies, FontWeights, TypeScale } from '@/handbook/blocks/typography'
+import { FontWeights, TypeScale, TypeSpecimen } from '@/handbook/blocks/typography'
 
 <Meta title="Foundations/Typography" />
 
@@ -11,7 +11,19 @@ import { FontFamilies, FontWeights, TypeScale } from '@/handbook/blocks/typograp
   next to sans labels makes it clear at a glance what a person wrote and what a machine did.
 </PageHeader>
 
-<FontFamilies />
+## Typefaces
+
+### Inter
+
+Every label, text and heading of the interface.
+
+<TypeSpecimen family="sans" />
+
+### JetBrains Mono
+
+Code, logs and agent output: anything a machine wrote.
+
+<TypeSpecimen family="mono" />
 
 ## Scale
 

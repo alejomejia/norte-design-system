@@ -11,4 +11,9 @@ import { SpacingScale } from '@/handbook/blocks/spacing'
   24px. Spaces step by 8px, with 2, 4 and 12px for the tight spots (an icon next to its label, a badge's padding).
 </PageHeader>
 
+## Scale
+
+Tailwind has a single spacing variable, `--spacing` (4px), and every step is a multiple of it. So a step copies as
+`calc(var(--spacing) * 4)`: in a class you'd write `p-4`, in CSS the copied value.
+
 <SpacingScale />
