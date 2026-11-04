@@ -20,7 +20,7 @@ const COMMIT_URL = 'https://github.com/alejomejia/norte-design-system/commit/'
 const GROUPS: Record<Bump, string> = {
   major: 'Breaking changes',
   minor: 'New',
-  patch: 'Fixes',
+  patch: 'Patches',
 }
 
 /** The release before the first one: the next release counts from here. */
@@ -29,6 +29,11 @@ const FIRST_VERSION = '0.0.0'
 /** A heading id unique per version: `v0-2-0`, so "On this page" links each version, not the first one it finds. */
 function versionId(version: string) {
   return `v${version.replaceAll('.', '-')}`
+}
+
+/** A release date as people read it: `2026-11-04` → `November 4, 2026`. */
+function formatDate(date: string) {
+  return new Date(`${date}T00:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
 /** A small label next to a version: its bump, or that it isn't out yet. */
@@ -119,9 +124,14 @@ export function Releases() {
     const id = versionId(version)
     return (
       <section key={version} aria-labelledby={id}>
-        <h3 id={id}>{version}</h3>
-        <div className="sb-unstyled mb-4">
+        <h3 id={id}>v{version}</h3>
+        <div className="sb-unstyled mb-4 flex flex-wrap items-center gap-2">
           <Pill>{biggestBump(entries) ?? 'patch'}</Pill>
+          {__RELEASE_DATES__[version] && (
+            <time dateTime={__RELEASE_DATES__[version]} className="text-body-s text-ink-subtle">
+              {formatDate(__RELEASE_DATES__[version])}
+            </time>
+          )}
         </div>
         <Notes entries={entries} id={id} />
       </section>
