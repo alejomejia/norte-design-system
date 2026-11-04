@@ -1,0 +1,143 @@
+/*
+ * The Storybook UI, restyled as Norte's handbook. Storybook's own classes are generated, so these rules hook into the
+ * stable ids, roles and data attributes of its markup.
+ */
+
+/* The brand: the north needle in blue, then the wordmark. */
+.nt-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* 8px */
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #15171b;
+}
+
+.nt-brand svg {
+  width: 1.25rem; /* 20px */
+  height: 1.25rem; /* 20px */
+  fill: #085efb;
+}
+
+/* A component's name and its status badge. */
+.nt-label {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem; /* 8px */
+  min-width: 0;
+}
+
+.nt-label-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nt-status {
+  flex-shrink: 0;
+  padding: 0 0.375rem; /* 6px */
+  border: 1px solid transparent;
+  border-radius: 0.25rem; /* 4px */
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 500;
+  line-height: 1.125rem; /* 18px */
+}
+
+.nt-status--ready {
+  background: #eff6ff;
+  color: #085efb;
+}
+
+.nt-status--beta {
+  border-color: #085efb;
+  color: #085efb;
+}
+
+.nt-status--planned {
+  border-color: #e3e5e9;
+  color: #6b6f76;
+}
+
+.nt-status--deprecated {
+  background: #f3f4f6;
+  color: #6b6f76;
+  text-decoration: line-through;
+}
+
+/* Sidebar: sentence-case section names in gray, no section chevrons or "expand all". */
+#storybook-explorer-tree .sidebar-subheading {
+  margin-top: 0.75rem; /* 12px */
+}
+
+#storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] {
+  padding-left: 0.5rem; /* 8px */
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #6b6f76;
+}
+
+#storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] > div,
+#storybook-explorer-tree .sidebar-subheading-action {
+  display: none;
+}
+
+/* Items: gray text and icons, a quiet gray highlight on hover and on the open page. */
+#storybook-explorer-tree .sidebar-item {
+  min-height: 2rem; /* 32px */
+  border-radius: 0.5rem; /* 8px */
+  color: #50545b;
+}
+
+#storybook-explorer-tree .sidebar-item a,
+#storybook-explorer-tree .sidebar-item button {
+  font-size: 0.875rem; /* 14px */
+  color: inherit;
+}
+
+#storybook-explorer-tree .sidebar-item svg {
+  color: #8f9298;
+}
+
+#storybook-explorer-tree .sidebar-item:hover {
+  background: #f3f4f6;
+  color: #15171b;
+}
+
+#storybook-explorer-tree .sidebar-item[data-selected="true"],
+#storybook-explorer-tree .sidebar-item[data-selected="true"]:hover {
+  background: #e3e5e9;
+  color: #15171b;
+  font-weight: 500;
+}
+
+#storybook-explorer-tree .sidebar-item[data-selected="true"] svg {
+  color: #15171b;
+}
+
+/* Components are the system's units: their names read a little stronger than their stories. */
+#storybook-explorer-tree .sidebar-item[data-nodetype="component"] {
+  color: #15171b;
+}
+
+/* The search field. */
+.search-field input {
+  font-size: 0.875rem; /* 14px */
+}
+
+/* Groups and components open with a chevron on the right, after the status badge, as in a file tree. */
+#storybook-explorer-tree .sidebar-item:is([data-nodetype="group"], [data-nodetype="component"]) > button {
+  position: relative;
+  padding-right: 1.75rem; /* 28px */
+}
+
+#storybook-explorer-tree .sidebar-item > button > div:first-child > div:has(> svg[width="8"]) {
+  position: absolute;
+  top: 50%;
+  right: 0.625rem; /* 10px */
+  margin: 0;
+  translate: 0 -50%;
+}

@@ -21,5 +21,12 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", ".storybook/preview.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".storybook/preview.ts",
+    ".storybook/manager.ts",
+    ".storybook/theme.ts",
+    ".storybook/statuses.ts"
+  ]
 }
