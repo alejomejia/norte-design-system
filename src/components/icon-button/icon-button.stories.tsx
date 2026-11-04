@@ -35,14 +35,15 @@ export const Playground: Story = {
   parameters: { docs: { canvas: { sourceState: 'shown' } } },
 }
 
-/** `ghost` by default. The others for the rare icon button that carries more weight. */
+/** Each variant with an action it fits. `ghost` by default; the others for the rare icon button that carries more weight. */
 export const Variants: Story = {
-  parameters: { controls: { exclude: ['variant'] } },
+  parameters: { controls: { exclude: ['variant', 'icon', 'label'] } },
   render: (args) => (
     <div className="sb-row">
-      {BUTTON_VARIANTS.map((variant) => (
-        <IconButton key={variant} {...args} variant={variant} />
-      ))}
+      <IconButton {...args} variant="primary" icon="send" label="Send the prompt" />
+      <IconButton {...args} variant="secondary" icon="settings" label="Agent settings" />
+      <IconButton {...args} variant="ghost" icon="copy" label="Copy the output" />
+      <IconButton {...args} variant="danger" icon="delete" label="Delete the agent" />
     </div>
   ),
 }
