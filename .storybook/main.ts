@@ -38,16 +38,10 @@ const config: StorybookConfig = {
     viteConfig.plugins = viteConfig.plugins?.flat().filter((plugin) => {
       return !(plugin && typeof plugin === 'object' && 'name' in plugin && plugin.name === 'unplugin-dts')
     })
-    if (viteConfig.build) delete viteConfig.build.lib
-    // Keep function names through minification: Storybook writes each story's code from the component's name, which
-    // the published build would otherwise shorten to a letter (`<r>`).
-    viteConfig.build = {
-      ...viteConfig.build,
-      rolldownOptions: {
-        ...viteConfig.build?.rolldownOptions,
-        output: { ...viteConfig.build?.rolldownOptions?.output, keepNames: true },
-      },
-    }
+    // Its library output (external dependencies, one file per module) is replaced: Storybook bundles everything. Function
+    // names are kept through minification: Storybook writes each story's code from the component's name, which the
+    // published build would otherwise shorten to a letter (`<r>`).
+    viteConfig.build = { ...viteConfig.build, lib: false, rolldownOptions: { output: { keepNames: true } } }
     // The version the page headers show.
     viteConfig.define = { ...viteConfig.define, __PACKAGE_VERSION__: JSON.stringify(version) }
     return viteConfig
