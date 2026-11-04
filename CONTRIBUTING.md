@@ -126,8 +126,8 @@ change, also say what apps must change.
 
 ```md
 ---
-
-## 'norte-design-system': minor
+'norte-design-system': minor
+---
 
 Rename the `kind` prop of `Button` to `variant`. Replace `kind="…"` with `variant="…"` where you use it.
 ```

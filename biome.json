@@ -1,6 +1,10 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "files": {
     "includes": ["**", "!pnpm-lock.yaml"]
   },
@@ -18,26 +22,53 @@
     }
   },
   "css": {
-    "parser": { "tailwindDirectives": true }
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+  "markdown": {
+    "formatter": {
+      "enabled": false
+    },
+    "linter": {
+      "enabled": false
+    }
   },
   "assist": {
-    "actions": { "source": { "organizeImports": "on" } }
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "rules": {
       "style": {
-        "useImportType": { "level": "error", "options": { "style": "inlineType" } },
+        "useImportType": {
+          "level": "error",
+          "options": {
+            "style": "inlineType"
+          }
+        },
         "noRestrictedImports": {
           "level": "error",
           "options": {
-            "patterns": [{ "group": ["../*"], "message": "Use the `@/` alias instead of `../`." }]
+            "patterns": [
+              {
+                "group": ["../*"],
+                "message": "Use the `@/` alias instead of `../`."
+              }
+            ]
           }
         }
       },
       "nursery": {
         "useConsistentFunctionStyle": {
           "level": "error",
-          "options": { "style": "declaration", "allowArrowFunctions": false }
+          "options": {
+            "style": "declaration",
+            "allowArrowFunctions": false
+          }
         },
         "useTailwindSortedClasses": "error"
       }
