@@ -8,9 +8,6 @@ export const TOOL_CALL_STATUS_LABELS = {
   error: 'failed',
 } as const
 
-/** How often the timer of a running call updates, in ms. */
-export const TOOL_CALL_TICK = 100
-
 /** The time the running fill takes to cover about two thirds of the chip, in ms. It slows down from there. */
 export const TOOL_CALL_PROGRESS_PACE = 4000
 

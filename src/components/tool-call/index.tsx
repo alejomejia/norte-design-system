@@ -1,14 +1,14 @@
 'use client'
 
-import { type ReactNode, useRef, useState } from 'react'
+import { type ReactNode, useRef } from 'react'
 
 import { Icon, type IconName } from '@/components/icon'
-import { toCSSVars } from '@/lib/utils'
+import { useElapsed } from '@/lib/hooks'
+import { formatElapsed, toCSSVars } from '@/lib/utils'
 
 import { TOOL_CALL_STATUS_LABELS, type TOOL_CALL_STATUSES } from './tool-call.const'
-import { useElapsed } from './tool-call.hooks'
 import { toolCallStyles } from './tool-call.styles'
-import { formatElapsed, runningProgress } from './tool-call.utils'
+import { runningProgress } from './tool-call.utils'
 
 export type ToolCallStatus = (typeof TOOL_CALL_STATUSES)[number]
 
@@ -50,12 +50,7 @@ export function ToolCall({
 }: ToolCallProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const running = status === 'running'
-  // A call that finishes without an end time stops its timer the moment it finishes. Adjusted while rendering, so the
-  // timer never shows a frame past the end.
-  const [stoppedAt, setStoppedAt] = useState<number>()
-  if (!running && endedAt === undefined && stoppedAt === undefined) setStoppedAt(Date.now())
-  if (running && stoppedAt !== undefined) setStoppedAt(undefined)
-  const elapsed = useElapsed(ref, startedAt, running ? undefined : (endedAt ?? stoppedAt))
+  const elapsed = useElapsed(ref, startedAt, { running, endedAt })
   const styles = toolCallStyles()
 
   return (
