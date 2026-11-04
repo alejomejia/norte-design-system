@@ -1,0 +1,91 @@
+import {
+  ArrowRight,
+  ArrowUp,
+  ArrowUpRight,
+  Bot,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  CircleCheck,
+  CircleX,
+  Clock,
+  Code,
+  Copy,
+  Ellipsis,
+  FileText,
+  Folder,
+  History,
+  Info,
+  Link,
+  type LucideIcon,
+  Paperclip,
+  Pause,
+  Pencil,
+  Play,
+  Plus,
+  RotateCcw,
+  Search,
+  Settings,
+  ShieldCheck,
+  Sparkles,
+  Square,
+  Terminal,
+  Trash2,
+  TriangleAlert,
+  User,
+  Users,
+  Wrench,
+  X,
+} from 'lucide-react'
+
+/**
+ * Norte's icons, named after what they mean in Norte, not what they show: `agent` is Lucide's `Bot`. One line adds an
+ * icon; the gallery on Foundations/Icons reads this list. In alphabetical order.
+ */
+export const ICONS = {
+  agent: Bot,
+  ai: Sparkles,
+  approve: Check,
+  'arrow-right': ArrowRight,
+  attach: Paperclip,
+  'chevron-down': ChevronDown,
+  'chevron-right': ChevronRight,
+  close: X,
+  code: Code,
+  copy: Copy,
+  delete: Trash2,
+  edit: Pencil,
+  error: CircleX,
+  external: ArrowUpRight,
+  file: FileText,
+  folder: Folder,
+  history: History,
+  info: Info,
+  link: Link,
+  more: Ellipsis,
+  pause: Pause,
+  pending: Clock,
+  permission: ShieldCheck,
+  plus: Plus,
+  retry: RotateCcw,
+  run: Play,
+  search: Search,
+  send: ArrowUp,
+  settings: Settings,
+  stop: Square,
+  success: CircleCheck,
+  team: Users,
+  terminal: Terminal,
+  tool: Wrench,
+  user: User,
+  warning: TriangleAlert,
+} as const satisfies Record<string, LucideIcon>
+
+/** Every icon's name, in alphabetical order. */
+export const ICON_NAMES = Object.keys(ICONS) as (keyof typeof ICONS)[]
+
+/** An icon's sizes: `s` (16px) next to interface text, `m` (24px) on its own, `l` (32px) in empty states. */
+export const ICON_SIZES = ['s', 'm', 'l'] as const
+
+/** The stroke every icon draws with, in px at any size, so icons have the weight of the text around them. */
+export const ICON_STROKE_WIDTH = 1.5
