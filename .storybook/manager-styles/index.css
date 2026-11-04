@@ -1,0 +1,22 @@
+/*
+ * The Storybook UI (the "manager": sidebar, toolbar, menus, addon panel), restyled as Norte's handbook. Imported by
+ * `manager.ts`; only the Storybook UI loads it, never the stories or the package.
+ *
+ * Storybook gives its markup few stable hooks, so the selectors lean on ids, `sidebar-*` classes, `data-*` and `aria-*`
+ * attributes, never on the generated `css-*` class names. They carry one class or attribute more than Storybook's own
+ * rules, which are injected after this file and would win a tie.
+ */
+
+@import "./variables.css";
+@import "./icons.css";
+@import "./sidebar.css";
+@import "./sidebar-search.css";
+@import "./sidebar-tree.css";
+@import "./status.css";
+@import "./menus.css";
+@import "./toolbar.css";
+@import "./panel.css";
+@import "./controls.css";
+@import "./code-blocks.css";
+@import "./interactions.css";
+@import "./accessibility.css";

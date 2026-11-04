@@ -1,7 +1,75 @@
 /**
- * A story's code without its event handlers. Storybook prints the spies of `fn()` as `onClick={function…}`, which is
- * noise in code meant to be copied into an app.
+ * A story's code, as the docs pages and the Code panel show it (`parameters.docs.source.transform`): without event
+ * handlers and props left at their default, and, in the Code panel, with the import, so it pastes into an app as it is.
  */
-export function withoutHandlers(code: string): string {
-  return code.replace(/\s+on[A-Z]\w*=\{(?:function\s*\w*\(\)\s*\{\}|\(\)\s*=>\s*\{\})\}/g, '')
+import { type StoryContext } from '@storybook/react-vite'
+
+import * as library from '@/index'
+
+import packageJson from '../package.json'
+import { getDefaults } from './default-args'
+
+/** The spies of `fn()`, which Storybook prints as `onClick={function…}`: noise in code meant to be copied. */
+const HANDLER = /\s+on[A-Z]\w*=\{(?:function\s*\w*\(\)\s*\{\}|\(\)\s*=>\s*\{\})\}/g
+
+/** A tag longer than this keeps one prop per line. */
+const MAX_TAG_LENGTH = 80
+
+function escapeRegExp(text: string) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/** How Storybook's JSX writes a prop with this value, so it can be found and left out. */
+function toAttribute(name: string, value: unknown) {
+  if (typeof value === 'string') return `${name}="${value}"`
+  if (value === true) return name
+  if (typeof value === 'number' || value === false) return `${name}={${value}}`
+  return undefined
+}
+
+/** Leaves out the props of the story's component that are at their default (`default-args.ts`). */
+function withoutDefaults(code: string, { argTypes }: StoryContext) {
+  let result = code
+  for (const [name, value] of getDefaults(argTypes)) {
+    const attribute = toAttribute(name, value)
+    if (attribute) result = result.replace(new RegExp(`\\s+${escapeRegExp(attribute)}(?=[\\s/>])`, 'g'), '')
+  }
+  return result
+}
+
+/**
+ * Puts a tag's props back on its line when they fit. Storybook writes one prop per line as soon as a tag has any
+ * (`<Button\n  variant="ghost"\n>`), and leaves a tag whose props all went with its `>` on a line of its own.
+ */
+function withShortTags(code: string) {
+  return code.replace(
+    /<([A-Z][\w.]*)((?:\n[ \t]+[^\n<>]+)*)\n[ \t]*(\/?)>/g,
+    (tag, name: string, props: string, slash: string) => {
+      const line = [
+        name,
+        ...props
+          .split('\n')
+          .map((prop) => prop.trim())
+          .filter(Boolean),
+      ].join(' ')
+      const short = `<${line}${slash ? ' /' : ''}>`
+      return short.length <= MAX_TAG_LENGTH ? short : tag
+    },
+  )
+}
+
+/** Imports the package's components the code uses. */
+function withImports(code: string) {
+  const exported = new Set(Object.keys(library))
+  const used = new Set(
+    [...code.matchAll(/<([A-Z]\w*)/g)].flatMap(([, name]) => (name && exported.has(name) ? [name] : [])),
+  )
+  if (!used.size) return code
+  return `import { ${[...used].sort().join(', ')} } from '${packageJson.name}'\n\n${code}`
+}
+
+/** `parameters.docs.source.transform`. The docs pages keep their snippets short, without the import. */
+export function transformSource(code: string, context: StoryContext) {
+  const clean = withShortTags(withoutDefaults(code.replace(HANDLER, ''), context))
+  return context.viewMode === 'story' ? withImports(clean) : clean
 }

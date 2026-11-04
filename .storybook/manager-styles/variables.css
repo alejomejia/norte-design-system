@@ -1,0 +1,153 @@
+/*
+ * The roles of the Storybook UI, shared by the UI (`manager-styles/`) and the docs pages (`docs-styles/`), which load
+ * this file too. Storybook's UI never loads Norte's theme (it's a Tailwind `@theme`, which only Vite understands), so
+ * the colors are the tokens' hex values, as the Colors page lists them. `theme.ts` repeats a few for Storybook's own
+ * theme: keep both in sync with `src/styles/theme.css`.
+ */
+:root {
+  --sb-white: #ffffff;
+  --sb-neutral-50: #f9fafb;
+  --sb-neutral-100: #f3f4f6;
+  --sb-neutral-200: #e3e5e9;
+  --sb-neutral-300: #d1d4d9;
+  --sb-neutral-400: #8f9298;
+  --sb-neutral-500: #6b6f76;
+  --sb-neutral-600: #50545b;
+  --sb-neutral-700: #3d4047;
+  --sb-neutral-800: #23262b;
+  --sb-neutral-900: #15171b;
+  --sb-blue-50: #eff6ff;
+  --sb-blue-100: #dceafe;
+  --sb-blue-200: #c1dafd;
+  --sb-blue-300: #98c3fe;
+  --sb-blue-400: #60a1fc;
+  --sb-blue-600: #085efb;
+  --sb-blue-700: #1048e6;
+  --sb-blue-800: #163cb8;
+
+  --sb-font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  --sb-font-family-code: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  --sb-font-size: 0.875rem; /* 14px */
+  --sb-font-size-s: 0.75rem; /* 12px */
+  /* Prop names and descriptions: between the two, so a name reads as code without shouting. */
+  --sb-font-size-code: 0.8125rem; /* 13px */
+  --sb-font-weight-regular: 400;
+  --sb-font-weight-medium: 500;
+  --sb-font-weight-semibold: 600;
+
+  /* Text and surfaces: the UI stays neutral, like the product. Blue is kept for what Norte uses it for: the brand mark,
+   * focus and controls that are on. */
+  --sb-color-text: var(--sb-neutral-900);
+  /* Running text of the docs pages: a step softer than the headings, so they stand out without growing. */
+  --sb-color-text-body: var(--sb-neutral-600);
+  /* Secondary text and icons: the sidebar's rows until hovered or selected, section names, descriptions. */
+  --sb-color-text-muted: var(--sb-neutral-500);
+  --sb-color-icon: var(--sb-neutral-500);
+  --sb-color-sidebar: var(--sb-neutral-50);
+  --sb-color-surface: var(--sb-white);
+  --sb-color-surface-subtle: var(--sb-neutral-50);
+  /* Every hairline: fields, panels, canvases and the guide lines of the tree. */
+  --sb-color-border: var(--sb-neutral-200);
+  /* The outline of small controls (checkboxes, the off switch), which needs more contrast than a field's border. */
+  --sb-color-control: var(--sb-neutral-300);
+  /* Hovered and selected rows, segmented tracks, keyboard hints. */
+  --sb-color-accent: var(--sb-neutral-100);
+  --sb-color-scrollbar: var(--sb-neutral-400);
+  /* Norte's own roles: the focus ring and controls that are on (a switch, a checkbox, a slider's fill). */
+  --sb-color-focus: var(--sb-blue-600);
+  --sb-color-on: var(--sb-blue-600);
+  --sb-color-on-subtle: var(--sb-blue-100);
+  /* A focus ring around a field, as Norte's inputs draw it: the border turns blue with a soft halo. */
+  --sb-ring: 0 0 0 0.25rem color-mix(in srgb, var(--sb-color-focus) 20%, transparent); /* 4px */
+
+  /* The faint dot grid behind every story, in the docs canvases and the story view alike: it shows the edges of white
+   * components (cards, fields) without competing with them. */
+  --sb-canvas-pattern: radial-gradient(var(--sb-color-border) 1px, transparent 1px);
+  --sb-canvas-pattern-size: 1rem 1rem; /* 16px */
+
+  /* Component statuses (`status.css`), the same as the docs page header's badges. */
+  --sb-color-status-ready: var(--sb-blue-600);
+  --sb-color-status-ready-subtle: var(--sb-blue-50);
+  /* A failed run or step: Norte's danger role. */
+  --sb-color-danger: #b91c1e;
+  --sb-color-danger-subtle: #fef2f2;
+
+  /* Code blocks: Norte's darkest neutral, and a syntax theme in neutrals and blues, the brand's only colors. Every
+   * token color reads at 4.5:1 or more on the surface. */
+  --sb-code-surface: var(--sb-neutral-900);
+  --sb-code-title: var(--sb-neutral-50);
+  --sb-code-line-number: var(--sb-neutral-500);
+  --sb-code-button: rgb(249 250 251 / 8%);
+  --sb-code-button-hover: rgb(249 250 251 / 16%);
+  --sb-code-button-border: rgb(249 250 251 / 14%);
+  --sb-code-text: var(--sb-neutral-100);
+  --sb-code-comment: var(--sb-neutral-400);
+  --sb-code-punctuation: var(--sb-neutral-400);
+  --sb-code-keyword: var(--sb-blue-400);
+  --sb-code-tag: var(--sb-blue-300);
+  --sb-code-attribute: var(--sb-neutral-300);
+  --sb-code-string: var(--sb-blue-200);
+  --sb-code-function: var(--sb-blue-300);
+  --sb-code-constant: var(--sb-blue-200);
+  /* The same theme on a white panel (the steps of Interactions, the elements of Accessibility). */
+  --sb-syntax-text: var(--sb-neutral-900);
+  --sb-syntax-comment: var(--sb-neutral-500);
+  --sb-syntax-tag: var(--sb-blue-700);
+  --sb-syntax-attribute: var(--sb-neutral-600);
+  --sb-syntax-string: var(--sb-blue-800);
+  --sb-syntax-function: var(--sb-blue-700);
+  --sb-syntax-constant: var(--sb-blue-800);
+
+  /* Corners: Norte's radii. Rows, buttons and fields; then badges and keyboard hints; then canvases and tables; then
+   * code blocks and the page header. */
+  --sb-radius: 0.5rem; /* 8px */
+  --sb-radius-s: 0.25rem; /* 4px */
+  --sb-radius-l: 0.75rem; /* 12px */
+  --sb-radius-xl: 1rem; /* 16px */
+  --sb-shadow-input: 0 0.0625rem 0.125rem rgb(0 0 0 / 5%); /* 0, 1px, 2px */
+  --sb-shadow-popover:
+    0 0.25rem 0.75rem rgb(0 0 0 / 8%), 0 0.0625rem 0.125rem rgb(0 0 0 / 4%); /* 0, 4px, 12px · 0, 1px, 2px */
+
+  /* Motion. Hovers and selections fade instead of switching, with Norte's easing. */
+  --sb-duration: 120ms;
+  --sb-ease: cubic-bezier(0.2, 0, 0, 1);
+  /* Rows of the sidebar: a hover fades in fast and out slower, so moving down the tree leaves a short trail. */
+  --sb-row-duration-in: 150ms;
+  --sb-row-duration-out: 300ms;
+  --sb-row-ease: ease;
+  /* Tabs of the addon panel: the underline slides to the new tab while its content fades in. */
+  --sb-tab-duration: 200ms;
+  --sb-transition:
+    color var(--sb-duration) var(--sb-ease), background-color var(--sb-duration) var(--sb-ease),
+    border-color var(--sb-duration) var(--sb-ease), box-shadow var(--sb-duration) var(--sb-ease),
+    opacity var(--sb-duration) var(--sb-ease);
+
+  /* Sizes, on the 8px grid. */
+  --sb-icon-size: 1rem; /* 16px */
+  --sb-gap: 0.5rem; /* 8px */
+  --sb-row-height: 2rem; /* 32px */
+  /* Between the rows of the tree, so a hovered row never merges with the selected one next to it. */
+  --sb-row-gap: 0.125rem; /* 2px */
+  /* Before a row's content, where its icon starts. */
+  --sb-row-padding: 0.5rem; /* 8px */
+  /* Each nesting level of the tree: a nested list starts where its parent's label does, and its guide line runs under
+   * the middle of the parent's icon. */
+  --sb-tree-indent: calc(var(--sb-icon-size) + var(--sb-gap)); /* 24px */
+  --sb-tree-guide: calc(var(--sb-row-padding) + var(--sb-icon-size) / 2); /* 16px */
+  --sb-control-height: 2rem; /* 32px */
+  /* At both ends of each row of the addon panel (controls, steps, rules), and of its toolbars. */
+  --sb-panel-gutter: 1rem; /* 16px */
+  --sb-icon-button-size: 2rem; /* 32px */
+  /* An icon button inside a control, like the search field's clear button. */
+  --sb-icon-button-size-s: 1.5rem; /* 24px */
+}
+
+/* Motion collapses for people who ask for less of it, like Norte's durations do. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sb-duration: 0ms;
+    --sb-row-duration-in: 0ms;
+    --sb-row-duration-out: 0ms;
+    --sb-tab-duration: 0ms;
+  }
+}

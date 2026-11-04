@@ -1,0 +1,899 @@
+/*
+ * The props table and every control in it, shared by the Controls panel and the docs pages (`preview.ts` loads this
+ * file too). Storybook gives each control the id `control-<arg>` (`set-<arg>` for the button of an arg with no value
+ * yet) and the table the class `docblock-argstable`.
+ *
+ * Laid out as developer documentation: each prop's name in code type with its description under it, then its type,
+ * its default and its control. Storybook renders four cells per row (name, description, default, control) and puts the
+ * type under the description, so each row becomes a grid and the description cell steps aside (`display: contents`),
+ * letting the description and the type take places of their own.
+ *
+ * Wide (docs pages, the panel at the bottom): four columns under a header row. Medium: the control on the right, the
+ * type and default on one line under the description. Narrow (the panel on the right): everything stacked.
+ */
+
+.docblock-argstable {
+  /* The UI is light only: without this, native parts (date pickers, file buttons) follow a dark OS. */
+  color-scheme: light;
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  color: var(--sb-color-text);
+}
+
+:is(#storybook-panel-root, #storybook-docs) div:has(> table.docblock-argstable) {
+  container-type: inline-size;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable {
+  --nt-args-gutter: var(--sb-panel-gutter);
+  /* The widest a field grows. */
+  --nt-args-field-width: 24rem; /* 384px */
+  /* The header row and the section bands (Props, Events…), so the reset button sits the same in both. */
+  --nt-args-band-height: 3rem; /* 48px */
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable,
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable :is(thead, tbody) {
+  display: block;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable :is(th, td) {
+  display: block;
+  width: auto;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+/* Storybook indents the names with `!important`, the only way to take it off. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:first-child {
+  padding-left: 0 !important;
+}
+
+/* Storybook frames the body with a shadow, and paints the table gray in the panel. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody {
+  filter: none;
+  box-shadow: none;
+}
+
+#storybook-panel-root .docblock-argstable {
+  border: 0;
+  background-color: transparent;
+}
+
+/* The header row and the prop rows share the columns. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable thead tr,
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) {
+  display: grid;
+  grid-template-columns: var(--nt-args-columns);
+  column-gap: 1.5rem; /* 24px */
+  padding-inline: var(--nt-args-gutter);
+}
+
+/* Header: muted column names. The second column holds the types now (the descriptions sit under the names). */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable thead tr {
+  grid-template-areas: "name type default-value control";
+  align-items: center;
+  min-height: var(--nt-args-band-height);
+  border-bottom: 1px solid var(--sb-color-border);
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable thead th {
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text-muted);
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable thead th:nth-child(2) > span {
+  display: none;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable thead th:nth-child(2)::after {
+  content: "Type";
+}
+
+/* Section rows (Props, Events…): a full-width band holding a strong label, ruled above and below. Storybook makes them
+ * collapse their group; they stay open, like the sidebar's sections, so their toggles go. They're the only rows with a
+ * `colspan`. Their names come in lowercase, so they're capitalized. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:has(> td[colspan]) {
+  display: flex;
+  align-items: center;
+  min-height: var(--nt-args-band-height);
+  padding-inline: var(--nt-args-gutter);
+  border-block: 1px solid var(--sb-color-border);
+  background-color: var(--sb-color-surface-subtle);
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:has(> td[colspan]):first-child {
+  border-top: 0;
+}
+
+/* Storybook paints the band with `!important`, the only way to repaint it. */
+.docblock-argstable tbody tr:has(> td[colspan]) td {
+  background: var(--sb-color-surface-subtle) !important;
+  cursor: default;
+  user-select: none;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:has(> td[colspan]) td + td,
+.docblock-argstable tbody tr:has(> td[colspan]) :is(button, svg) {
+  display: none;
+}
+
+.docblock-argstable tbody tr:has(> td[colspan]) td span {
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-semibold);
+  letter-spacing: normal;
+  text-transform: capitalize;
+  color: var(--sb-color-text);
+}
+
+/* Prop rows, with a hairline between two of them. The name and description are centered on the row as one block (the
+ * empty rows above and below share the spare height), the type, default and control across the whole row. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) {
+  grid-template-areas:
+    ". type default-value control"
+    "name type default-value control"
+    "description type default-value control"
+    ". type default-value control";
+  grid-template-rows: 1fr auto auto 1fr;
+  align-items: center;
+  padding-block: 0.75rem; /* 12px */
+}
+
+:is(#storybook-panel-root, #storybook-docs)
+  .docblock-argstable
+  tbody
+  tr:not(:has(> td[colspan]))
+  + tr:not(:has(> td[colspan])) {
+  border-top: 1px solid var(--sb-color-border);
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) > td:nth-child(1) {
+  grid-area: name;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) > td:nth-child(2) {
+  display: contents;
+}
+
+/* The second cell holds the description, then the type, always last. Told apart by their order: their markup varies
+ * (most types are `div > div > span`, an array type is `div > span`, like a description). */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) > div:not(:last-child) {
+  grid-area: description;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) > div:last-child {
+  grid-area: type;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) > td:nth-child(3) {
+  grid-area: default-value; /* `default` itself is reserved, never an area name. */
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) > td:nth-child(4) {
+  grid-area: control;
+}
+
+:is(#storybook-panel-root, #storybook-docs)
+  .docblock-argstable
+  tbody
+  tr:not(:has(> td[colspan]))
+  :is(td:nth-child(1), td:nth-child(2) > div:last-child, td:nth-child(3)) {
+  display: flex;
+  align-items: center;
+}
+
+/* Name: the anchor of the row, in semibold code type. A required prop's asterisk stays, in the muted color. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) > td:first-child {
+  gap: 0.125rem; /* 2px */
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-code);
+  font-weight: var(--sb-font-weight-semibold);
+  color: var(--sb-color-text);
+}
+
+:is(#storybook-panel-root, #storybook-docs)
+  .docblock-argstable
+  tbody
+  tr:not(:has(> td[colspan]))
+  > td:first-child
+  > span
+  + span {
+  color: var(--sb-color-text-muted);
+}
+
+/* Description: secondary text a step smaller than the name, with inline code as small chips. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) > div:not(:last-child) {
+  margin-top: 0.25rem; /* 4px */
+  font-size: var(--sb-font-size-code);
+  line-height: 1.25rem; /* 20px */
+  color: var(--sb-color-text-muted);
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) > div:not(:last-child) p {
+  margin: 0;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) code {
+  padding: 0.0625rem 0.25rem; /* 1px, 4px */
+  border: 0;
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-accent);
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  color: var(--sb-color-text);
+}
+
+/* Type: plain code, its options joined as a union (`"m" | "l"`) instead of Storybook's chips. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) > div:last-child {
+  margin: 0;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) > div:last-child > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.25rem; /* 4px */
+  margin: 0;
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) > div:last-child span {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  line-height: 1.25rem; /* 20px */
+  color: var(--sb-color-text-muted);
+}
+
+:is(#storybook-panel-root, #storybook-docs)
+  .docblock-argstable
+  tbody
+  td:nth-child(2)
+  > div:last-child
+  span
+  + span::before {
+  content: "|";
+  margin-right: 0.25rem; /* 4px */
+  color: var(--sb-color-control);
+}
+
+/* Default: a code chip. A prop with none shows a muted dash. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(3) {
+  font-size: var(--sb-font-size-s);
+  color: var(--sb-color-text-muted);
+}
+
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(3) > div > span {
+  margin: 0;
+  padding: 0.125rem 0.25rem; /* 2px, 4px */
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-surface-subtle);
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  line-height: 1rem; /* 16px */
+  color: var(--sb-color-text);
+}
+
+/* Switch: a block centered on the control's first line, so its line adds no space under it. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable label:has(> input[role="switch"]) {
+  display: block;
+  margin-block: 0.5rem; /* 8px: (32px control - 16px switch) / 2 */
+}
+
+:is(#storybook-panel-root, #storybook-docs)
+  .docblock-argstable
+  :is(textarea, span:has(> select), input:not([type="radio"], [type="checkbox"], [type="range"])) {
+  max-width: var(--nt-args-field-width);
+}
+
+/* Text fields grow with their text, so the resize handle only added noise. */
+:is(#storybook-panel-root, #storybook-docs) .docblock-argstable textarea {
+  resize: none;
+}
+
+/* Wide: four columns. */
+@container (inline-size >= 52rem /* 832px */) {
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable {
+    --nt-args-columns: minmax(10rem, 1.3fr) minmax(7rem, 1fr) minmax(5rem, 0.7fr) minmax(11rem, 1.5fr); /* 160, 112, 80, 176px */
+  }
+}
+
+/* Medium and narrow: no header row; the type, then the default with its name, on one line under the description. */
+@container (inline-size < 52rem /* 832px */) {
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable {
+    /* The type takes the room it needs, the default (which never wraps) what's left. The control's column is a fixed
+     * share of the row, so the controls of every row (each one a grid of its own) start on the same line. */
+    --nt-args-columns: minmax(0, max-content) minmax(max-content, 1fr) 45%;
+  }
+
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable thead {
+    display: none;
+  }
+
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) {
+    grid-template-areas:
+      ". . control"
+      "name name control"
+      "description description control"
+      "type default-value control"
+      ". . control";
+    grid-template-rows: 1fr auto auto auto 1fr;
+    column-gap: 0.75rem; /* 12px */
+  }
+
+  /* The description spans the type and default columns. Without this, its full width goes into the default's column
+   * (sized to its content), and the control's column shrinks to nothing. */
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(2) > div:not(:last-child) {
+    contain: inline-size;
+  }
+
+  :is(#storybook-panel-root, #storybook-docs)
+    .docblock-argstable
+    tbody
+    tr:not(:has(> td[colspan]))
+    :is(td:nth-child(2) > div:last-child, td:nth-child(3)) {
+    margin-top: 0.25rem; /* 4px */
+  }
+
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr > td:nth-child(3) {
+    white-space: nowrap;
+  }
+
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody td:nth-child(3)::before {
+    content: "Default";
+    margin-right: 0.25rem; /* 4px */
+  }
+}
+
+@container (inline-size < 36rem /* 576px */) {
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable {
+    --nt-args-columns: minmax(0, 1fr);
+  }
+
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) {
+    grid-template-areas: "name" "description" "type" "default-value" "control";
+    grid-template-rows: auto;
+  }
+
+  :is(#storybook-panel-root, #storybook-docs) .docblock-argstable tbody tr:not(:has(> td[colspan])) > td:nth-child(4) {
+    margin-top: var(--sb-gap);
+  }
+
+  :is(#storybook-panel-root, #storybook-docs)
+    .docblock-argstable
+    :is(textarea, span:has(> select), input:not([type="radio"], [type="checkbox"], [type="range"])) {
+    max-width: none;
+  }
+}
+
+/* Reset controls: at the end of the header row, or of the first section band once the header goes (both are as tall),
+ * its icon lined up with the end of the rows. On the docs pages the table has a margin and a border, which the docs add
+ * as offsets (`docs-styles/args-table.css`). */
+:is(#storybook-panel-root, #storybook-docs) div:has(> button[aria-label="Reset controls"]) {
+  z-index: 1;
+  display: flex;
+  /* Centered on the 48px header or band (`--nt-args-band-height`, which this element can't read). */
+  top: calc(var(--nt-args-table-offset, 0px) + (3rem - var(--sb-icon-button-size)) / 2); /* 48px */
+  /* Its icon lined up with the rows' end: the gutter, less the button's padding around the icon. */
+  right: calc(
+    var(--nt-args-table-inset, 0px) +
+    var(--sb-panel-gutter) -
+    (var(--sb-icon-button-size) - var(--sb-icon-size)) /
+    2
+  );
+}
+
+:is(#storybook-panel-root, #storybook-docs) button[aria-label="Reset controls"] {
+  justify-content: center;
+  width: var(--sb-icon-button-size);
+  height: var(--sb-icon-button-size);
+  /* Storybook pulls it out of its wrapper with negative margins. */
+  margin: 0;
+  padding: 0;
+}
+
+/* Fields: text (a textarea), number, select, color, date and file. Norte's input: a hairline that turns blue on focus,
+ * with a soft halo. */
+.docblock-argstable :is(textarea, select, input:not([type="radio"], [type="checkbox"], [type="range"])) {
+  min-height: var(--sb-control-height);
+  padding: 0.25rem 0.75rem; /* 4px, 12px */
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  line-height: 1.375rem; /* 22px: a 32px field with its 4px padding and hairlines */
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+.docblock-argstable :is(textarea, select, input:not([type="radio"], [type="checkbox"], [type="range"])):focus {
+  border-color: var(--sb-color-focus);
+  outline: 0;
+  box-shadow: var(--sb-ring);
+}
+
+.docblock-argstable :is(textarea, input)::placeholder {
+  color: var(--sb-color-icon);
+}
+
+/* Select: Storybook draws its chevron as an SVG before the select (`icons.css`). */
+.docblock-argstable span:has(> select) > svg {
+  color: var(--sb-color-icon);
+}
+
+.docblock-argstable select[multiple] {
+  padding: 0.25rem; /* 4px */
+}
+
+.docblock-argstable select[multiple] option {
+  padding: 0.25rem 0.5rem; /* 4px, 8px */
+  border-radius: var(--sb-radius-s);
+}
+
+/* Date and time: the native picker icon, muted. */
+.docblock-argstable input::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+}
+
+/* File: the native button, as plain text in the field. */
+.docblock-argstable input[type="file"]::file-selector-button {
+  margin-right: 0.75rem; /* 12px */
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  font: inherit;
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+}
+
+/* Color: the swatch inside the field on the left, the color space toggle on the right. */
+.docblock-argstable div:has(> button[aria-label="Open color picker"]) input {
+  padding-inline: 2rem; /* 32px */
+}
+
+.docblock-argstable button[aria-label="Open color picker"] {
+  border-radius: var(--sb-radius-s);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%);
+}
+
+.docblock-argstable button[aria-label="Cycle through color spaces"] {
+  color: var(--sb-color-icon);
+}
+
+/* "Set string", "Set boolean"…: outlined buttons. `default-args.ts` starts most args with a value, so they're rare. */
+.docblock-argstable button[id^="set-"] {
+  height: var(--sb-control-height);
+  padding-inline: 0.75rem; /* 12px */
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  .docblock-argstable button[id^="set-"]:hover {
+    background-color: var(--sb-color-accent);
+  }
+}
+
+/* Boolean: a switch. Storybook's control is a label holding the real checkbox (`role="switch"`) and the words False and
+ * True; the label becomes the track, its `::after` the thumb, and the checkbox stays on top to take the clicks. On, it
+ * turns blue, like Norte's switch. */
+.docblock-argstable label:has(> input[role="switch"]) {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 2rem; /* 32px */
+  height: 1rem; /* 16px */
+  padding: 0;
+  border: 0;
+  border-radius: calc(infinity * 1px); /* a pill */
+  outline: 0;
+  background-color: var(--sb-color-control);
+  box-shadow: none;
+  transition: var(--sb-transition);
+}
+
+.docblock-argstable label:has(> input[role="switch"])::after {
+  content: "";
+  position: absolute;
+  top: 0.125rem; /* 2px */
+  left: 0.125rem; /* 2px */
+  width: 0.75rem; /* 12px */
+  height: 0.75rem; /* 12px */
+  border-radius: 50%;
+  background-color: var(--sb-white);
+  box-shadow: var(--sb-shadow-input);
+  transition: transform var(--sb-duration) var(--sb-ease);
+}
+
+.docblock-argstable label:has(> input[role="switch"]:checked) {
+  background-color: var(--sb-color-on);
+}
+
+.docblock-argstable label:has(> input[role="switch"]:checked)::after {
+  transform: translateX(1rem); /* 16px */
+}
+
+.docblock-argstable label:has(> input[role="switch"]:focus-visible) {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: 2px;
+}
+
+.docblock-argstable label:has(> input[role="switch"][disabled]) {
+  opacity: 0.5;
+}
+
+/* The words False and True: the switch's position already says it, and the label keeps the arg's name for screen
+ * readers. */
+.docblock-argstable label:has(> input[role="switch"]) > span {
+  display: none;
+}
+
+.docblock-argstable label > input[role="switch"] {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Radio options: a segmented control. The fieldset is the track, each label a segment, the selected one a raised white
+ * tab. The radio stays on top of its segment, invisible, to take the clicks and the keyboard. */
+.docblock-argstable fieldset:has(> label > input[type="radio"]) {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.125rem; /* 2px */
+  padding: 0.125rem; /* 2px */
+  border: 0;
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-accent);
+}
+
+.docblock-argstable fieldset > label:has(> input[type="radio"]) {
+  position: relative;
+  align-items: center;
+  min-height: 1.75rem; /* 28px: the 32px control minus the track's padding */
+  margin: 0;
+  padding-inline: 0.75rem; /* 12px */
+  border-radius: 0.375rem; /* 6px: the track's 8px corner minus its 2px padding */
+  font-size: var(--sb-font-size-code);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+.docblock-argstable fieldset > label:has(> input[type="radio"]) > span {
+  margin: 0;
+}
+
+@media (hover: hover) {
+  .docblock-argstable fieldset > label:has(> input[type="radio"]):hover {
+    color: var(--sb-color-text);
+  }
+}
+
+.docblock-argstable fieldset > label:has(> input[type="radio"]:checked) {
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  color: var(--sb-color-text);
+}
+
+.docblock-argstable fieldset > label:has(> input[type="radio"]:focus-visible) {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}
+
+.docblock-argstable fieldset > label > input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Check options */
+.docblock-argstable fieldset label:has(> input[type="checkbox"]) {
+  gap: var(--sb-gap);
+  font-size: var(--sb-font-size);
+}
+
+.docblock-argstable fieldset input[type="checkbox"] {
+  appearance: none;
+  flex: none;
+  width: 1rem; /* 16px */
+  height: 1rem; /* 16px */
+  margin: 0;
+  border: 1px solid var(--sb-color-control);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  cursor: pointer;
+  transition: var(--sb-transition);
+}
+
+/* Checked: Lucide's check in white on blue. An image can't read CSS variables, hence the inline SVG. */
+.docblock-argstable fieldset input[type="checkbox"]:checked {
+  border-color: var(--sb-color-on);
+  background:
+    var(--sb-color-on)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
+    center / 0.75rem no-repeat; /* 12px */
+}
+
+.docblock-argstable fieldset input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: 2px;
+}
+
+/* Range: a slider drawn as a settings row. The field is the track, the input covers it to take the drags, clicks and
+ * keys, the part before the value fills in blue up to a handle, and the value sits at the end (its label holds the
+ * value alone, see `range-controls.ts`). Storybook's track, thumb and min label are replaced. */
+.docblock-argstable div:has(> input[type="range"]) {
+  --nt-range-track: var(--sb-color-accent);
+  --nt-range-fill: var(--sb-color-on-subtle);
+  --nt-range-handle: var(--sb-blue-400);
+  /* Translucent, so the ticks show on the track and on the fill alike. */
+  --nt-range-tick: color-mix(in srgb, var(--sb-neutral-900) 12%, transparent);
+  /* The thumb: the end of the fill, with the handle inside. */
+  --nt-range-thumb-width: 1.5rem; /* 24px */
+  --nt-range-handle-height: 0.75rem; /* 12px */
+  --nt-range-handle-inset: 0.5rem; /* 8px */
+  /* The end of the field kept for the value, where the ticks stop. */
+  --nt-range-value-width: 3.5rem; /* 56px */
+
+  position: relative;
+  width: 100%;
+  max-width: var(--nt-args-field-width);
+  height: var(--sb-control-height);
+  overflow: hidden;
+  border-radius: var(--sb-radius);
+  background-color: var(--nt-range-track);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  .docblock-argstable div:has(> input[type="range"]:not([disabled])):hover {
+    --nt-range-handle: var(--sb-blue-600);
+  }
+}
+
+.docblock-argstable div:has(> input[type="range"]:active) {
+  --nt-range-handle: var(--sb-blue-700);
+}
+
+.docblock-argstable div:has(> input[type="range"]:focus-visible) {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: 2px;
+}
+
+/* Ticks: evenly spaced marks, above the fill, between the start and the value. */
+.docblock-argstable div:has(> input[type="range"])::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0 var(--nt-range-value-width);
+  z-index: 1;
+  background:
+    linear-gradient(to left, var(--nt-range-tick) 1px, transparent 1px) 0 50% / calc(100% / 8) 0.75rem repeat-x; /* 12px tall */
+  pointer-events: none;
+}
+
+.docblock-argstable span:has(+ input[type="range"]) {
+  display: none;
+}
+
+.docblock-argstable input[type="range"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  outline: 0;
+  appearance: none;
+  background: none;
+  cursor: ew-resize;
+}
+
+.docblock-argstable input[type="range"][disabled] {
+  cursor: not-allowed;
+}
+
+.docblock-argstable input[type="range"]::-webkit-slider-runnable-track {
+  height: 100%;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.docblock-argstable input[type="range"]::-moz-range-track {
+  height: 100%;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* Chrome and Safari: the thumb paints the fill's rounded end, and its shadow, pushed left and spread past the field,
+ * the rest of it. The shadow stops at the thumb's middle, where the thumb's square left half covers its edge. */
+.docblock-argstable input[type="range"]::-webkit-slider-thumb {
+  width: var(--nt-range-thumb-width);
+  height: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0 var(--sb-radius) var(--sb-radius) 0;
+  appearance: none;
+  /* The handle: 2px wide, 12px tall, 8px from the thumb's end. */
+  background:
+    linear-gradient(var(--nt-range-handle), var(--nt-range-handle)) right var(--nt-range-handle-inset) center / 2px
+    var(--nt-range-handle-height) no-repeat,
+    var(--nt-range-fill);
+  box-shadow: calc(-100vmax - var(--nt-range-thumb-width) / 2) 0 0 100vmax var(--nt-range-fill);
+  transform: none;
+  transition: none;
+  cursor: inherit;
+}
+
+/* Firefox paints the fill itself (up to the thumb's middle), so the thumb only holds the handle. */
+.docblock-argstable input[type="range"]::-moz-range-progress {
+  height: 100%;
+  border-radius: 0 var(--sb-radius) var(--sb-radius) 0;
+  background-color: var(--nt-range-fill);
+}
+
+.docblock-argstable input[type="range"]::-moz-range-thumb {
+  width: var(--nt-range-thumb-width);
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(var(--nt-range-handle), var(--nt-range-handle)) left 0.25rem center / 2px 0.75rem no-repeat; /* 4px from the start, 12px tall */
+  box-shadow: none;
+  transform: none;
+  transition: none;
+  cursor: inherit;
+}
+
+/* The value, at the end of the field, above the fill. */
+.docblock-argstable input[type="range"] + span {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: var(--nt-range-value-width);
+  padding: 0 0.75rem 0 0; /* 12px */
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--sb-color-text);
+  pointer-events: none;
+}
+
+/* Object: Storybook's JSON tree, in code type. */
+.docblock-argstable .rejt-tree {
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  color: var(--sb-color-text);
+}
+
+.docblock-argstable :is(.rejt-name, .rejt-accordion-button) {
+  color: var(--sb-color-text);
+}
+
+.docblock-argstable :is(.rejt-value, .rejt-collapsed-value, .rejt-not-collapsed-delimiter) {
+  color: var(--sb-color-text-muted);
+}
+
+.docblock-argstable :is(.rejt-plus-menu, .rejt-minus-menu) {
+  color: var(--sb-color-icon);
+}
+
+/* The same object edited as raw JSON. */
+.docblock-argstable button[aria-label="Edit object as JSON"] ~ textarea {
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+}
+
+/* Small icon buttons: edit as JSON, and reset controls in the table header. */
+.docblock-argstable button[aria-label="Edit object as JSON"],
+button[aria-label="Reset controls"] {
+  border-radius: var(--sb-radius);
+  color: var(--sb-color-icon);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  .docblock-argstable button[aria-label="Edit object as JSON"]:hover,
+  button[aria-label="Reset controls"]:hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+/* Color picker (a popover, see `menus.css` for its surface): rounded areas and white pointers. */
+.react-aria-Popover[aria-label="Color picker"] .react-colorful__saturation {
+  margin-bottom: var(--sb-gap);
+  border-radius: var(--sb-radius-s);
+}
+
+.react-aria-Popover[aria-label="Color picker"] .react-colorful__hue {
+  height: 0.75rem; /* 12px */
+  border-radius: calc(infinity * 1px); /* a pill */
+}
+
+.react-aria-Popover[aria-label="Color picker"] .react-colorful__pointer {
+  width: 1rem; /* 16px */
+  height: 1rem; /* 16px */
+  border-width: 2px;
+  box-shadow: var(--sb-shadow-input);
+}
+
+.react-aria-Popover[aria-label="Color picker"] button[aria-label="Pick this color"] {
+  border-radius: var(--sb-radius-s);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%);
+}
+
+/* The bar that appears after changing a control ("You modified this story…"). Update story is the primary action, in
+ * Norte's accent; the other two are outlined. */
+button:is(
+  [aria-label="Save changes to story"],
+  [aria-label="Create new story with these settings"],
+  [aria-label="Reset changes"]
+) {
+  gap: 0.5rem; /* 8px */
+  padding-inline: 0.75rem; /* 12px */
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  button:is([aria-label="Create new story with these settings"], [aria-label="Reset changes"]):hover {
+    background-color: var(--sb-color-accent);
+  }
+}
+
+button[aria-label="Save changes to story"] {
+  border-color: var(--sb-blue-600);
+  background-color: var(--sb-blue-600);
+  color: var(--sb-white);
+}
+
+@media (hover: hover) {
+  button[aria-label="Save changes to story"]:hover {
+    border-color: var(--sb-blue-700);
+    background-color: var(--sb-blue-700);
+  }
+}
+
+div:has(> div > button[aria-label="Save changes to story"]) + div {
+  font-size: var(--sb-font-size);
+  color: var(--sb-color-text-muted);
+}

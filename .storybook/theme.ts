@@ -3,18 +3,16 @@ import { type ThemeVarsPartial } from 'storybook/theming'
 /**
  * Norte's palette for the Storybook UI, as hex literals. Storybook's theme runs color math on these (hover tints,
  * transparency), which CSS variables can't go through. They are the hex values of the tokens in `theme.css`, as the
- * Colors page lists them.
+ * Colors page lists them, and the same as the `--sb-*` variables in `manager-styles/variables.css`: keep the three in
+ * sync.
  */
-export const PALETTE = {
+const PALETTE = {
   white: '#ffffff',
   neutral50: '#f9fafb',
   neutral100: '#f3f4f6',
   neutral200: '#e3e5e9',
-  neutral400: '#8f9298',
   neutral500: '#6b6f76',
-  neutral600: '#50545b',
   neutral900: '#15171b',
-  blue600: '#085efb',
 }
 
 const FONT_SANS = '"Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif'
@@ -26,8 +24,10 @@ export const THEME_VARS = {
   fontBase: FONT_SANS,
   fontCode: FONT_MONO,
 
-  colorPrimary: PALETTE.blue600,
-  colorSecondary: PALETTE.blue600,
+  // Ink, not blue: Storybook paints selections, the current section of "On this page" and a few active states with
+  // these, and the UI stays neutral like the product. The blue is kept for the brand mark, focus and controls that are on.
+  colorPrimary: PALETTE.neutral900,
+  colorSecondary: PALETTE.neutral900,
 
   appBg: PALETTE.neutral50,
   appContentBg: PALETTE.white,

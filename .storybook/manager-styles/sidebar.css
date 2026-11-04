@@ -1,0 +1,80 @@
+/* The sidebar panel. */
+#storybook-sidebar-region {
+  background-color: var(--sb-color-sidebar);
+  font-family: var(--sb-font-family);
+  color: var(--sb-color-text);
+}
+
+/* Keyboard focus: Norte's blue ring instead of the browser's. The search field draws its own. */
+#storybook-sidebar-region :is(a, button):focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}
+
+/* The tree's scrollbar, which only shows while scrolling or hovered: a light thumb instead of the muted text color. */
+#storybook-sidebar-region [data-orientation="vertical"][data-state] > [data-state] {
+  background-color: var(--sb-color-scrollbar);
+}
+
+/* A hairline between the sidebar and the canvas. The border sits on a wrapper with no stable hook, hence `:has()`. */
+div:has(> div > #storybook-sidebar-region) {
+  border-right-color: var(--sb-color-border);
+}
+
+/* The resize handles of the sidebar and the addon panel, in the focus blue instead of Storybook's secondary color. */
+[role="separator"]:is([aria-label="Sidebar resize handle"], [aria-label="Addon panel resize handle"])::after {
+  background-color: var(--sb-color-focus);
+}
+
+[role="separator"]:is([aria-label="Sidebar resize handle"], [aria-label="Addon panel resize handle"]):focus-visible {
+  box-shadow: inset 0 0 0 0.25rem var(--sb-color-focus); /* 4px */
+}
+
+/* Header: Norte's mark and wordmark on the left (`manager.ts`), the settings button on the right. */
+#storybook-sidebar-region .sidebar-header {
+  align-items: center;
+  min-height: var(--sb-control-height);
+}
+
+.nt-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sb-gap);
+  font-family: var(--sb-font-family);
+  font-size: 1.125rem; /* 18px */
+  font-weight: var(--sb-font-weight-semibold);
+  letter-spacing: -0.02em;
+  color: var(--sb-color-text);
+}
+
+/* The north needle, Norte's mark, in the brand blue. */
+.nt-brand svg {
+  width: 1.5rem; /* 24px */
+  height: 1.5rem; /* 24px */
+  fill: var(--sb-blue-600);
+}
+
+/* Settings: a ghost icon button, with a background only while hovered or open. */
+#storybook-sidebar-region .sidebar-header button[aria-label="Settings"] {
+  width: var(--sb-icon-button-size);
+  height: var(--sb-icon-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--sb-radius);
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-sidebar-region .sidebar-header button[aria-label="Settings"]:hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-sidebar-region .sidebar-header button[aria-label="Settings"][aria-checked="true"] {
+  background-color: var(--sb-color-accent);
+  color: var(--sb-color-text);
+}

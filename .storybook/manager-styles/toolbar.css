@@ -1,0 +1,103 @@
+/*
+ * The toolbar above the canvas and the buttons in the addon panel's header (move, hide): ghost icon buttons, with a
+ * soft background while hovered, open or on. Which tools show is set in `main.ts` (`features`), `manager.ts`
+ * (`layoutCustomisations`) and at the end of this file.
+ */
+.sb-bar {
+  border-bottom: 1px solid var(--sb-color-border);
+  box-shadow: none;
+}
+
+:is(
+  .sb-bar button[aria-label],
+  #storybook-panel-root button:is([aria-label^="Move addon panel"], [aria-label="Hide addon panel"])
+) {
+  justify-content: center;
+  min-width: var(--sb-icon-button-size);
+  height: var(--sb-icon-button-size);
+  border-radius: var(--sb-radius);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  :is(
+    .sb-bar button[aria-label],
+    #storybook-panel-root button:is([aria-label^="Move addon panel"], [aria-label="Hide addon panel"])
+  ):hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+/* A tool that's on (measure, outline) or open (viewport, vision filter): tinted, in ink. */
+.sb-bar button[aria-label]:is([aria-checked="true"], [aria-expanded="true"], [aria-pressed="true"]) {
+  background-color: var(--sb-color-accent);
+  color: var(--sb-color-text);
+}
+
+:is(
+  .sb-bar button[aria-label],
+  #storybook-panel-root button:is([aria-label^="Move addon panel"], [aria-label="Hide addon panel"])
+):focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}
+
+/* The zoom level ("100%") and the viewport's size, in the UI's type with even digits. */
+.sb-bar button:is([aria-label="Change zoom level"], [aria-label="Viewport size"]) {
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The viewport and vision filter menus: rows like the settings menu's, the current option tinted in ink. */
+[role="listbox"]:is([aria-label="Viewport size"], [aria-label="Vision filter"]) {
+  padding: 0.25rem; /* 4px */
+  font-family: var(--sb-font-family);
+}
+
+[role="listbox"]:is([aria-label="Viewport size"], [aria-label="Vision filter"]) [role="option"] {
+  min-height: var(--sb-control-height);
+  border-radius: var(--sb-radius);
+  font-size: var(--sb-font-size);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+[role="listbox"]:is([aria-label="Viewport size"], [aria-label="Vision filter"]) [role="option"] :is(p, small) {
+  margin: 0;
+  font-family: inherit;
+}
+
+/* The share of people each vision filter stands for, as secondary text. */
+[role="listbox"][aria-label="Vision filter"] [role="option"] small {
+  font-size: var(--sb-font-size-s);
+  font-variant-numeric: tabular-nums;
+  color: var(--sb-color-text-muted);
+}
+
+[role="listbox"]:is([aria-label="Viewport size"], [aria-label="Vision filter"]) [role="option"] svg {
+  color: var(--sb-color-icon);
+}
+
+@media (hover: hover) {
+  [role="listbox"]:is([aria-label="Viewport size"], [aria-label="Vision filter"]) [role="option"]:hover {
+    background-color: var(--sb-color-accent);
+  }
+}
+
+[role="listbox"]:is([aria-label="Viewport size"], [aria-label="Vision filter"])
+  [role="option"]:is([aria-selected="true"], :focus-visible) {
+  background-color: var(--sb-color-accent);
+  outline: 0;
+}
+
+/* Docs pages (the selected row is a document) show no outline tool: outlining elements only helps while studying a
+ * single story. */
+body:has(#storybook-explorer-tree .sidebar-item[data-nodetype="document"][data-selected="true"])
+  .sb-bar
+  button[aria-label="Outline tool"] {
+  display: none;
+}

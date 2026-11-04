@@ -1,0 +1,215 @@
+/*
+ * The story tree: sections (Handbook, Foundations, Elements…) and their items, nested like folders. Storybook renders
+ * the tree as a flat list, with sections, groups, components, docs and stories as siblings, and indents each row
+ * inline. Each label carries its nesting level instead (`data-level`, set in `manager.ts`): 1 for the items right under
+ * a section, 2 for the items of a group or the stories of a component, and so on.
+ */
+
+/* Sections: a muted label. Storybook opens every section and they stay open: the collapse button is only a label, with
+ * no chevron, hover or clicks, and the "Expand all" button goes. */
+#storybook-explorer-tree .sidebar-subheading {
+  margin-top: 0.75rem; /* 12px */
+}
+
+#storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] {
+  padding-left: var(--sb-row-padding);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--sb-color-text-muted);
+  pointer-events: none;
+}
+
+#storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] > div,
+#storybook-explorer-tree .sidebar-subheading button[data-action="expand-all"] {
+  display: none;
+}
+
+/* Items. `--nt-depth` counts the levels below the first one: 0 for the items right under a section. */
+#storybook-explorer-tree .sidebar-item {
+  --nt-depth: 0;
+
+  margin-left: calc(var(--nt-depth) * var(--sb-tree-indent));
+  /* Storybook clips the row, which would hide the guide lines drawn in the indent. The glow of the action buttons, the
+   * only thing that clipping kept in, is clipped on the buttons themselves (below). */
+  overflow: visible;
+  border-radius: var(--sb-radius);
+  color: var(--sb-color-text-muted);
+  transition-property: background-color, color;
+  transition-duration: var(--sb-row-duration-out);
+  transition-timing-function: var(--sb-row-ease);
+  animation: sb-row-in var(--sb-row-duration-out) var(--sb-row-ease);
+}
+
+/* Rows that appear, like the items of a group as it opens, fade in from just above. */
+@keyframes sb-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem); /* 4px */
+  }
+}
+
+#storybook-explorer-tree .sidebar-item:has([data-level="2"]) {
+  --nt-depth: 1;
+}
+
+#storybook-explorer-tree .sidebar-item:has([data-level="3"]) {
+  --nt-depth: 2;
+}
+
+#storybook-explorer-tree .sidebar-item:has([data-level="4"]) {
+  --nt-depth: 3;
+}
+
+/* Guide lines: one under the icon of each ancestor, drawn in the space the indent leaves. Each line reaches into the
+ * gap above its row, so the lines of a nested list join up. */
+#storybook-explorer-tree .sidebar-item::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--sb-row-gap));
+  bottom: 0;
+  left: calc(-1 * var(--nt-depth) * var(--sb-tree-indent));
+  width: calc(var(--nt-depth) * var(--sb-tree-indent));
+  background:
+    linear-gradient(
+      to right,
+      transparent calc(var(--sb-tree-guide) - 1px),
+      var(--sb-color-border) 0 var(--sb-tree-guide),
+      transparent 0
+    )
+    0 0 / var(--sb-tree-indent) 100% repeat-x;
+  pointer-events: none;
+}
+
+/* The tree is a flat list, so this separates parents from their children as well as siblings. */
+#storybook-explorer-tree :is(.sidebar-subheading, .sidebar-item) + .sidebar-item {
+  margin-top: var(--sb-row-gap);
+}
+
+/* Rows: the icon, then the label, muted until the row is hovered or selected. Storybook's own indent gives way to the
+ * one above. */
+#storybook-explorer-tree .sidebar-item > :is(a, button):first-child {
+  align-items: center;
+  gap: var(--sb-gap);
+  min-height: var(--sb-row-height);
+  padding-block: 0;
+  padding-inline: var(--sb-row-padding);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+  color: inherit;
+}
+
+#storybook-explorer-tree .sidebar-item > :is(a, button):first-child > div {
+  gap: var(--sb-gap);
+  margin: 0;
+}
+
+#storybook-explorer-tree .sidebar-item svg[type] {
+  color: inherit;
+}
+
+/* A component's label holds its status badge (`manager.ts`), which goes to the end of the row, before the chevron, so
+ * the badges of a list line up. */
+#storybook-explorer-tree .sidebar-item [data-level]:has(> .nt-status) {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--sb-gap);
+  min-width: 0;
+}
+
+#storybook-explorer-tree .sidebar-item [data-level] > .nt-status {
+  margin-left: auto;
+}
+
+/* Docs and stories inside a component go without an icon: the parent's icon and the guide line already say what they
+ * belong to. */
+#storybook-explorer-tree
+  .sidebar-item:is([data-nodetype="document"], [data-nodetype="story"]):not(:has([data-level="1"]))
+  > a
+  > div:has(> svg[type]) {
+  display: none;
+}
+
+/* Components and groups: the chevron moves to the end of the row, out of the indent. Its wrapper steps aside so the
+ * chevron and the icon become items of the row itself. It turns at the UI's pace and takes the row's color. */
+#storybook-explorer-tree .sidebar-item > button[aria-expanded] > div {
+  display: contents;
+}
+
+#storybook-explorer-tree .sidebar-item > button[aria-expanded] > div > div {
+  order: 1;
+  margin-left: auto;
+  color: inherit;
+  transition: transform var(--sb-duration) var(--sb-ease);
+}
+
+/* An open component or group reads in the text color, like the selected row, so the list under it has a heading. */
+#storybook-explorer-tree .sidebar-item:has(> button[aria-expanded="true"]:first-child) {
+  color: var(--sb-color-text);
+}
+
+@media (hover: hover) {
+  #storybook-explorer-tree .sidebar-item:hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+    transition-duration: var(--sb-row-duration-in);
+  }
+}
+
+#storybook-explorer-tree .sidebar-item[data-selected="true"] {
+  background-color: var(--sb-color-accent);
+  color: var(--sb-color-text);
+}
+
+/* Storybook's keyboard cursor: the row the arrow keys are on, in a darker tint. A click on a group moves it there too,
+ * so the tint stayed on a row the pointer had already left. It only shows while the sidebar has keyboard focus. */
+#storybook-sidebar-region:not(:has(:focus-visible))
+  #storybook-explorer-tree
+  .sidebar-item:not(:hover, [data-selected="true"]) {
+  background-color: transparent;
+}
+
+/* Storybook paints every icon of the selected row white, for its colored selection. On this light one they keep the
+ * row's color. */
+#storybook-explorer-tree .sidebar-item[data-selected="true"] :is(a, button) svg {
+  color: inherit;
+}
+
+/* The "…" button that opens a story's context menu, shown on hover. Its glow fades out the label under it, so it takes
+ * the row's hover color. It fades with the row: Storybook shows and hides it with `visibility`, which a transition
+ * flips at the start of a fade in and at the end of a fade out. */
+#storybook-explorer-tree .sidebar-item button[data-testid="context-menu"] {
+  border-radius: var(--sb-radius-s);
+  background-color: transparent;
+  box-shadow: 0 0 0.25rem 0.25rem var(--sb-color-accent); /* 4px, 4px */
+  /* At the end of the row, as tall as it: the glow may only spread back over the label. */
+  clip-path: inset(0 0 0 -0.5rem); /* 8px */
+  color: var(--sb-color-icon);
+  transition-property: color, opacity, visibility;
+  transition-duration: var(--sb-row-duration-out);
+  transition-timing-function: var(--sb-row-ease);
+}
+
+#storybook-explorer-tree .sidebar-item:not(:hover) button[data-testid="context-menu"][data-displayed="off"] {
+  opacity: 0;
+}
+
+#storybook-explorer-tree .sidebar-item:hover button[data-testid="context-menu"] {
+  transition-duration: var(--sb-row-duration-in);
+}
+
+@media (hover: hover) {
+  #storybook-explorer-tree .sidebar-item button[data-testid="context-menu"]:hover {
+    color: var(--sb-color-text);
+  }
+}
+
+/* On components and groups it would cover the chevron, and its only entry, "Open in editor", is on every story too
+ * (and on ⌥⇧E). */
+#storybook-explorer-tree
+  .sidebar-item:is([data-nodetype="component"], [data-nodetype="group"])
+  button[data-testid="context-menu"] {
+  display: none;
+}

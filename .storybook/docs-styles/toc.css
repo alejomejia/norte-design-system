@@ -1,0 +1,119 @@
+/*
+ * "On this page": the page's sections and subsections on a thin track. The section in view is in ink and marked on the
+ * track by a bar that slides from link to link as the page scrolls (CSS anchor positioning, tracked by `docs-toc.ts`).
+ * A page without sections would show the title alone, so it's hidden there, without shifting the page.
+ */
+#storybook-docs .sbdocs-toc--custom:not(:has(.toc-list-item)) {
+  visibility: hidden;
+}
+
+/* The title, with a Lucide icon. */
+#storybook-docs .sbdocs-toc--custom nav > :first-child:not(.sb-sr-only) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* 8px */
+  margin: 0 0 0.75rem; /* 12px */
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--sb-color-text-muted);
+}
+
+#storybook-docs .sbdocs-toc--custom nav > :first-child:not(.sb-sr-only)::before {
+  content: "";
+  width: 0.75rem; /* 12px */
+  height: 0.75rem; /* 12px */
+  background-color: currentcolor;
+  mask: url("lucide-static/icons/text-align-start.svg") center / contain no-repeat;
+}
+
+#storybook-docs .sbdocs-toc--custom .toc-list {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* The track: a hairline along the outer list. */
+#storybook-docs .sbdocs-toc--custom .toc-wrapper > .toc-list {
+  position: relative;
+  box-shadow: inset 1px 0 0 var(--sb-color-border);
+}
+
+#storybook-docs .sbdocs-toc--custom .toc-list-item {
+  margin: 0;
+  padding: 0;
+}
+
+#storybook-docs .sbdocs-toc--custom .toc-link {
+  display: block;
+  padding: 0.25rem 0 0.25rem 0.75rem; /* 4px, 12px */
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-code);
+  line-height: 1.25rem; /* 20px */
+  color: var(--sb-color-text-muted);
+  text-decoration: none;
+  transition: var(--sb-transition);
+}
+
+/* Subsections sit a step in, in smaller text. */
+#storybook-docs .sbdocs-toc--custom .toc-list .toc-list .toc-link {
+  padding-left: 1.5rem; /* 24px */
+  font-size: var(--sb-font-size-s);
+}
+
+/* Storybook marks the current heading with a colored bar of its own. */
+#storybook-docs .sbdocs-toc--custom .toc-link::before {
+  display: none;
+}
+
+@media (hover: hover) {
+  #storybook-docs .sbdocs-toc--custom .toc-link:hover {
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-docs .sbdocs-toc--custom .toc-link:focus-visible {
+  border-radius: var(--sb-radius-s);
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}
+
+#storybook-docs .sbdocs-toc--custom .toc-link.is-active-link {
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+}
+
+/* The section of the subsection in view stays in ink too. */
+#storybook-docs .sbdocs-toc--custom .toc-list-item:has(.toc-list .is-active-link) > .toc-link {
+  color: var(--sb-color-text);
+}
+
+/* The bar on the track follows the link in view. With no link in view, its fallback edges meet and it disappears. */
+@supports (anchor-name: --nt-toc-active) {
+  #storybook-docs .sbdocs-toc--custom .toc-link.is-active-link {
+    anchor-name: --nt-toc-active;
+  }
+
+  #storybook-docs .sbdocs-toc--custom .toc-wrapper > .toc-list::after {
+    content: "";
+    position: absolute;
+    top: anchor(--nt-toc-active top, 0);
+    bottom: anchor(--nt-toc-active bottom, 100%);
+    left: 0;
+    width: 2px;
+    border-radius: calc(infinity * 1px); /* a pill */
+    background-color: var(--sb-color-text);
+    /* Short, so the bar keeps up with a fast scroll. */
+    transition:
+      top var(--sb-duration) var(--sb-ease),
+      bottom var(--sb-duration) var(--sb-ease);
+  }
+}
+
+@supports not (anchor-name: --nt-toc-active) {
+  #storybook-docs .sbdocs-toc--custom .toc-link.is-active-link {
+    box-shadow: inset 2px 0 0 var(--sb-color-text);
+  }
+}

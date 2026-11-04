@@ -1,0 +1,26 @@
+/*
+ * The story view (the Canvas tab), on the surface of the docs canvases. Docs pages use the same iframe and the same body
+ * classes, so the hidden docs root is what tells a story apart.
+ */
+:root:has(#storybook-docs[hidden]) {
+  background-color: var(--sb-color-surface);
+}
+
+/* The page's own background would cover the grid below over the story's height. */
+:root:has(#storybook-docs[hidden]) body {
+  background-color: transparent;
+}
+
+/* The dot grid, on a layer of its own behind the story rather than on the root's background. axe can't read a color
+ * through a background gradient, so every component without a fill of its own (a ghost button, a link) would list its
+ * text contrast under "Needs review". axe skips pseudo-elements that aren't absolutely positioned, so behind this fixed
+ * one it reads the root's plain color. */
+:root:has(#storybook-docs[hidden]) body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background-image: var(--sb-canvas-pattern);
+  background-size: var(--sb-canvas-pattern-size);
+  pointer-events: none;
+}

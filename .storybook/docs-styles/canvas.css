@@ -1,0 +1,88 @@
+/*
+ * Canvases: each story's preview in a framed box, its toolbar on top and its code at the bottom (a code block, see
+ * `manager-styles/code-blocks.css`, with its own copy button). The code toggle sits under the box.
+ */
+#storybook-docs .sbdocs-preview {
+  margin: 1rem 0 0; /* 16px */
+  overflow: hidden;
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-l);
+  background-color: var(--sb-color-surface);
+  box-shadow: none;
+}
+
+#storybook-docs .sbdocs-preview > [role="toolbar"] {
+  border-bottom: 1px solid var(--sb-color-border);
+  background-color: var(--sb-color-surface);
+  box-shadow: none;
+}
+
+/* The stage of each story: room around the component, centered, on the canvas dot grid. */
+#storybook-docs .sbdocs-preview .docs-story {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 10rem; /* 160px */
+  padding: 2rem; /* 32px */
+  border-radius: 0;
+  background-color: var(--sb-color-surface);
+  background-image: var(--sb-canvas-pattern);
+  background-size: var(--sb-canvas-pattern-size);
+}
+
+/* A story in an iframe of its own (`docs.story.inline: false`) is a whole page: it fills the box edge to edge. */
+#storybook-docs .sbdocs-preview .docs-story:has(iframe) {
+  padding: 0;
+}
+
+/* Toolbar buttons: ghost icon buttons. */
+#storybook-docs .sbdocs-preview > [role="toolbar"] :is(button, a) {
+  border-radius: var(--sb-radius);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-docs .sbdocs-preview > [role="toolbar"] :is(button, a):hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+/* The code toggle: a small ghost button with an icon, under the box. Storybook pulls it up into the box's bottom margin,
+ * which is gone here. The code block at the bottom of the box has its own copy button, which takes over from
+ * Storybook's "Copy code". */
+#storybook-docs .sbdocs-preview-actions {
+  margin: 0.5rem 0 2rem; /* 8px, 32px */
+}
+
+#storybook-docs .sbdocs-preview-actions button:not(.docblock-code-toggle) {
+  display: none;
+}
+
+#storybook-docs .sbdocs-preview-actions button {
+  gap: 0.5rem; /* 8px */
+  padding: 0.25rem 0.5rem; /* 4px, 8px */
+  border: 0;
+  border-radius: var(--sb-radius);
+  background-color: transparent;
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-docs .sbdocs-preview-actions button:hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-docs .sbdocs-preview-actions button:focus-visible,
+#storybook-docs .sbdocs-preview > [role="toolbar"] :is(button, a):focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}

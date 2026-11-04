@@ -1,0 +1,423 @@
+/*
+ * Lucide icons in place of Storybook's. Storybook draws each icon as an inline SVG, so every SVG in the list below is
+ * emptied and its box painted with `--sb-icon`, a Lucide icon used as a mask, in the current text color. To replace
+ * another icon, add its selector to the list and give it an `--sb-icon` below.
+ *
+ * The docs pages load this file too (`preview.ts`), for the props table and the canvases. Stories render in the same
+ * page, so every selector is anchored to Storybook's own markup, never to a bare label a component could also use.
+ */
+:is(
+  /* Sidebar header */
+    .sidebar-header
+    button[aria-label="Settings"]
+    svg,
+  /* Search */
+    .search-field
+    > div:first-child
+    > svg,
+  .search-field button[aria-label="Tag filters"] svg,
+  .search-field button[aria-label="Clear search"] svg,
+  /* Tree and search results */
+    .sidebar-item
+    button[aria-expanded]
+    > div
+    > div
+    > svg,
+  :is(.sidebar-item, .search-result-item) svg[type],
+  .sidebar-item button[data-testid="context-menu"] svg,
+  /* Settings menu */
+  #list-item-about svg,
+  #list-item-guide > div:first-child > svg,
+  #list-item-shortcuts svg,
+  :is(#list-item-S, #list-item-T, #list-item-A) svg,
+  #list-item-documentation svg,
+  /* Tag filters */
+  #select-all svg,
+  #deselect-all svg,
+  .react-aria-Popover[aria-label="Tag filters"] a svg,
+  /* Item context menu */
+  #list-item-open-in-editor svg,
+  #list-item-copy-story-name svg,
+  /* Toolbar and addon panel header */
+    .sb-bar
+    button:is(
+      [aria-label="Reload story"],
+      [aria-label="Measure tool"],
+      [aria-label="Outline tool"],
+      [aria-label="Viewport size"],
+      [aria-label="Vision filter"],
+      [aria-label="Open in isolation mode"],
+      [aria-label$="full screen"],
+      [aria-label="Open in editor"]
+    )
+    svg,
+  #storybook-panel-root :is(button[aria-label^="Move addon panel"], button[aria-label="Hide addon panel"]) svg,
+  [role="listbox"]:is([aria-label="Viewport size"], [aria-label="Vision filter"]) [role="option"] svg,
+  /* Docs pages: canvas toolbar, code toggle and heading links */
+    .sbdocs-preview
+    > [role="toolbar"]
+    :is(
+      [aria-label="Reload story"],
+      [aria-label="Zoom in"],
+      [aria-label="Zoom out"],
+      [aria-label="Reset zoom"],
+      [aria-label="Open canvas in new tab"]
+    )
+    svg,
+  .sbdocs-preview-actions button.docblock-code-toggle svg,
+  .sbdocs-content a[aria-label^="Copy heading URL"] svg,
+  /* Controls panel */
+    .docblock-argstable
+    span:has(> select)
+    > svg,
+  .docblock-argstable button[aria-label="Cycle through color spaces"] svg,
+  .docblock-argstable button[aria-label="Edit object as JSON"] svg,
+  button[aria-label="Reset controls"] svg,
+  button[aria-label="Save changes to story"] svg,
+  button[aria-label="Create new story with these settings"] svg,
+  button[aria-label="Reset changes"] svg,
+  /* Interactions tab */
+    [role="toolbar"][aria-label="Component test playback controls"]
+    button:is(
+      [aria-label="Go to start"],
+      [aria-label="Go back"],
+      [aria-label="Go forward"],
+      [aria-label="Go to end"],
+      [aria-label="Rerun"]
+    )
+    svg,
+  button[aria-label^="Go to interaction row"] svg[data-testid^="icon-"],
+  /* Accessibility tab */
+    #storybook-panel-root
+    button:is(
+      [aria-label^="Highlight elements with accessibility"],
+      [aria-label^="Hide accessibility test result"],
+      [aria-label$="all results"],
+      [aria-label="Rerun accessibility scan"],
+      [aria-label^="Expand details for"],
+      [aria-label^="Collapse details for"]
+    )
+    svg,
+  #storybook-panel-root [id^="details:"] a svg
+) {
+  flex: none;
+  width: var(--sb-icon-size);
+  height: var(--sb-icon-size);
+  background-color: currentcolor;
+  mask: var(--sb-icon) center / contain no-repeat;
+
+  > * {
+    display: none;
+  }
+}
+
+/* Sidebar header */
+.sidebar-header button[aria-label="Settings"] svg {
+  --sb-icon: url("lucide-static/icons/settings-2.svg");
+}
+
+/* Search */
+.search-field > div:first-child > svg {
+  --sb-icon: url("lucide-static/icons/search.svg");
+}
+
+.search-field button[aria-label="Tag filters"] svg {
+  --sb-icon: url("lucide-static/icons/list-filter.svg");
+}
+
+.search-field button[aria-label="Clear search"] svg {
+  --sb-icon: url("lucide-static/icons/x.svg");
+}
+
+/* Tree and search results. Storybook turns the chevron's wrapper 90° when a node opens, so it points right. */
+.sidebar-item button[aria-expanded] > div > div > svg {
+  --sb-icon: url("lucide-static/icons/chevron-right.svg");
+}
+
+:is(.sidebar-item, .search-result-item) svg[type="group"] {
+  --sb-icon: url("lucide-static/icons/folder.svg");
+}
+
+:is(.sidebar-item, .search-result-item) svg[type="component"] {
+  --sb-icon: url("lucide-static/icons/component.svg");
+}
+
+:is(.sidebar-item, .search-result-item) svg[type="document"] {
+  --sb-icon: url("lucide-static/icons/file-text.svg");
+}
+
+:is(.sidebar-item, .search-result-item) svg[type="story"] {
+  --sb-icon: url("lucide-static/icons/bookmark.svg");
+}
+
+.sidebar-item button[data-testid="context-menu"] svg {
+  --sb-icon: url("lucide-static/icons/ellipsis.svg");
+}
+
+/* Settings menu */
+#list-item-about svg {
+  --sb-icon: url("lucide-static/icons/info.svg");
+}
+
+#list-item-guide > div:first-child > svg {
+  --sb-icon: url("lucide-static/icons/list-checks.svg");
+}
+
+#list-item-shortcuts svg {
+  --sb-icon: url("lucide-static/icons/keyboard.svg");
+}
+
+/* The check in front of the parts of the UI that are showing (sidebar, toolbar, addon panel). */
+:is(#list-item-S, #list-item-T, #list-item-A) svg {
+  --sb-icon: url("lucide-static/icons/check.svg");
+}
+
+#list-item-documentation > div:first-child svg,
+.react-aria-Popover[aria-label="Tag filters"] a > div:first-child svg {
+  --sb-icon: url("lucide-static/icons/book-open.svg");
+}
+
+/* The arrow after links that leave Storybook. */
+#list-item-documentation > div:last-child svg,
+.react-aria-Popover[aria-label="Tag filters"] a > div:last-child svg {
+  --sb-icon: url("lucide-static/icons/arrow-up-right.svg");
+}
+
+/* Tag filters */
+#select-all svg {
+  --sb-icon: url("lucide-static/icons/list-checks.svg");
+}
+
+#deselect-all svg {
+  --sb-icon: url("lucide-static/icons/list-x.svg");
+}
+
+/* Item context menu */
+#list-item-open-in-editor svg {
+  --sb-icon: url("lucide-static/icons/code-xml.svg");
+}
+
+#list-item-copy-story-name svg {
+  --sb-icon: url("lucide-static/icons/copy.svg");
+}
+
+/* Toolbar: the tools first, then full screen and the links out. */
+:is(.sb-bar, .sbdocs-preview > [role="toolbar"]) button[aria-label="Reload story"] svg {
+  --sb-icon: url("lucide-static/icons/rotate-cw.svg");
+}
+
+.sb-bar button[aria-label="Measure tool"] svg {
+  --sb-icon: url("lucide-static/icons/ruler.svg");
+}
+
+.sb-bar button[aria-label="Outline tool"] svg {
+  --sb-icon: url("lucide-static/icons/square-dashed.svg");
+}
+
+.sb-bar button[aria-label="Viewport size"] svg {
+  --sb-icon: url("lucide-static/icons/monitor-smartphone.svg");
+}
+
+.sb-bar button[aria-label="Vision filter"] svg {
+  --sb-icon: url("lucide-static/icons/eye.svg");
+}
+
+.sb-bar button[aria-label="Enter full screen"] svg {
+  --sb-icon: url("lucide-static/icons/maximize.svg");
+}
+
+.sb-bar button[aria-label="Exit full screen"] svg {
+  --sb-icon: url("lucide-static/icons/minimize.svg");
+}
+
+:is(.sb-bar button[aria-label="Open in isolation mode"], .sbdocs-preview a[aria-label="Open canvas in new tab"]) svg {
+  --sb-icon: url("lucide-static/icons/square-arrow-out-up-right.svg");
+}
+
+.sb-bar button[aria-label="Open in editor"] svg {
+  --sb-icon: url("lucide-static/icons/code-xml.svg");
+}
+
+/* The viewport menu's options, and the reset at the top of the vision filter menu. Storybook ends each option's id
+ * with its key. */
+[role="listbox"]:is([aria-label="Viewport size"], [aria-label="Vision filter"]) [id$="-opt-undefined"] svg {
+  --sb-icon: url("lucide-static/icons/rotate-ccw.svg");
+}
+
+[role="listbox"][aria-label="Viewport size"] [id*="-opt-mobile"] svg {
+  --sb-icon: url("lucide-static/icons/smartphone.svg");
+}
+
+[role="listbox"][aria-label="Viewport size"] [id$="-opt-tablet"] svg {
+  --sb-icon: url("lucide-static/icons/tablet.svg");
+}
+
+[role="listbox"][aria-label="Viewport size"] [id$="-opt-desktop"] svg {
+  --sb-icon: url("lucide-static/icons/monitor.svg");
+}
+
+/* Addon panel header */
+#storybook-panel-root button[aria-label="Move addon panel to right"] svg {
+  --sb-icon: url("lucide-static/icons/panel-right.svg");
+}
+
+#storybook-panel-root button[aria-label="Move addon panel to bottom"] svg {
+  --sb-icon: url("lucide-static/icons/panel-bottom.svg");
+}
+
+#storybook-panel-root button[aria-label="Hide addon panel"] svg {
+  --sb-icon: url("lucide-static/icons/x.svg");
+}
+
+/* Docs pages: the zoom of each canvas, the code toggle under it, and the link next to each heading. */
+.sbdocs-preview button[aria-label="Zoom in"] svg {
+  --sb-icon: url("lucide-static/icons/zoom-in.svg");
+}
+
+.sbdocs-preview button[aria-label="Zoom out"] svg {
+  --sb-icon: url("lucide-static/icons/zoom-out.svg");
+}
+
+.sbdocs-preview button[aria-label="Reset zoom"] svg {
+  --sb-icon: url("lucide-static/icons/search.svg");
+}
+
+.sbdocs-preview-actions button.docblock-code-toggle svg {
+  --sb-icon: url("lucide-static/icons/code-xml.svg");
+}
+
+.sbdocs-content a[aria-label^="Copy heading URL"] svg {
+  --sb-icon: url("lucide-static/icons/link.svg");
+}
+
+/* Controls panel */
+.docblock-argstable span:has(> select) > svg {
+  --sb-icon: url("lucide-static/icons/chevrons-up-down.svg");
+}
+
+.docblock-argstable button[aria-label="Cycle through color spaces"] svg {
+  --sb-icon: url("lucide-static/icons/arrow-right-left.svg");
+}
+
+.docblock-argstable button[aria-label="Edit object as JSON"] svg {
+  --sb-icon: url("lucide-static/icons/braces.svg");
+}
+
+button[aria-label="Reset controls"] svg {
+  --sb-icon: url("lucide-static/icons/rotate-ccw.svg");
+}
+
+/* The bar that appears after changing a control. */
+button[aria-label="Save changes to story"] svg {
+  --sb-icon: url("lucide-static/icons/check.svg");
+}
+
+button[aria-label="Create new story with these settings"] svg {
+  --sb-icon: url("lucide-static/icons/circle-plus.svg");
+}
+
+button[aria-label="Reset changes"] svg {
+  --sb-icon: url("lucide-static/icons/undo-2.svg");
+}
+
+/* Interactions tab: playback, and the status of each step. */
+[role="toolbar"][aria-label="Component test playback controls"] button[aria-label="Go to start"] svg {
+  --sb-icon: url("lucide-static/icons/chevrons-left.svg");
+}
+
+[role="toolbar"][aria-label="Component test playback controls"] button[aria-label="Go back"] svg {
+  --sb-icon: url("lucide-static/icons/chevron-left.svg");
+}
+
+[role="toolbar"][aria-label="Component test playback controls"] button[aria-label="Go forward"] svg {
+  --sb-icon: url("lucide-static/icons/chevron-right.svg");
+}
+
+[role="toolbar"][aria-label="Component test playback controls"] button[aria-label="Go to end"] svg {
+  --sb-icon: url("lucide-static/icons/chevrons-right.svg");
+}
+
+[role="toolbar"][aria-label="Component test playback controls"] button[aria-label="Rerun"] svg,
+#storybook-panel-root button[aria-label="Rerun accessibility scan"] svg {
+  --sb-icon: url("lucide-static/icons/rotate-ccw.svg");
+}
+
+button[aria-label^="Go to interaction row"] svg[data-testid="icon-done"] {
+  --sb-icon: url("lucide-static/icons/circle-check.svg");
+}
+
+button[aria-label^="Go to interaction row"] svg[data-testid="icon-error"] {
+  --sb-icon: url("lucide-static/icons/circle-x.svg");
+}
+
+button[aria-label^="Go to interaction row"] svg[data-testid="icon-active"] {
+  --sb-icon: url("lucide-static/icons/loader-circle.svg");
+}
+
+button[aria-label^="Go to interaction row"] svg[data-testid="icon-waiting"] {
+  --sb-icon: url("lucide-static/icons/circle-dashed.svg");
+}
+
+/* Accessibility tab: show the results on the canvas, open or close every rule, run the check again, open one rule,
+ * and the link to a rule's documentation. */
+#storybook-panel-root button[aria-label^="Highlight elements with accessibility"] svg {
+  --sb-icon: url("lucide-static/icons/eye.svg");
+}
+
+#storybook-panel-root button[aria-label^="Hide accessibility test result"] svg {
+  --sb-icon: url("lucide-static/icons/eye-off.svg");
+}
+
+#storybook-panel-root button[aria-label="Collapse all results"] svg {
+  --sb-icon: url("lucide-static/icons/chevrons-down-up.svg");
+}
+
+#storybook-panel-root button[aria-label="Expand all results"] svg {
+  --sb-icon: url("lucide-static/icons/chevrons-up-down.svg");
+}
+
+#storybook-panel-root button:is([aria-label^="Expand details for"], [aria-label^="Collapse details for"]) svg {
+  --sb-icon: url("lucide-static/icons/chevron-down.svg");
+}
+
+#storybook-panel-root [id^="details:"] a svg {
+  --sb-icon: url("lucide-static/icons/arrow-up-right.svg");
+}
+
+/* Icons painted by Norte's own additions (empty states, code blocks, docs callouts), named by `data-icon`. Add one here
+ * before using it. */
+[data-icon="check"] {
+  --sb-icon: url("lucide-static/icons/check.svg");
+}
+
+[data-icon="circle-check"] {
+  --sb-icon: url("lucide-static/icons/circle-check.svg");
+}
+
+[data-icon="circle-play"] {
+  --sb-icon: url("lucide-static/icons/circle-play.svg");
+}
+
+[data-icon="copy"] {
+  --sb-icon: url("lucide-static/icons/copy.svg");
+}
+
+[data-icon="file-code"] {
+  --sb-icon: url("lucide-static/icons/file-code.svg");
+}
+
+[data-icon="mouse-pointer-click"] {
+  --sb-icon: url("lucide-static/icons/mouse-pointer-click.svg");
+}
+
+[data-icon="shield"] {
+  --sb-icon: url("lucide-static/icons/shield.svg");
+}
+
+[data-icon="shield-check"] {
+  --sb-icon: url("lucide-static/icons/shield-check.svg");
+}
+
+[data-icon="terminal"] {
+  --sb-icon: url("lucide-static/icons/terminal.svg");
+}

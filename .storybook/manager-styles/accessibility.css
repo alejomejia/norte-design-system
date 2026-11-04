@@ -1,0 +1,269 @@
+/*
+ * The Accessibility tab: the results of axe, the automated check that runs on every story. Violations are problems to
+ * fix, Passes the rules the story met, and Needs review (Storybook's "Inconclusive", renamed in `manager-copy.ts`) the
+ * checks a person has to confirm. The three lists read as a segmented control, so they don't look like a second row of
+ * addon tabs; the rules are quiet rows and the details neutral. An empty list shows an empty state
+ * (`manager-empty-states.ts`).
+ */
+
+/* Header: the lists on the left, the tools on the right (highlight the results on the canvas, open or close every rule,
+ * run the check again). */
+#storybook-panel-root div:has(> div > button[aria-label="Rerun accessibility scan"]) {
+  align-items: center;
+  min-height: 3rem; /* 48px */
+  padding-inline: var(--sb-panel-gutter) var(--sb-gap);
+  background-color: var(--sb-color-surface);
+  box-shadow: inset 0 -1px 0 var(--sb-color-border);
+}
+
+#storybook-panel-root div:has(> [role="tablist"] > [data-key="violations"]),
+#storybook-panel-root div:has(> div > [role="tablist"] > [data-key="violations"]) {
+  align-items: center;
+  height: auto;
+}
+
+#storybook-panel-root [role="tablist"]:has(> [data-key="violations"]) {
+  gap: 0.125rem; /* 2px */
+  height: auto;
+  padding: 0.125rem; /* 2px */
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-accent);
+}
+
+#storybook-panel-root [role="tablist"]:has(> [data-key="violations"]) > [role="tab"] {
+  height: 1.75rem; /* 28px: the 32px control minus the track's padding */
+  padding-inline: 0.75rem; /* 12px */
+  border: 0;
+  border-radius: 0.375rem; /* 6px: the track's 8px corner minus its 2px padding */
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-code);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root [role="tablist"]:has(> [data-key="violations"]) > [role="tab"]:hover {
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-panel-root [role="tablist"]:has(> [data-key="violations"]) > [role="tab"][aria-selected="true"] {
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  color: var(--sb-color-text);
+}
+
+#storybook-panel-root [role="tablist"]:has(> [data-key="violations"]) > [role="tab"]:focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}
+
+/* Each list's count: a plain number after its name, without the badge's fill or ring. */
+#storybook-panel-root [role="tablist"]:has(> [data-key="violations"]) > [role="tab"] > div > div {
+  min-width: 0;
+  margin-left: 0.25rem; /* 4px */
+  padding: 0;
+  background-color: transparent;
+  box-shadow: none;
+  font-size: var(--sb-font-size-s);
+  font-variant-numeric: tabular-nums;
+  color: var(--sb-color-text-muted);
+}
+
+/* Tools: ghost icon buttons. Highlight stays tinted while the results show on the canvas. */
+#storybook-panel-root
+  button:is(
+    [aria-label^="Highlight elements with accessibility"],
+    [aria-label^="Hide accessibility test result"],
+    [aria-label$="all results"],
+    [aria-label="Rerun accessibility scan"]
+  ) {
+  justify-content: center;
+  width: var(--sb-icon-button-size);
+  height: var(--sb-icon-button-size);
+  padding: 0;
+  border-radius: var(--sb-radius);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root
+    button:is(
+      [aria-label^="Highlight elements with accessibility"],
+      [aria-label$="all results"],
+      [aria-label="Rerun accessibility scan"]
+    ):hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-panel-root button[aria-label^="Hide accessibility test result"] {
+  background-color: var(--sb-color-accent);
+  color: var(--sb-color-text);
+}
+
+/* Rules: one row each, the name in the UI's type, its axe id and the number of elements it checked as secondary text,
+ * and a chevron that turns while the rule is open. */
+#storybook-panel-root div:has(> button:is([aria-label^="Expand details for"], [aria-label^="Collapse details for"])) {
+  min-height: 2.5rem; /* 40px */
+  padding-inline: var(--sb-panel-gutter) var(--sb-gap);
+  font-family: var(--sb-font-family);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root
+    div:has(> button:is([aria-label^="Expand details for"], [aria-label^="Collapse details for"])):hover {
+    background-color: var(--sb-color-surface-subtle);
+  }
+}
+
+#storybook-panel-root
+  div:has(> button:is([aria-label^="Expand details for"], [aria-label^="Collapse details for"]))
+  strong {
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+}
+
+#storybook-panel-root
+  div:has(> button:is([aria-label^="Expand details for"], [aria-label^="Collapse details for"]))
+  > div:nth-child(2) {
+  font-size: var(--sb-font-size-s);
+  font-variant-numeric: tabular-nums;
+  color: var(--sb-color-text-muted);
+}
+
+#storybook-panel-root button:is([aria-label^="Expand details for"], [aria-label^="Collapse details for"]) {
+  justify-content: center;
+  width: var(--sb-icon-button-size);
+  height: var(--sb-icon-button-size);
+  padding: 0;
+  border-radius: var(--sb-radius);
+  color: var(--sb-color-icon);
+}
+
+#storybook-panel-root button:is([aria-label^="Expand details for"], [aria-label^="Collapse details for"]) svg {
+  transition: transform var(--sb-duration) var(--sb-ease);
+}
+
+#storybook-panel-root button[aria-label^="Collapse details for"] svg {
+  transform: rotate(180deg);
+}
+
+/* An open rule: what it checks and a link to its documentation, then the elements it checked, each with what axe found,
+ * two buttons and its code. */
+#storybook-panel-root [id^="details:"] {
+  padding: 0 var(--sb-panel-gutter) 1rem; /* 16px */
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  line-height: 1.25rem; /* 20px */
+  color: var(--sb-color-text);
+}
+
+#storybook-panel-root [id^="details:"] p {
+  color: var(--sb-color-text-muted);
+}
+
+#storybook-panel-root [id^="details:"] a {
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--sb-color-control);
+  text-underline-offset: 0.25em;
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root [id^="details:"] a:hover {
+    text-decoration-color: currentcolor;
+  }
+}
+
+#storybook-panel-root [id^="details:"] a svg {
+  width: 0.75rem; /* 12px */
+  height: 0.75rem; /* 12px */
+  vertical-align: -0.0625em;
+}
+
+/* The elements, as rows of code: the selected one tinted gray instead of blue. */
+#storybook-panel-root [id^="details:"] [role="tab"] {
+  border-radius: var(--sb-radius-s);
+  background-color: transparent;
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-regular);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root [id^="details:"] [role="tab"]:hover {
+    background-color: var(--sb-color-surface-subtle);
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-panel-root [id^="details:"] [role="tab"][data-state="active"] {
+  background-color: var(--sb-color-accent);
+  color: var(--sb-color-text);
+}
+
+/* Jump to element and Copy link: small outlined buttons. */
+#storybook-panel-root [id^="details:"] [role="tabpanel"] button {
+  gap: var(--sb-gap);
+  height: 1.5rem; /* 24px */
+  padding-inline: var(--sb-gap);
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root [id^="details:"] [role="tabpanel"] button:hover {
+    background-color: var(--sb-color-accent);
+  }
+}
+
+/* The element's code and its selector, on a light panel in the light syntax theme. */
+#storybook-panel-root [id^="details:"] pre.prismjs {
+  margin: 0;
+  padding: 0.75rem; /* 12px */
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-surface-subtle);
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  line-height: 1.25rem; /* 20px */
+  color: var(--sb-syntax-text);
+}
+
+#storybook-panel-root [id^="details:"] pre.prismjs .token.comment {
+  font-style: normal;
+  color: var(--sb-syntax-comment);
+}
+
+/* Prism marks the parts of a tag as `tag` too (`token tag attr-name`), so this rule comes before theirs. */
+#storybook-panel-root [id^="details:"] pre.prismjs .token:is(.tag, .selector) {
+  color: var(--sb-syntax-tag);
+}
+
+#storybook-panel-root [id^="details:"] pre.prismjs .token:is(.attr-name, .property) {
+  color: var(--sb-syntax-attribute);
+}
+
+#storybook-panel-root [id^="details:"] pre.prismjs .token:is(.attr-value, .string) {
+  color: var(--sb-syntax-string);
+}
+
+#storybook-panel-root [id^="details:"] pre.prismjs .token.punctuation {
+  color: var(--sb-syntax-text);
+}

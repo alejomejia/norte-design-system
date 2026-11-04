@@ -71,5 +71,20 @@
         "useTailwindSortedClasses": "error"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": [".storybook/**/*.css"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDescendingSpecificity": "off"
+          },
+          "complexity": {
+            "noImportantStyles": "off"
+          }
+        }
+      }
+    }
+  ]
 }

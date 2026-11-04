@@ -19,14 +19,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    ".storybook/preview.ts",
-    ".storybook/manager.ts",
-    ".storybook/theme.ts",
-    ".storybook/statuses.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", ".storybook/*.ts"],
+  "exclude": [".storybook/main.ts"]
 }

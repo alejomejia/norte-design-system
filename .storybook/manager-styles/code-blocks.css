@@ -1,0 +1,208 @@
+/*
+ * Code blocks: a dark panel with a header (the language and a copy button) and the code with line numbers, in Norte's
+ * syntax theme. They cover the code fences of the MDX pages, the code under each canvas and the Code panel under a
+ * story, so the docs pages (`preview.ts`) and the Storybook UI (`index.css`) both load this file. `code-blocks.ts`
+ * builds the header and the code (`nt-code-block__*`) inside Storybook's block, marked `data-code-block`, and
+ * Storybook's own rendering stays there, hidden, as the source of the text.
+ */
+
+/* MDX wraps each block in a `pre` of its own. */
+#storybook-docs .sbdocs-content > pre {
+  margin-block: 1.5rem; /* 24px */
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+:is(#storybook-docs, #storybook-panel-root) [data-code-block] {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0;
+  border: 0;
+  border-radius: var(--sb-radius-xl);
+  background-color: var(--sb-code-surface);
+  box-shadow: none;
+}
+
+:is(#storybook-docs, #storybook-panel-root) [data-code-block] > :not(.nt-code-block__header, .nt-code-block__content) {
+  display: none;
+}
+
+/* Under a canvas, the block is the bottom of the canvas's frame, flush with its edges. */
+#storybook-docs .sbdocs-preview > [data-code-block] {
+  border-radius: 0;
+}
+
+/* In the Code panel, the block is the whole tab: square, full height, and the code scrolls inside it. */
+#storybook-panel-root > [role="tabpanel"][id$="-tabpanel-storybook/docs/panel"] [data-code-block] {
+  height: 100%;
+  border-radius: 0;
+}
+
+#storybook-panel-root > [role="tabpanel"][id$="-tabpanel-storybook/docs/panel"] .nt-code-block__content {
+  flex: 1;
+  overflow: auto;
+}
+
+/* Header: the language with a file icon, and the copy button at the end. */
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__header {
+  display: flex;
+  align-items: center;
+  gap: var(--sb-gap);
+  min-height: 2.5rem; /* 40px */
+  padding: 1rem 1rem 0; /* 16px */
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__title {
+  display: flex;
+  align-items: center;
+  gap: var(--sb-gap);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+  line-height: 1.25rem; /* 20px */
+  color: var(--sb-code-title);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__icon {
+  flex: none;
+  width: var(--sb-icon-size);
+  height: var(--sb-icon-size);
+  background-color: currentcolor;
+  mask: var(--sb-icon) center / contain no-repeat;
+}
+
+/* Copy: a translucent button with an icon and the word "Copy". After a copy it shows a check and "Copied" for two
+ * seconds. */
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__copy {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--sb-gap);
+  height: 1.5rem; /* 24px */
+  margin-left: auto;
+  padding-inline: var(--sb-gap);
+  border: 1px solid var(--sb-code-button-border);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-code-button);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  line-height: 1;
+  color: var(--sb-code-title);
+  cursor: pointer;
+  transition: var(--sb-transition);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__copy .nt-code-block__icon {
+  width: 0.75rem; /* 12px */
+  height: 0.75rem; /* 12px */
+}
+
+@media (hover: hover) {
+  :is(#storybook-docs, #storybook-panel-root) .nt-code-block__copy:hover {
+    background-color: var(--sb-code-button-hover);
+  }
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__copy[data-copied] {
+  background-color: var(--sb-code-button-hover);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__copy[data-copied] .nt-code-block__icon {
+  --sb-icon: url("lucide-static/icons/check.svg");
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__copy:focus-visible {
+  outline: 2px solid var(--sb-blue-400);
+  outline-offset: 0;
+}
+
+/* Code: one element per line, numbered in a narrow muted column. Long lines scroll sideways. */
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content {
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.75rem 1rem 1rem; /* 12px, 16px, 16px */
+  border: 0;
+  background: none;
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-code);
+  line-height: 1.5rem; /* 24px */
+  white-space: pre;
+  color: var(--sb-code-text);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content:focus-visible {
+  outline: 2px solid var(--sb-blue-400);
+  outline-offset: -2px;
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content > code {
+  display: block;
+  counter-reset: line;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__line {
+  display: block;
+  padding-left: 2.25rem; /* 36px: the 24px number and its 12px gap */
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__line::before {
+  content: counter(line) / "";
+  counter-increment: line;
+  display: inline-block;
+  width: 1.5rem; /* 24px */
+  margin-inline: -2.25rem 0.75rem; /* -36px, 12px */
+  text-align: end;
+  color: var(--sb-code-line-number);
+  user-select: none;
+}
+
+/* Syntax colors, mapped onto the token classes of Storybook's highlighter. The parts of a tag carry `tag` too
+ * (`token tag attr-name`), so the tag color comes first and the rules after it win for those parts. */
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content .token.tag {
+  color: var(--sb-code-tag);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content .token:is(.comment, .prolog, .doctype, .cdata) {
+  color: var(--sb-code-comment);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content .token:is(.keyword, .atrule, .important) {
+  color: var(--sb-code-keyword);
+}
+
+:is(#storybook-docs, #storybook-panel-root)
+  .nt-code-block__content
+  .token:is(.string, .char, .attr-value, .regex, .url, .template-string) {
+  color: var(--sb-code-string);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content .token:is(.attr-name, .property) {
+  color: var(--sb-code-attribute);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content .token:is(.function, .class-name, .selector) {
+  color: var(--sb-code-function);
+}
+
+:is(#storybook-docs, #storybook-panel-root)
+  .nt-code-block__content
+  .token:is(.number, .boolean, .constant, .symbol, .builtin) {
+  color: var(--sb-code-constant);
+}
+
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content .token:is(.punctuation, .operator) {
+  color: var(--sb-code-punctuation);
+}
+
+/* JSX's braces and the code inside them read as plain text. */
+:is(#storybook-docs, #storybook-panel-root) .nt-code-block__content .token:is(.script, .plain-text) {
+  color: var(--sb-code-text);
+}
