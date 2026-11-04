@@ -120,6 +120,8 @@ const preview: Preview = {
           ['Charts', ['Line chart', 'Bar chart'], 'Tables', ['Data table', 'Stat']],
           'Pages',
           ['Workspace', ['Run view', 'Agents', 'Sign in']],
+          // Temporary: options to choose from, side by side (`src/explorations/`).
+          'Explorations',
         ],
       },
     },
