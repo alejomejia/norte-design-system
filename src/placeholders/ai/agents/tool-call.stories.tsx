@@ -1,6 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react-vite'
 
-import { PlannedComponent } from '@/handbook/placeholders/planned-component'
+import { PLANNED_DOCS, PlannedComponent } from '@/handbook/placeholders/planned-component'
 
 const meta = {
   title: 'AI/Agents/Tool call',
@@ -10,6 +10,7 @@ const meta = {
   parameters: {
     controls: { disable: true },
     docs: {
+      ...PLANNED_DOCS,
       description: {
         component: 'A step an agent took: the tool, what it sent and what came back, folded until you need the detail.',
       },

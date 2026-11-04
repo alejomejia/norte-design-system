@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Spinner' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: "Something is running and there's no telling how long it takes." } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: "Something is running and there's no telling how long it takes." },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

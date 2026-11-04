@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Text field' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'One line of text, with its label, hint and error.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'One line of text, with its label, hint and error.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

@@ -1,4 +1,8 @@
+import { readFileSync } from 'node:fs'
+
 import { type StorybookConfig } from '@storybook/react-vite'
+
+const { version } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as { version: string }
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.tsx'],
@@ -19,6 +23,8 @@ const config: StorybookConfig = {
       return !(plugin && typeof plugin === 'object' && 'name' in plugin && plugin.name === 'unplugin-dts')
     })
     if (viteConfig.build) delete viteConfig.build.lib
+    // The version the page headers show.
+    viteConfig.define = { ...viteConfig.define, __PACKAGE_VERSION__: JSON.stringify(version) }
     return viteConfig
   },
 }

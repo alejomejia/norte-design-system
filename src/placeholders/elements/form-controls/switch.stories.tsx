@@ -1,6 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react-vite'
 
-import { PlannedComponent } from '@/handbook/placeholders/planned-component'
+import { PLANNED_DOCS, PlannedComponent } from '@/handbook/placeholders/planned-component'
 
 const meta = {
   title: 'Elements/Form controls/Switch',
@@ -10,6 +10,7 @@ const meta = {
   parameters: {
     controls: { disable: true },
     docs: {
+      ...PLANNED_DOCS,
       description: { component: 'A setting that takes effect right away, like letting an agent run without approval.' },
     },
   },

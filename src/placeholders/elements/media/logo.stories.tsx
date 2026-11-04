@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Logo' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: "Norte's mark and wordmark." } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: "Norte's mark and wordmark." },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

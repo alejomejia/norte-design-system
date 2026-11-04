@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Alert' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: "A message inside the page that stays until it's dealt with." } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: "A message inside the page that stays until it's dealt with." },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

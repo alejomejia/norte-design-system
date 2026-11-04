@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Checkbox' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'On or off for one option, or several options from a list.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'On or off for one option, or several options from a list.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

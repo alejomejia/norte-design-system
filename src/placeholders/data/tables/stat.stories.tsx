@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Stat' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'One number that matters, with its trend.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'One number that matters, with its trend.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

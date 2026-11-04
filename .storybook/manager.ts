@@ -2,7 +2,8 @@ import { createElement } from 'react'
 import { addons } from 'storybook/manager-api'
 import { create } from 'storybook/theming'
 
-import { STATUSES, statusOf } from './statuses'
+// Storybook bundles the manager with its own esbuild, which doesn't know the `@/` alias.
+import { STATUSES, statusOf } from '../src/handbook/statuses'
 import { THEME_VARS } from './theme'
 
 import '@fontsource-variable/inter'

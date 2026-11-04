@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Tabs' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Views of the same thing, side by side.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Views of the same thing, side by side.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

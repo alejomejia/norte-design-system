@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Textarea' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Several lines of text that grow with what you type.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Several lines of text that grow with what you type.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

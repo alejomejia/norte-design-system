@@ -53,7 +53,7 @@
           "options": {
             "patterns": [
               {
-                "group": ["../*"],
+                "group": ["../*", "../**"],
                 "message": "Use the `@/` alias instead of `../`."
               }
             ]
@@ -74,7 +74,7 @@
   },
   "overrides": [
     {
-      "includes": ["scripts/**"],
+      "includes": ["scripts/**", ".storybook/manager.ts"],
       "linter": {
         "rules": {
           "style": {

@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Citation' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'A numbered link from an answer to the source it came from.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'A numbered link from an answer to the source it came from.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

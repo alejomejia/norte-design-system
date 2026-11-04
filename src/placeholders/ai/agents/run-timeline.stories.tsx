@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Run timeline' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Every step of a run in order, with its time and status.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Every step of a run in order, with its time and status.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

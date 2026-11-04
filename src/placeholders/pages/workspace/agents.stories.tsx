@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Agents' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'The agents of a workspace and what each one is allowed to do.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'The agents of a workspace and what each one is allowed to do.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

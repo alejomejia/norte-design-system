@@ -7,3 +7,9 @@ export function PlannedComponent({ name }: { name: string }) {
     </div>
   )
 }
+
+/** The docs settings of every planned component: no code to show, and one section, so no page index either. */
+export const PLANNED_DOCS = {
+  canvas: { sourceState: 'none' },
+  toc: { disable: true },
+} as const

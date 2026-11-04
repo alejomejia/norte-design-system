@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Source list' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'The sources an answer used, with the passages that back it up.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'The sources an answer used, with the passages that back it up.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Skeleton' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'The shape of the content while it loads.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'The shape of the content while it loads.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

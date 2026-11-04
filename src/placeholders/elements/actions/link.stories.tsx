@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Link' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Text that takes you somewhere: to a run, a document, an outside page.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Text that takes you somewhere: to a run, a document, an outside page.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

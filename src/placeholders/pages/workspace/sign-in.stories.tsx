@@ -9,7 +9,8 @@ const meta = {
   args: { name: 'Sign in' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'The way in.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: { canvas: { sourceState: 'none' }, toc: { disable: true }, description: { component: 'The way in.' } },
   },
 } satisfies Meta<typeof PlannedComponent>
 

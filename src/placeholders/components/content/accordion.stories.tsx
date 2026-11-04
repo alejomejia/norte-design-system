@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Accordion' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Sections that open and close, so long content stays scannable.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Sections that open and close, so long content stays scannable.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

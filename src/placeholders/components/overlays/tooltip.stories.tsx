@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Tooltip' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'The name or shortcut of a control, on hover and on focus.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'The name or shortcut of a control, on hover and on focus.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

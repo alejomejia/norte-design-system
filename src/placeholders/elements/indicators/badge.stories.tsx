@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Badge' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'A short label for a status or a count.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'A short label for a status or a count.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

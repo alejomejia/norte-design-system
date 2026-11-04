@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Command menu' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Every action and page, one search away (⌘K).' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Every action and page, one search away (⌘K).' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

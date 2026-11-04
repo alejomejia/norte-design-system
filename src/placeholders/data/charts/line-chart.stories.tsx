@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Line chart' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'A value over time, like runs per day or cost per week.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'A value over time, like runs per day or cost per week.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

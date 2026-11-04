@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Icon' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: "One icon of Norte's set, as an inline SVG that takes the color of its text." } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: "One icon of Norte's set, as an inline SVG that takes the color of its text." },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

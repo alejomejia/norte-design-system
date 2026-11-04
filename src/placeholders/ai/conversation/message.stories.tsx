@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Message' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'One turn of a conversation, from a person or an agent.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'One turn of a conversation, from a person or an agent.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

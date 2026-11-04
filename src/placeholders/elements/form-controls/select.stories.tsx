@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Select' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'One option from a list, opened with the keyboard or the pointer.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'One option from a list, opened with the keyboard or the pointer.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

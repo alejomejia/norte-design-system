@@ -1,6 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react-vite'
 
-import { PlannedComponent } from '@/handbook/placeholders/planned-component'
+import { PLANNED_DOCS, PlannedComponent } from '@/handbook/placeholders/planned-component'
 
 const meta = {
   title: 'AI/Conversation/Prompt input',
@@ -10,6 +10,7 @@ const meta = {
   parameters: {
     controls: { disable: true },
     docs: {
+      ...PLANNED_DOCS,
       description: {
         component: 'Where a person writes to an agent: it grows with the text, takes attachments, and sends with ⌘↵.',
       },

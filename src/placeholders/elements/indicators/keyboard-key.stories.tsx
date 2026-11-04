@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Keyboard key' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'A key or a shortcut, like ⌘K, written the way it looks on a keyboard.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'A key or a shortcut, like ⌘K, written the way it looks on a keyboard.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

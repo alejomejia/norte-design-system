@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Card' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'A group of related content with a border, like an agent in a list.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'A group of related content with a border, like an agent in a list.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

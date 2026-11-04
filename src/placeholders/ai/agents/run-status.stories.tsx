@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Run status' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Where a run is: queued, running, waiting for approval, done or failed.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Where a run is: queued, running, waiting for approval, done or failed.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

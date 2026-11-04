@@ -1,6 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react-vite'
 
-import { PlannedComponent } from '@/handbook/placeholders/planned-component'
+import { PLANNED_DOCS, PlannedComponent } from '@/handbook/placeholders/planned-component'
 
 const meta = {
   title: 'AI/Conversation/Streaming text',
@@ -10,6 +10,7 @@ const meta = {
   parameters: {
     controls: { disable: true },
     docs: {
+      ...PLANNED_DOCS,
       description: {
         component:
           "An agent's answer as it arrives, readable while it streams and announced to screen readers without repeating itself.",

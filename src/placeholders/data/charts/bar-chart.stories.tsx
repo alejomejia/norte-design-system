@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Bar chart' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Values side by side, like runs per agent.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Values side by side, like runs per agent.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

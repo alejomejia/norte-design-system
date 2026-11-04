@@ -98,7 +98,7 @@ export function ColorRoles() {
     <div className="sb-unstyled my-6 flex flex-col gap-8">
       {ROLE_GROUPS.map(({ title, roles }) => (
         <section key={title}>
-          <h3 className="mb-1 text-caption font-medium tracking-wide text-ink-subtle uppercase">{title}</h3>
+          <h4 className="mb-1 text-caption font-medium tracking-wide text-ink-subtle uppercase">{title}</h4>
           <ul className="divide-y divide-line border-y border-line">
             {roles.map((role) => (
               <RoleRow key={role.name} role={role} />

@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Run view' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'One run, start to finish: the conversation, the steps and the approvals.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'One run, start to finish: the conversation, the steps and the approvals.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

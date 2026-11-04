@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Popover' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Extra content anchored to an element, like a filter or a preview.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Extra content anchored to an element, like a filter or a preview.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

@@ -9,7 +9,12 @@ const meta = {
   args: { name: 'Suggestions' },
   parameters: {
     controls: { disable: true },
-    docs: { description: { component: 'Next prompts to choose from, so an empty conversation has a way to start.' } },
+    // A planned component has no code to show and one section, so no page index either.
+    docs: {
+      canvas: { sourceState: 'none' },
+      toc: { disable: true },
+      description: { component: 'Next prompts to choose from, so an empty conversation has a way to start.' },
+    },
   },
 } satisfies Meta<typeof PlannedComponent>
 

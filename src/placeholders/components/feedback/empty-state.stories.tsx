@@ -1,6 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react-vite'
 
-import { PlannedComponent } from '@/handbook/placeholders/planned-component'
+import { PLANNED_DOCS, PlannedComponent } from '@/handbook/placeholders/planned-component'
 
 const meta = {
   title: 'Components/Feedback/Empty state',
@@ -10,6 +10,7 @@ const meta = {
   parameters: {
     controls: { disable: true },
     docs: {
+      ...PLANNED_DOCS,
       description: {
         component: 'What a list or a page shows before there is anything in it, and the first step to fill it.',
       },
