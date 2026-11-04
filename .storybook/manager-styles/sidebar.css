@@ -74,10 +74,11 @@ div:has(> div > #storybook-sidebar-region) {
   }
 }
 
-/* Storybook's notification dot on the button (an update or its onboarding guide): news for whoever maintains Storybook,
- * not for people reading the handbook. */
+/* The dot Storybook puts on the button when there's news in its menu (an update, its guide): in Norte's blue instead of
+ * green, so it reads as something to look at. `::before` is its ring, in the sidebar's color. */
 #storybook-sidebar-region .sidebar-header button[aria-label="Settings"]::after {
-  display: none;
+  border-color: transparent;
+  background-color: var(--sb-blue-600);
 }
 
 #storybook-sidebar-region .sidebar-header button[aria-label="Settings"][aria-checked="true"] {
