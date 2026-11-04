@@ -53,6 +53,13 @@ classes. In the stylesheet your root layout imports:
 @source "../node_modules/norte-design-system/dist";
 ```
 
+## Contributing and versions
+
+Every change starts with a GitHub issue and arrives through a pull request, with a changeset that becomes its line in
+[`CHANGELOG.md`](CHANGELOG.md). Releases follow semantic versioning and are tagged on `main`, so apps choose when to
+upgrade and can always see what shipped in each version. The rules, checked by git hooks, are in
+[`CONTRIBUTING.md`](CONTRIBUTING.md). Why the project is built this way is in [`docs/decisions/`](docs/decisions/).
+
 ## License
 
 [MIT](LICENSE): fork it, use it, take it apart.
