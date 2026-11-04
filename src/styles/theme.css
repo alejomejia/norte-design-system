@@ -63,17 +63,17 @@
   --color-line: var(--color-neutral-200); /* Dividers and quiet borders */
   --color-line-strong: var(--color-neutral-400); /* Borders that outline a control: 3:1 at least */
   --color-accent: var(--color-blue-600); /* Primary fills */
-  --color-accent-hover: var(--color-blue-700);
+  --color-accent-hover: var(--color-blue-700); /* Primary fills, hovered or pressed */
   --color-accent-subtle: var(--color-blue-50); /* Selected rows, highlights */
   --color-on-accent: var(--color-white); /* Text on an accent fill */
   --color-accent-ink: var(--color-blue-600); /* Accent-colored text: links, active items */
   --color-focus: var(--color-blue-600); /* The focus ring */
-  --color-success: var(--color-green-700);
-  --color-success-subtle: var(--color-green-50);
-  --color-warning: var(--color-amber-700);
-  --color-warning-subtle: var(--color-amber-50);
-  --color-danger: var(--color-red-700);
-  --color-danger-subtle: var(--color-red-50);
+  --color-success: var(--color-green-700); /* Text and icons of a success: a run that finished */
+  --color-success-subtle: var(--color-green-50); /* Behind a success message */
+  --color-warning: var(--color-amber-700); /* Text and icons of a warning: a run that needs a person */
+  --color-warning-subtle: var(--color-amber-50); /* Behind a warning */
+  --color-danger: var(--color-red-700); /* Text and icons of an error: a run that failed */
+  --color-danger-subtle: var(--color-red-50); /* Behind an error */
 }
 
 @theme {
@@ -89,7 +89,7 @@
   --text-caption--line-height: 1rem; /* 16px */
   --text-body-s: 0.875rem; /* 14px: the interface's default */
   --text-body-s--line-height: 1.25rem; /* 20px */
-  --text-body: 1rem; /* 16px: reading text */
+  --text-body: 1rem; /* 16px: reading text, like a run's report */
   --text-body--line-height: 1.5rem; /* 24px */
   --text-heading-s: 1.125rem; /* 18px */
   --text-heading-s--line-height: 1.75rem; /* 28px */

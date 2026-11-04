@@ -12,7 +12,17 @@ const preview: Preview = {
     a11y: { test: 'error' },
     controls: { expanded: true },
     options: {
-      storySort: { order: ['Handbook', ['Introduction'], 'Foundations', 'Elements', 'Components', 'Patterns'] },
+      storySort: {
+        order: [
+          'Handbook',
+          ['Introduction'],
+          'Foundations',
+          ['Colors', 'Typography', 'Spacing', 'Shape', 'Motion'],
+          'Elements',
+          'Components',
+          'Patterns',
+        ],
+      },
     },
   },
 }

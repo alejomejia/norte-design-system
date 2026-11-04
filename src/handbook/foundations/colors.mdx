@@ -1,0 +1,29 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { ColorRoles, ColorScale } from '@/handbook/blocks/colors'
+
+<Meta title="Foundations/Colors" />
+
+# Colors
+
+Norte is neutrals and one blue. The blue marks what you can act on and what's selected; everything else is gray.
+Green, amber and red only tell the state of something, like a run that succeeded, needs attention or failed. They
+never decorate.
+
+## Roles
+
+Components read roles, never raw shades: `text-ink-muted` says what the text is for, and a brand change remaps the role
+instead of editing every component. Each text role shows its contrast on the page, and `pnpm test` fails if a pair
+drops below WCAG AA (4.5:1 for text, 3:1 for control borders and the focus ring).
+
+<ColorRoles />
+
+## Scales
+
+The primitives behind the roles. Reach for one only when no role fits, like the steps of a chart.
+
+<ColorScale name="neutral" steps={[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+<ColorScale name="blue" steps={[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+<ColorScale name="green" steps={[50, 700]} />
+<ColorScale name="amber" steps={[50, 700]} />
+<ColorScale name="red" steps={[50, 700]} />
