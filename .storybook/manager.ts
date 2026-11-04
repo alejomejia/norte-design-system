@@ -16,8 +16,11 @@ import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
 import './manager-styles/index.css'
 
-/** Norte's mark, a needle pointing north, next to the wordmark. Storybook renders `brandTitle` as HTML. */
-const BRAND = `<span class="nt-brand"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 13.5 14 8 10.75 2.5 14Z" /></svg>Norte</span>`
+/**
+ * Norte's mark, a needle pointing north, next to the wordmark. The needle is split down its middle: the left half a step
+ * darker, as if lit from the right. Storybook renders `brandTitle` as HTML.
+ */
+const BRAND = `<span class="nt-brand"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="nt-brand-shade" d="M8 1.5v9.25L2.5 14Z" /><path d="M8 1.5 13.5 14 8 10.75Z" /></svg>Norte</span>`
 
 addons.setConfig({
   theme: create({ ...THEME_VARS, brandTitle: BRAND, brandUrl: './', brandTarget: '_self' }),

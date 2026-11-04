@@ -39,7 +39,8 @@ div:has(> div > #storybook-sidebar-region) {
 .nt-brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--sb-gap);
+  /* Tight: the needle is narrower than its box, so this reads as about 8px. */
+  gap: 0.25rem; /* 4px */
   font-family: var(--sb-font-family);
   font-size: 1.125rem; /* 18px */
   font-weight: var(--sb-font-weight-semibold);
@@ -47,11 +48,15 @@ div:has(> div > #storybook-sidebar-region) {
   color: var(--sb-color-text);
 }
 
-/* The north needle, Norte's mark, in the brand blue. */
+/* The north needle, Norte's mark: the brand blue, its left half a step darker. */
 .nt-brand svg {
   width: 1.5rem; /* 24px */
   height: 1.5rem; /* 24px */
   fill: var(--sb-blue-600);
+}
+
+.nt-brand .nt-brand-shade {
+  fill: var(--sb-blue-800);
 }
 
 /* Settings: a ghost icon button, with a background only while hovered or open. */
@@ -85,3 +90,4 @@ div:has(> div > #storybook-sidebar-region) {
   background-color: var(--sb-color-accent);
   color: var(--sb-color-text);
 }
+
