@@ -1,0 +1,76 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+
+import { IconGallery } from '@/handbook/blocks/icon-gallery'
+import { PageHeader } from '@/handbook/blocks/page-header'
+// Relative on purpose: Storybook's MDX indexer doesn't know the `@/` alias, and `<Canvas of>` needs it.
+import * as IconStories from '../../components/icon/icon.stories'
+
+<Meta title="Foundations/Icons" />
+
+<PageHeader section="Foundations" title="Icons">
+  A short set of icons for running agents and reviewing their work, drawn by Lucide and named after what they mean in
+  Norte. Copy one from the gallery, and it draws in the color of the text around it.
+</PageHeader>
+
+## The set
+
+Click an icon to copy it: the `Icon` component for an app, or its SVG for a design file or a page that isn't React. Search
+finds icons by their Norte name or by Lucide's (hover a tile to see it).
+
+<IconGallery />
+
+## Using an icon
+
+Import `Icon` from the package and pass the icon's name. Names are typed, so your editor lists them and a misspelled one
+doesn't compile.
+
+```tsx
+import { Icon } from 'norte-design-system'
+
+export function RunButton() {
+  return (
+    <Button>
+      <Icon name="run" /> Run agent
+    </Button>
+  )
+}
+```
+
+### Sizes
+
+Three sizes. `s` (16px) is the default: it sits next to the interface's 14px text and inside buttons. The stroke stays
+1.5px at every size, so a large icon doesn't look heavier than a small one.
+
+<Canvas of={IconStories.Sizes} />
+
+### Color
+
+Icons have no color of their own: they take the text's (`currentColor`). To color one, color its text with a role.
+
+<Canvas of={IconStories.Color} />
+
+### When an icon needs a label
+
+An icon next to words that say the same thing is decorative, and screen readers skip it, which is what `Icon` does by
+default. An icon alone must say what it means: give it a `label`.
+
+<Canvas of={IconStories.WithLabel} />
+
+> An icon alone that does something on click is an icon button, not an `Icon` with a click handler: the button gives it
+> its role, its name and its focus ring.
+
+## Named for what they mean
+
+Each icon is named after its job in Norte, not after its drawing: `approve`, not `check`; `agent`, not `bot`. Code reads
+as what it does, and if the set is redrawn one day, `approve` can get a new drawing without a single app changing.
+
+## Adding an icon
+
+1. **Find it on [Lucide](https://lucide.dev/icons).** Every icon of the set comes from there, so new ones match.
+2. **Add one line to `ICONS`** in `src/components/icon/icon.const.ts`: the name it has in Norte, and Lucide's
+   component. Keep the list alphabetical.
+3. **Check it here.** The gallery reads the list, so it shows up with nothing else to update.
+4. **Add a changeset.** A new icon is a `minor`. Renaming or removing one breaks the apps that use it.
+
+Why Lucide, and why a short list instead of the whole library, is in
+[decision 0013](https://github.com/alejomejia/norte-design-system/blob/dev/docs/decisions/0013-lucide-icons.md).

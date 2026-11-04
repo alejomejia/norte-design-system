@@ -83,7 +83,7 @@ const preview: Preview = {
           'Handbook',
           ['Introduction', 'Composition', 'Roadmap', 'Changelog', 'Contributing'],
           'Foundations',
-          ['Colors', 'Typography', 'Spacing', 'Shape', 'Motion'],
+          ['Colors', 'Typography', 'Spacing', 'Shape', 'Motion', 'Icons'],
           'Elements',
           [
             'Overview',

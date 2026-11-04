@@ -13,7 +13,7 @@ project of its own, and an app that picks icons freely from a library of thousan
 - **[Lucide](https://lucide.dev)** (ISC license) draws the icons, through `lucide-react`.
 - **Norte curates them:** an `Icon` component draws one of a short list, named after what the icon means in Norte
   (`agent`, `approve`), not what it shows (`bot`, `check`). The list is `ICONS` in `src/components/icon/icon.const.ts`.
-- **One stroke at every size:** icons draw with an absolute 1.5px stroke, so a 16px icon in a button and a 32px icon in
+- **One stroke at every size:** icons draw with a 1.5px stroke that doesn't scale with them (`vector-effect: non-scaling-stroke`), so a 16px icon in a button and a 32px icon in
   an empty state have the same weight as the text around them.
 - **Accessible by default:** hidden from screen readers unless they have a `label`, then announced as an image.
 
