@@ -21,10 +21,8 @@
       "trailingCommas": "all"
     }
   },
-  "css": {
-    "parser": {
-      "tailwindDirectives": true
-    }
+  "tailwind": {
+    "stylesheet": "./src/styles/index.css"
   },
   "markdown": {
     "formatter": {
@@ -73,5 +71,17 @@
         "useTailwindSortedClasses": "error"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["scripts/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }
