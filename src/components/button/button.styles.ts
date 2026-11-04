@@ -19,8 +19,7 @@ export const button = tv({
       primary: 'bg-accent text-on-accent not-data-disabled:hover:bg-accent-hover',
       secondary: 'border border-line-strong bg-surface text-ink not-data-disabled:hover:bg-surface-muted',
       ghost: 'text-ink not-data-disabled:hover:bg-surface-muted',
-      danger:
-        'border border-line-strong bg-surface text-danger not-data-disabled:hover:border-danger not-data-disabled:hover:bg-danger-subtle',
+      danger: 'border border-danger bg-surface text-danger not-data-disabled:hover:bg-danger-subtle',
     } satisfies Record<(typeof BUTTON_VARIANTS)[number], string>,
     size: {
       s: 'h-8 px-3 text-body-s',
