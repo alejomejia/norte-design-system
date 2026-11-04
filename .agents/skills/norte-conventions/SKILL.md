@@ -46,6 +46,7 @@ src/
   components/       one folder per component (what ships)
   lib/utils/        pure, generic helpers, behind the `@/lib/utils` barrel
   lib/hooks/        shared client hooks, behind the `@/lib/hooks` barrel
+  lib/motion/       Motion's lazy features and the timing tokens in its units, behind the `@/lib/motion` barrel
   styles/           theme.css (the tokens) and the Storybook stylesheet
   handbook/         Storybook only: pages (MDX), doc blocks, token parser, statuses, placeholder component
   placeholders/     Storybook only: one story per planned component, the map of what's coming
@@ -85,7 +86,7 @@ The rule: **ships in the package → `components/` or `lib/`; only explains the 
 ## Barrels
 
 A barrel (an `index.ts` that only re-exports) is allowed only as a `lib/` domain's public surface: `lib/utils`
-(universal) and `lib/hooks` (client). Members are light, side-effect free and safe in one runtime; `lib/utils`
+(universal), `lib/hooks` and `lib/motion` (client). Members are light, side-effect free and safe in one runtime; `lib/utils`
 imports nothing from `@/`. Code outside the folder imports through the barrel, never a deep path. A component's
 `index.tsx` is its implementation, not a barrel. `src/index.ts` is the package's entry, the one exception.
 
@@ -113,6 +114,8 @@ Never suppress the hooks rules. When an effect needs the latest props or state w
 - **Respect reduced motion:** durations come from the tokens (they drop to zero), and continuous effects draw one
   still frame.
 - **Animate `transform` and `opacity` only.** Per-frame writes go through refs, never React state.
+- **CSS first, Motion for the rest** (decision 0012): hovers, presses and state changes are CSS transitions; exits,
+  springs and sequences use Motion's `m` under a lazy `LazyMotion`. Follow the `motion` skill.
 
 ## Accessibility
 
@@ -199,5 +202,8 @@ rg -n --pcre2 '\d(\.\d+)?rem\b(?!.*/\*.*px.*\*/)' src .storybook -g '*.css'
 rg -n --pcre2 '(bg|text|border|ring|outline|fill|stroke)-(neutral|blue|green|amber|red)-\d+' src/components
 
 # Deep imports past a barrel
-rg -n "from '@/lib/(utils|hooks)/" src
+rg -n "from '@/lib/(utils|hooks|motion)/" src
+
+# The full Motion component in a component: use `m` under LazyMotion
+rg -n "from 'motion/react'" src/components | rg -w 'motion'
 ```
