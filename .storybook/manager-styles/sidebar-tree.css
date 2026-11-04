@@ -7,10 +7,6 @@
 
 /* Sections: a muted label. Storybook opens every section and they stay open: the collapse button is only a label, with
  * no chevron, hover or clicks, and the "Expand all" button goes. */
-#storybook-explorer-tree .sidebar-subheading {
-  margin-top: 0.75rem; /* 12px */
-}
-
 #storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] {
   padding-left: var(--sb-row-padding);
   font-size: var(--sb-font-size);

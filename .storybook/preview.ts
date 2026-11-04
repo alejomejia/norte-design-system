@@ -4,6 +4,7 @@ import { create } from 'storybook/theming'
 
 import { DocsPage } from '@/handbook/blocks/docs-page'
 
+import { addArgCategories } from './arg-categories'
 import { watchCodeBlocks } from './code-blocks'
 import { addDefaultArgs } from './default-args'
 import { watchTableOfContents } from './docs-toc'
@@ -31,8 +32,9 @@ const preview: Preview = {
   tags: ['autodocs'],
   // Controls start at each prop's default (`default-args.ts`).
   argsEnhancers: [addDefaultArgs],
-  // Number props are sliders, with a step that fits their span (`range-controls.ts`).
-  argTypesEnhancers: [addRangeSteps],
+  // Number props are sliders, with a step that fits their span (`range-controls.ts`), and the props table has sections
+  // (`arg-categories.ts`).
+  argTypesEnhancers: [addRangeSteps, addArgCategories],
   parameters: {
     // The component tests (`vitest.config.ts`) fail a story with an accessibility violation, like a failing `play`.
     a11y: { test: 'error' },

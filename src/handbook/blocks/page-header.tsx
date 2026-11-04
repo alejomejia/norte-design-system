@@ -23,7 +23,13 @@ type PageHeaderProps = {
  */
 export function PageHeader({ section, title, status, cover, children }: PageHeaderProps) {
   return (
-    <header className="sb-unstyled mb-12">
+    <header className="sb-unstyled relative mb-12">
+      {/* The first item of "On this page", the page's title: read by its list, hidden from everyone else. Storybook
+       * scrolls a heading to 40px below the top, so it sits above the header and its link goes back to the very top. */}
+      {/* biome-ignore lint/a11y/useHeadingContent: hidden on purpose, screen readers get the title from the `h1` below */}
+      <h2 id="top" aria-hidden="true" className="sr-only -top-16">
+        {title}
+      </h2>
       <div className="relative isolate flex min-h-72 flex-col justify-between overflow-hidden rounded-xl bg-neutral-950 p-8 text-white">
         {cover ?? <GridGlow />}
         <div className="flex items-baseline justify-between gap-4 text-body-s">

@@ -113,7 +113,7 @@
 
 /* Sidebar header */
 .sidebar-header button[aria-label="Settings"] svg {
-  --sb-icon: url("lucide-static/icons/settings-2.svg");
+  --sb-icon: url("lucide-static/icons/settings.svg");
 }
 
 /* Search */

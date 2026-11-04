@@ -15,6 +15,12 @@
   transition: var(--sb-transition);
 }
 
+/* "Create a new story", which writes a story file from the browser while running locally: the handbook's stories are
+ * written by hand, following the conventions. Without it the field spans the sidebar, next to the tag filters. */
+#storybook-sidebar-region button[aria-label="Create a new story"] {
+  display: none;
+}
+
 /* Focus: Norte's input ring instead of Storybook's outline. */
 #storybook-sidebar-region .search-field:focus-within {
   border-color: var(--sb-color-focus);

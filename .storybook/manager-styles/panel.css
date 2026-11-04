@@ -36,9 +36,9 @@
   outline-offset: -2px;
 }
 
-/* The count next to a tab's name ("Controls 5"): a neutral badge, also on the selected tab. */
+/* The count next to a tab's name ("Controls 5"): a neutral pill, also on the selected tab. */
 #storybook-panel-root [role="tablist"][aria-label="Available addons"] [role="tab"] > div > span + div {
-  border-radius: var(--sb-radius-s);
+  border-radius: calc(infinity * 1px);
   background-color: var(--sb-color-accent);
   box-shadow: none;
   font-size: var(--sb-font-size-s);

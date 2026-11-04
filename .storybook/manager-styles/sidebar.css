@@ -74,6 +74,12 @@ div:has(> div > #storybook-sidebar-region) {
   }
 }
 
+/* Storybook's notification dot on the button (an update or its onboarding guide): news for whoever maintains Storybook,
+ * not for people reading the handbook. */
+#storybook-sidebar-region .sidebar-header button[aria-label="Settings"]::after {
+  display: none;
+}
+
 #storybook-sidebar-region .sidebar-header button[aria-label="Settings"][aria-checked="true"] {
   background-color: var(--sb-color-accent);
   color: var(--sb-color-text);
