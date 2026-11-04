@@ -1,0 +1,4 @@
+# esbuild's postinstall only verifies its platform binary, which pnpm already
+# installs through optionalDependencies, so it does not need to run.
+allowBuilds:
+  esbuild: false

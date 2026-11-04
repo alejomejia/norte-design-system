@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+storybook-static/
+
+# typescript
+*.tsbuildinfo
+
+# logs
+*.log
+
+# env files
+.env*
+!.env.example
+
+# misc
+.DS_Store
+.eslintcache
+coverage/

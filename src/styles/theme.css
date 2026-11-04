@@ -1,0 +1,7 @@
+/*
+ * Norte's design tokens, as a Tailwind v4 theme. Every token is a CSS custom property and also generates its utilities
+ * (`--color-surface` gives `bg-surface`, `text-surface`…). Apps import this file after Tailwind, so their own classes
+ * and the components share one set of values. Filled in with the foundations.
+ */
+@theme {
+}
