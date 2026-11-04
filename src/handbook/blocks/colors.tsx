@@ -1,4 +1,5 @@
-import { contrastRatio, oklchToLinearRgb, parseOklch, toHex, token } from '@/handbook/tokens'
+import { token } from '@/handbook/tokens'
+import { cn, contrastRatio, oklchToLinearRgb, parseOklch, toCSSVars, toHex } from '@/lib/utils'
 
 import { Code, Meta } from './token-label'
 
@@ -61,8 +62,8 @@ function rgb(name: string) {
 function Chip({ name, className = 'size-10' }: { name: string; className?: string }) {
   return (
     <span
-      className={`${className} shrink-0 rounded-m shadow-[inset_0_0_0_1px_oklch(0_0_0/8%)]`}
-      style={{ backgroundColor: `var(--${name})` }}
+      className={cn('shrink-0 rounded-m bg-(--swatch) inset-ring inset-ring-neutral-950/8', className)}
+      style={toCSSVars({ swatch: `var(--${name})` })}
     />
   )
 }
@@ -124,10 +125,10 @@ export function ColorScale({ name, steps }: { name: string; steps: (number | str
             <li
               key={step}
               title={toHex(color)}
-              className="flex h-16 flex-col justify-end rounded-m p-2 shadow-[inset_0_0_0_1px_oklch(0_0_0/8%)]"
-              style={{ backgroundColor: `var(--${tokenName})` }}
+              className="flex h-16 flex-col justify-end rounded-m bg-(--swatch) p-2 inset-ring inset-ring-neutral-950/8"
+              style={toCSSVars({ swatch: `var(--${tokenName})` })}
             >
-              <span className={`font-mono text-caption ${light ? 'text-white' : 'text-neutral-900'}`}>{step}</span>
+              <span className={cn('font-mono text-caption', light ? 'text-white' : 'text-neutral-900')}>{step}</span>
             </li>
           )
         })}

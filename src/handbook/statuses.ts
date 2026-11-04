@@ -9,6 +9,7 @@ export const STATUSES = {
   deprecated: 'Deprecated',
 } as const
 
+/** One of the statuses: `planned`, `beta`, `ready` or `deprecated`. */
 export type Status = keyof typeof STATUSES
 
 /** The status among a list of tags, if there is one. */

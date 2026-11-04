@@ -1,4 +1,5 @@
 import { token } from '@/handbook/tokens'
+import { cn } from '@/lib/utils'
 
 import { Code, describe, Meta } from './token-label'
 
@@ -23,7 +24,7 @@ export function Radii() {
         const { value, note } = token(`radius-${name}`)
         return (
           <li key={name} className="flex flex-col gap-3">
-            <span className={`${className} size-24 border border-line-strong bg-surface-muted`} />
+            <span className={cn('size-24 border border-line-strong bg-surface-muted', className)} />
             <span className="flex flex-col gap-0.5">
               <Code>{className}</Code>
               <Meta>
@@ -42,7 +43,10 @@ export function Shadows() {
   return (
     <ul className="sb-unstyled my-6 grid gap-6 rounded-l bg-surface-muted p-8 md:grid-cols-3">
       {SHADOWS.map(({ className, use }) => (
-        <li key={className} className={`${className} flex h-28 flex-col justify-end gap-0.5 rounded-l bg-surface p-4`}>
+        <li
+          key={className}
+          className={cn('flex h-28 flex-col justify-end gap-0.5 rounded-l bg-surface p-4', className)}
+        >
           <Code>{className}</Code>
           <Meta>{use}</Meta>
         </li>

@@ -1,4 +1,5 @@
 import { TOKENS, token } from '@/handbook/tokens'
+import { cn } from '@/lib/utils'
 
 import { Code, describe, Meta } from './token-label'
 
@@ -43,7 +44,7 @@ export function TypeScale() {
               </Meta>
               {size.note && <Meta>{describe(size.note)}</Meta>}
             </div>
-            <p className={`${className} min-w-0 truncate text-ink`}>The agent finished the run</p>
+            <p className={cn('min-w-0 truncate text-ink', className)}>The agent finished the run</p>
           </li>
         )
       })}
@@ -79,7 +80,7 @@ export function FontWeights() {
     <ul className="sb-unstyled my-6 grid gap-4 md:grid-cols-3">
       {WEIGHTS.map(({ name, className }) => (
         <li key={name} className="flex flex-col gap-2 rounded-l border border-line p-6">
-          <span className={`${className} text-heading-m text-ink`}>Run complete</span>
+          <span className={cn('text-heading-m text-ink', className)}>Run complete</span>
           <span className="flex items-baseline justify-between">
             <Code>{className}</Code>
             <Meta>{token(`font-weight-${name}`).value}</Meta>

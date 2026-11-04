@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils'
+
 import { Code, Meta } from './token-label'
 
 /** The steps Norte uses from Tailwind's 4px scale, each class written out so Tailwind finds it. */
@@ -30,7 +32,7 @@ export function SpacingScale() {
               {Number(step) * 4}px · {Number(step) / 4}rem
             </Meta>
           </span>
-          <span className={`${className} h-4 rounded-s bg-accent`} />
+          <span className={cn('h-4 rounded-s bg-accent', className)} />
         </li>
       ))}
     </ul>

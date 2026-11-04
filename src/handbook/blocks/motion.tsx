@@ -1,4 +1,5 @@
 import { token } from '@/handbook/tokens'
+import { cn } from '@/lib/utils'
 
 import { Code, Meta } from './token-label'
 
@@ -62,10 +63,16 @@ export function Easings() {
         return (
           <li key={name} className="group flex flex-col gap-4 rounded-l border border-line p-6">
             <Curve value={value} />
+            {/* The dot rides a track one dot shorter than the bar, which slides by its own width: transform only, no layout. */}
             <span className="relative h-2 rounded-full bg-surface-muted">
               <span
-                className={`${className} absolute top-0 left-0 size-2 rounded-full bg-accent transition-[left] duration-(--duration-slow) group-hover:left-[calc(100%-0.5rem)]`}
-              />
+                className={cn(
+                  'absolute inset-y-0 right-2 left-0 transition-transform duration-(--duration-slow) group-hover:translate-x-full',
+                  className,
+                )}
+              >
+                <span className="block size-2 rounded-full bg-accent" />
+              </span>
             </span>
             <span className="flex flex-col gap-0.5">
               <Code>{className}</Code>
