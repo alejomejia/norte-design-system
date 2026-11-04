@@ -1,3 +1,12 @@
 /* Storybook's stylesheet: Tailwind, then Norte's theme. Apps build the same thing with their own Tailwind (README). */
 @import "tailwindcss";
 @import "./theme.css";
+
+@layer base {
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-size: var(--text-body-s);
+    line-height: var(--text-body-s--line-height);
+  }
+}
