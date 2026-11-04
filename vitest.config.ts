@@ -23,7 +23,7 @@ export default mergeConfig(
     test: {
       coverage: {
         include: ['src/**/*.{ts,tsx}'],
-        exclude: ['src/**/*.stories.tsx', 'src/handbook/**', 'src/placeholders/**'],
+        exclude: ['src/**/*.stories.tsx', 'src/handbook/**'],
       },
       projects: [
         {

@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils'
 const STYLES: Record<Status, string> = {
   ready: 'bg-accent-subtle text-accent-ink',
   beta: 'border-accent-ink text-accent-ink',
-  planned: 'border-white/30 text-white/80',
   deprecated: 'bg-white/10 text-white/70 line-through',
 }
 

@@ -48,15 +48,17 @@ src/
   lib/hooks/        shared client hooks, behind the `@/lib/hooks` barrel
   lib/motion/       Motion's lazy features and the timing tokens in its units, behind the `@/lib/motion` barrel
   styles/           theme.css (the tokens) and the Storybook stylesheet
-  handbook/         Storybook only: pages (MDX), doc blocks, token parser, statuses, placeholder component
-  placeholders/     Storybook only: one story per planned component, the map of what's coming
+  handbook/         Storybook only: pages (MDX), doc blocks, token parser, statuses
 .storybook/         Storybook config, UI theme (manager) and docs styles
 scripts/            Node scripts (git hooks)
 docs/decisions/     one record per decision
 ```
 
-The rule: **ships in the package → `components/` or `lib/`; only explains the package → `handbook/` or
-`placeholders/`.** Handbook and placeholder files never ship (they are excluded from the build and from changesets).
+The rule: **ships in the package → `components/` or `lib/`; only explains the package → `handbook/`.** Handbook
+files never ship (they are excluded from the build and from changesets).
+
+**Norte:** the sidebar lists only components that exist. No placeholders for planned ones: an empty "coming soon" page
+says less than a short list where every item works.
 
 ## Styling
 
@@ -136,7 +138,7 @@ ships in the same change with:
 
 1. a story file with a `Playground` story, one story per variant or state, and the status tag (`ready`, `beta`…);
 2. a component description (the meta's `parameters.docs.description.component`) and a JSDoc line per non-obvious prop;
-3. its place in the sidebar (`storySort` in `.storybook/preview.ts`), replacing its placeholder;
+3. its place in the sidebar (`storySort` in `.storybook/preview.ts`);
 4. its export in `src/index.ts`, and a changeset.
 
 ### Stories

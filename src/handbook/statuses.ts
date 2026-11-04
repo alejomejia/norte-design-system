@@ -3,13 +3,12 @@
  * name, the docs page shows it in the header, and the sidebar's tag filter can show or hide each one.
  */
 export const STATUSES = {
-  planned: 'Planned',
   beta: 'Beta',
   ready: 'Ready',
   deprecated: 'Deprecated',
 } as const
 
-/** One of the statuses: `planned`, `beta`, `ready` or `deprecated`. */
+/** One of the statuses: `beta`, `ready` or `deprecated`. */
 export type Status = keyof typeof STATUSES
 
 /** The status among a list of tags, if there is one. */

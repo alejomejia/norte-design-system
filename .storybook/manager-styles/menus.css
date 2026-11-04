@@ -137,7 +137,7 @@
   color: inherit;
 }
 
-/* Tag names come lowercase, as they're written in the stories (`planned`): capitalized, like the badges. */
+/* Tag names come lowercase, as they're written in the stories (`beta`): capitalized, like the badges. */
 .react-aria-Popover[aria-label="Tag filters"] input[data-tag] ~ * > span,
 .react-aria-Popover[aria-label="Tag filters"] label:has(input[data-tag]) > div + div > span {
   text-transform: capitalize;

@@ -77,7 +77,7 @@ const preview: Preview = {
     },
     options: {
       // The map of the sidebar: sections, their groups and their components, in order. A new component takes its place
-      // here; the planned ones live in `src/placeholders/`.
+      // here.
       storySort: {
         order: [
           'Handbook',
