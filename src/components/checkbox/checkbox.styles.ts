@@ -18,6 +18,7 @@ export const checkboxStyles = tv({
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
       'data-disabled:cursor-not-allowed data-disabled:opacity-50',
     ],
+    // The check waits for the box to start filling before it draws (`delay-75`); unchecking erases it at once.
     mark: [
       'col-start-1 row-start-1 size-3 [stroke-dasharray:1] [stroke-dashoffset:1]',
       'transition-[stroke-dashoffset] duration-(--duration-base) ease-enter',

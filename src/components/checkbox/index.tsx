@@ -38,8 +38,8 @@ export function Checkbox({ children, className, ...props }: CheckboxProps) {
           className={cn(
             styles.mark(),
             mark === 'checked'
-              ? 'group-data-checked:[stroke-dashoffset:0]'
-              : 'group-data-indeterminate:[stroke-dashoffset:0]',
+              ? 'group-data-checked:delay-75 group-data-checked:[stroke-dashoffset:0]'
+              : 'group-data-indeterminate:delay-75 group-data-indeterminate:[stroke-dashoffset:0]',
           )}
         >
           <path d={CHECKBOX_MARKS[mark]} pathLength={1} />
