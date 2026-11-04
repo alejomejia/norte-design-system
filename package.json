@@ -1,7 +1,7 @@
 {
   "name": "norte-design-system",
   "version": "0.0.0",
-  "description": "Norte design system: design tokens and React components for a furniture and lighting store, documented in Storybook.",
+  "description": "Norte design system: design tokens and React components for an AI agent workspace, documented in Storybook.",
   "license": "MIT",
   "author": "Alejandro Mejía (https://alejandromejia.dev)",
   "private": true,

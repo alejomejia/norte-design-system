@@ -1,6 +1,7 @@
 # Norte Design System
 
-Design tokens and React components for **Norte**, a furniture and lighting store, documented in Storybook.
+Design tokens and React components for **Norte**, a workspace where teams run AI agents and review their work,
+documented in Storybook.
 
 Norte is a fictional brand. This project shows how I build a design system: tokens first, components that read only
 tokens, Storybook as a product people want to open, and releases a team can trust. It's based on a real design system
@@ -34,13 +35,17 @@ pnpm dev                                # Storybook on http://localhost:6006
 | Command                | What it does                                                                    |
 | ---------------------- | ------------------------------------------------------------------------------- |
 | `pnpm dev`             | Storybook dev server on port **6006**                                           |
-| `pnpm build`           | Type-checks, then builds the package into `dist/` (JS, `style.css`, `.d.ts`)    |
+| `pnpm build`           | Type-checks, then builds the package into `dist/` (JS, `theme.css`, `.d.ts`)    |
 | `pnpm build:storybook` | Static Storybook in `storybook-static/`, ready to host                          |
-| `pnpm typecheck`       | TypeScript over the library, the stories and the config files                   |
-| `pnpm lint`            | ESLint (`pnpm lint:fix` to autofix)                                             |
-| `pnpm format`          | Prettier write (`pnpm format:check` to verify)                                  |
+| `pnpm typecheck`       | TypeScript over the library, the stories, the scripts and the config files      |
+| `pnpm lint`            | Biome: lint, format and import order (`pnpm lint:fix` to fix what it can)       |
+| `pnpm test`            | Tests for the commit rules and the color contrast                               |
 | `pnpm test:stories`    | Component tests: every story renders in Chromium, with its accessibility checks |
-| `pnpm check`           | `typecheck` + `lint` + `format:check`: run before a pull request                |
+| `pnpm check`           | `typecheck` + Biome + `test` + changeset check: run before pushing              |
+| `pnpm changeset`       | Records a change for the next release's changelog                               |
+| `pnpm release:status`  | Lists the waiting changesets and the version they add up to                     |
+| `pnpm release:version` | Turns the waiting changesets into a version bump and `CHANGELOG.md` entries     |
+| `pnpm release:tag`     | Tags the current commit as `vX.Y.Z` (on `main`, after merging the release)      |
 
 ## Using it in a Next.js app
 
@@ -58,13 +63,12 @@ The theme replaces Tailwind's default colors, type sizes, radii and shadows with
 
 - **Fonts:** Norte uses Inter and JetBrains Mono. With `next/font`, expose them as the `--nt-font-sans` and
   `--nt-font-mono` variables and the theme picks them up. Without them, it falls back to the system fonts.
-- **Dark theme:** set `data-theme="dark"` on `<html>` (next-themes does it with `attribute="data-theme"`).
 
 ## Contributing and versions
 
-Every change starts with a GitHub issue and arrives through a pull request, with a changeset that becomes its line in
-[`CHANGELOG.md`](CHANGELOG.md). Releases follow semantic versioning and are tagged on `main`, so apps choose when to
-upgrade and can always see what shipped in each version. The rules, checked by git hooks, are in
+Work happens on `dev`, and every change that ships leaves a changeset that becomes its line in
+[`CHANGELOG.md`](CHANGELOG.md). `main` only moves on a release: each one follows semantic versioning and is tagged, so
+apps choose when to upgrade and can always see what shipped in each version. The rules, checked by git hooks, are in
 [`CONTRIBUTING.md`](CONTRIBUTING.md). Why the project is built this way is in [`docs/decisions/`](docs/decisions/).
 
 ## License
