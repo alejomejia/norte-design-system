@@ -11,6 +11,7 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+
   viteFinal(viteConfig) {
     // `vite.config.ts` describes the library build. Storybook only needs the React plugin and the aliases, so drop the
     // declaration emitter and the lib entry.
