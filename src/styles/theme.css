@@ -10,15 +10,11 @@
  *
  * Two layers of color:
  * - Primitives describe a value (`--color-blue-600`). They exist for the rare case no role fits, like a chart scale.
- * - Roles describe a purpose (`--color-accent`) and point at a primitive. Components read roles, and each theme remaps
- *   them, so a component looks right in light and dark without a single `dark:` class.
+ * - Roles describe a purpose (`--color-accent`) and point at a primitive. Components read roles: `text-ink-muted` says
+ *   what the text is for, and a brand change remaps a role instead of editing every component.
  */
 
-/* `dark:` for the rare case a role isn't enough. Dark mode is `data-theme="dark"` on any ancestor, usually `<html>`. */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
-/* `static`: every color is emitted, used or not, because the dark theme below swaps roles to primitives that no class
- * may reference. */
+/* `static`: every color is emitted as a variable, used by a class or not, so apps and charts can read any of them. */
 @theme static {
   --color-*: initial;
 
@@ -51,19 +47,13 @@
 
   /* Status: functional, not brand. Only for states (a run that succeeded, needs attention or failed). */
   --color-green-50: oklch(0.982 0.018 155);
-  --color-green-400: oklch(0.792 0.17 152);
   --color-green-700: oklch(0.527 0.137 150);
-  --color-green-950: oklch(0.266 0.065 152);
   --color-amber-50: oklch(0.987 0.015 95);
-  --color-amber-400: oklch(0.828 0.165 84);
   --color-amber-700: oklch(0.555 0.146 49);
-  --color-amber-950: oklch(0.279 0.077 46);
   --color-red-50: oklch(0.971 0.013 17);
-  --color-red-400: oklch(0.704 0.18 22);
   --color-red-700: oklch(0.505 0.19 27);
-  --color-red-950: oklch(0.258 0.092 26);
 
-  /* Roles, light theme. Every text and border pair is checked for WCAG AA by `pnpm test` (`scripts/tokens/`). */
+  /* Roles. Every text and border pair is checked for WCAG AA by `pnpm test` (`scripts/tokens/`). */
   --color-canvas: var(--color-white); /* The page */
   --color-surface: var(--color-white); /* Cards, inputs, panels */
   --color-surface-muted: var(--color-neutral-100); /* Hovered rows, code, quiet fills */
@@ -125,7 +115,7 @@
   --radius-l: 0.75rem; /* 12px: cards, menus */
   --radius-xl: 1rem; /* 16px: dialogs, panels */
 
-  /* Elevation: only for what floats above the page (menus, popovers, dialogs). Stronger in the dark theme. */
+  /* Elevation: only for what floats above the page (menus, popovers, dialogs). */
   --shadow-*: initial;
   --shadow-s: 0 1px 2px oklch(0 0 0 / 6%);
   --shadow-m: 0 4px 12px oklch(0 0 0 / 8%), 0 1px 2px oklch(0 0 0 / 4%);
@@ -146,36 +136,6 @@
     --duration-fast: 120ms; /* Hovers, presses */
     --duration-base: 200ms; /* Most transitions */
     --duration-slow: 320ms; /* Panels and dialogs entering */
-  }
-
-  /* The dark theme only remaps roles: components don't change. */
-  [data-theme="dark"] {
-    color-scheme: dark;
-
-    --color-canvas: var(--color-neutral-950);
-    --color-surface: var(--color-neutral-900);
-    --color-surface-muted: var(--color-neutral-800);
-    --color-ink: var(--color-neutral-50);
-    --color-ink-muted: var(--color-neutral-300);
-    --color-ink-subtle: var(--color-neutral-400);
-    --color-line: var(--color-neutral-800);
-    --color-line-strong: var(--color-neutral-500);
-    --color-accent: var(--color-blue-600);
-    --color-accent-hover: var(--color-blue-700); /* Darker, not lighter: white text on blue-500 is only 3.75:1 */
-    --color-accent-subtle: var(--color-blue-950);
-    --color-on-accent: var(--color-white);
-    --color-accent-ink: var(--color-blue-400);
-    --color-focus: var(--color-blue-400);
-    --color-success: var(--color-green-400);
-    --color-success-subtle: var(--color-green-950);
-    --color-warning: var(--color-amber-400);
-    --color-warning-subtle: var(--color-amber-950);
-    --color-danger: var(--color-red-400);
-    --color-danger-subtle: var(--color-red-950);
-
-    --shadow-s: 0 1px 2px oklch(0 0 0 / 30%);
-    --shadow-m: 0 4px 12px oklch(0 0 0 / 40%), 0 1px 2px oklch(0 0 0 / 30%);
-    --shadow-l: 0 16px 40px oklch(0 0 0 / 50%), 0 2px 6px oklch(0 0 0 / 30%);
   }
 
   /* Motion collapses here, so every component that reads the durations respects the setting without its own query. */
