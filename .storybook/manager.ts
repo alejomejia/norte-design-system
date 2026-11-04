@@ -8,6 +8,7 @@ import { THEME_VARS } from './theme'
 
 import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
+import './args-table.css'
 import './manager.css'
 
 /** Norte's mark, a needle pointing north, next to the wordmark. Storybook renders `brandTitle` as HTML. */

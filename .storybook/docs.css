@@ -105,13 +105,14 @@
   color: var(--color-ink-muted);
 }
 
-.sbdocs-toc--custom .toc-wrapper .toc-list {
+/* Doubled classes: Storybook's own list rules are specific enough to win otherwise. */
+.sbdocs.sbdocs-toc--custom .toc-wrapper .toc-list {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-.sbdocs-toc--custom .toc-wrapper > .toc-list {
+.sbdocs.sbdocs-toc--custom .toc-wrapper > .toc-list {
   border-left: 1px solid var(--color-line);
 }
 
@@ -144,7 +145,92 @@
   color: var(--color-ink);
 }
 
-.sbdocs-toc--custom .toc-list-item {
+.sbdocs.sbdocs-toc--custom .toc-wrapper .toc-list .toc-list-item {
   margin: 0;
   padding: 0;
+}
+
+/* The Stories section and each story's title, like the page's own headings. */
+.sbdocs-content h2#stories {
+  margin: 4rem 0 1rem; /* 64px, 16px */
+  padding: 0;
+  border: 0;
+  font-size: var(--text-heading-m);
+  line-height: var(--text-heading-m--line-height);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--color-ink);
+}
+
+.sbdocs-content .sb-anchor > h3 {
+  margin: 2.5rem 0 0.75rem; /* 40px, 12px */
+  font-size: var(--text-heading-s);
+  line-height: var(--text-heading-s--line-height);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* A story on its own (the Canvas tab): the same dot grid as the docs frames. */
+body.sb-main-padded {
+  background-color: var(--color-canvas);
+  background-image: radial-gradient(var(--color-line) 1px, transparent 1px);
+  background-size: 1rem 1rem; /* 16px */
+}
+
+/* Code under a story: Norte's dark surface and a syntax theme in neutrals and blues, the brand's only colors. */
+.sbdocs-preview :has(> pre.prismjs) {
+  background: var(--color-neutral-950);
+}
+
+.sbdocs-preview pre.prismjs {
+  padding: 1.5rem; /* 24px */
+  font-family: var(--font-mono);
+  font-size: var(--text-body-s);
+  line-height: var(--text-body-s--line-height);
+  color: var(--color-neutral-100);
+}
+
+.sbdocs-preview pre.prismjs .token.tag {
+  color: var(--color-blue-300);
+}
+
+.sbdocs-preview pre.prismjs .token.attr-name {
+  color: var(--color-neutral-300);
+}
+
+.sbdocs-preview pre.prismjs :is(.token.attr-value, .token.string, .token.constant) {
+  color: var(--color-blue-200);
+}
+
+.sbdocs-preview pre.prismjs .token.keyword {
+  color: var(--color-blue-400);
+}
+
+.sbdocs-preview pre.prismjs .token.script {
+  color: var(--color-neutral-100);
+}
+
+.sbdocs-preview pre.prismjs .token.punctuation {
+  color: var(--color-neutral-400);
+}
+
+.sbdocs-preview pre.prismjs .token.plain-text {
+  color: var(--color-neutral-100);
+}
+
+/* "Hide code" and "Copy code": quiet text buttons under the frame. */
+.sbdocs-preview-actions button {
+  border: 0;
+  border-radius: var(--radius-m);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--color-ink-subtle);
+}
+
+.sbdocs-preview-actions button:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-ink);
 }

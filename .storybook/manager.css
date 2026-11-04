@@ -66,6 +66,83 @@
   text-decoration: line-through;
 }
 
+/* The addon panel's tabs: regular weight, the open one in ink over a 2px line, counts in a quiet pill. */
+[role="tablist"][aria-label="Available addons"] [role="tab"] {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 400;
+  color: #6b6f76;
+}
+
+[role="tablist"][aria-label="Available addons"] [role="tab"][aria-selected="true"] {
+  font-weight: 500;
+  color: #15171b;
+}
+
+[role="tablist"][aria-label="Available addons"] [role="tab"] > div > div {
+  padding: 0 0.5rem; /* 8px */
+  border-radius: 0.25rem; /* 4px */
+  background: #f3f4f6;
+  font-size: 0.75rem; /* 12px */
+  font-weight: 500;
+  color: #50545b;
+}
+
+/* The settings menu: a solid card with a hairline and a soft shadow, items in gray, the checked ones in ink. */
+[role="dialog"][aria-label="Storybook menu"] {
+  border: 1px solid #e3e5e9;
+  border-radius: 0.75rem; /* 12px */
+  background: #ffffff;
+  box-shadow:
+    0 0.25rem 0.75rem rgb(0 0 0 / 8%),
+    0 0.0625rem 0.125rem rgb(0 0 0 / 4%); /* 0, 4px, 12px · 0, 1px, 2px */
+  backdrop-filter: none;
+}
+
+[role="dialog"][aria-label="Storybook menu"] > div:last-child {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+[role="dialog"][aria-label="Storybook menu"] li > :is(a, button) {
+  border-radius: 0.5rem; /* 8px */
+  font-size: 0.875rem; /* 14px */
+  font-weight: 400;
+  color: #50545b;
+}
+
+[role="dialog"][aria-label="Storybook menu"] li > :is(a, button) * {
+  font-weight: inherit;
+  color: inherit;
+}
+
+[role="dialog"][aria-label="Storybook menu"] li > :is(a, button):hover {
+  background: #f3f4f6;
+  color: #15171b;
+}
+
+[role="dialog"][aria-label="Storybook menu"] kbd {
+  font-family: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.75rem; /* 12px */
+  color: #6b6f76;
+}
+
+/* Search results: gray icons, the matched letters in ink instead of a blue highlight. */
+.search-result-item svg {
+  color: #8f9298;
+}
+
+.search-result-item mark {
+  background: transparent;
+  font-weight: 600;
+  color: #15171b;
+}
+
+.search-result-item[aria-selected="true"] {
+  border-radius: 0.5rem; /* 8px */
+  background: #f3f4f6;
+}
+
 /* Sidebar: sentence-case section names in gray, no section chevrons or "expand all". */
 #storybook-explorer-tree .sidebar-subheading {
   margin-top: 0.75rem; /* 12px */

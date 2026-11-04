@@ -4,11 +4,13 @@ import { create } from 'storybook/theming'
 
 import { DocsPage } from '@/handbook/blocks/docs-page'
 
+import { withoutHandlers } from './story-source'
 import { PALETTE, THEME_VARS } from './theme'
 
 import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
 import '@/styles/index.css'
+import './args-table.css'
 import './docs.css'
 
 const preview: Preview = {
@@ -24,6 +26,9 @@ const preview: Preview = {
       // Every component page opens with the same header card as the handbook pages.
       page: DocsPage,
       toc: { title: 'On this page', headingSelector: 'h2, h3' },
+      // Every story shows its code under it, ready to copy.
+      canvas: { sourceState: 'shown' },
+      source: { transform: withoutHandlers },
     },
     options: {
       // The map of the sidebar: sections, their groups and their components, in order. A new component takes its place

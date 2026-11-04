@@ -1,0 +1,110 @@
+/*
+ * The props table, shared by the Controls panel (Storybook's UI) and the docs pages. The UI doesn't load Norte's
+ * theme, so colors are the hex values of the tokens: ink #15171b, ink-muted #50545b, ink-subtle #6b6f76,
+ * line #e3e5e9, surface-muted #f3f4f6, accent #085efb.
+ */
+
+.docblock-argstable {
+  font-family: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem; /* 14px */
+}
+
+.docblock-argstable .docblock-argstable-head th {
+  padding-top: 0.75rem; /* 12px */
+  padding-bottom: 0.75rem; /* 12px */
+  font-size: 0.75rem; /* 12px */
+  font-weight: 500;
+  color: #6b6f76;
+}
+
+.docblock-argstable .docblock-argstable-body > tr > td {
+  padding-top: 0.75rem; /* 12px */
+  padding-bottom: 0.75rem; /* 12px */
+  vertical-align: top;
+  color: #50545b;
+}
+
+/* The prop's name: mono and in ink. */
+.docblock-argstable .docblock-argstable-body > tr > td:first-child > span:first-child {
+  font-family: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  color: #15171b;
+}
+
+/* Types and defaults: mono pills. */
+.docblock-argstable .docblock-argstable-body > tr > td:is(:nth-child(2), :nth-child(3)) span:not(.sb-sr-only) {
+  font-family: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.75rem; /* 12px */
+}
+
+/* Text inputs and selects: Norte's input. */
+.docblock-argstable :is(textarea, input[type="text"], input[type="number"], select) {
+  min-height: 2rem; /* 32px */
+  border: 1px solid #e3e5e9;
+  border-radius: 0.5rem; /* 8px */
+  background: #ffffff;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: 0.875rem; /* 14px */
+  color: #15171b;
+}
+
+.docblock-argstable :is(textarea, input[type="text"], input[type="number"], select):focus {
+  border-color: #085efb;
+  outline: 2px solid color-mix(in srgb, #085efb 20%, transparent);
+  outline-offset: 0;
+}
+
+/* Choices: a segmented control instead of radio buttons. The inputs stay, invisible, for the keyboard and screen readers. */
+.docblock-argstable fieldset:has(input[type="radio"]) {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.125rem; /* 2px */
+  padding: 0.125rem; /* 2px */
+  border-radius: 0.5rem; /* 8px */
+  background: #f3f4f6;
+}
+
+.docblock-argstable fieldset:has(input[type="radio"]) label {
+  position: relative;
+  margin: 0;
+  padding: 0.25rem 0.75rem; /* 4px, 12px */
+  border-radius: 0.375rem; /* 6px: the inner corner of an 8px corner minus its 2px padding */
+  font-size: 0.8125rem; /* 13px */
+  color: #50545b;
+  cursor: pointer;
+}
+
+.docblock-argstable fieldset:has(input[type="radio"]) input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.docblock-argstable fieldset:has(input[type="radio"]) label > span {
+  margin: 0;
+}
+
+.docblock-argstable fieldset:has(input[type="radio"]) label:hover {
+  color: #15171b;
+}
+
+.docblock-argstable fieldset:has(input[type="radio"]) label:has(input:checked) {
+  background: #ffffff;
+  box-shadow: 0 0.0625rem 0.125rem rgb(0 0 0 / 8%); /* 0, 1px, 2px */
+  font-weight: 500;
+  color: #15171b;
+}
+
+.docblock-argstable fieldset:has(input[type="radio"]) label:has(input:focus-visible) {
+  outline: 2px solid #085efb;
+  outline-offset: 1px;
+}
+
+/* Sliders and checkboxes in the accent. */
+.docblock-argstable input:is([type="range"], [type="checkbox"]) {
+  accent-color: #085efb;
+}
