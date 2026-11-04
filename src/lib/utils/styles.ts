@@ -1,16 +1,30 @@
 import { type ClassValue, clsx } from 'clsx'
 import { type CSSProperties } from 'react'
 import { extendTailwindMerge } from 'tailwind-merge'
+import { createTV, type TWMergeConfig } from 'tailwind-variants'
 
 // tailwind-merge only knows Tailwind's default names, and guesses that unknown `text-*` classes are colors. Norte's
-// type scale has its own names, so they're listed here, or `cn('text-caption text-ink')` would drop the size.
-const twMerge = extendTailwindMerge({
+// type scale has its own names, so they're listed here, or `cn('text-caption text-ink')` would drop the size. `cn` and
+// `tv` share it, so both resolve conflicts the same way.
+const TW_MERGE_CONFIG = {
   extend: {
     theme: {
       text: ['caption', 'body-s', 'body', 'heading-s', 'heading-m', 'heading-l', 'display'],
     },
   },
-})
+} satisfies TWMergeConfig
+
+const twMerge = extendTailwindMerge(TW_MERGE_CONFIG)
+
+/**
+ * tailwind-variants' `tv`, with Norte's merge config: a component's variants, slots and defaults in one recipe, and an
+ * app's `className` merged over it. Import it from here, never from `tailwind-variants`.
+ * @example
+ * const badge = tv({ base: 'rounded-s px-2', variants: { tone: { neutral: 'bg-surface-muted' } } })
+ */
+export const tv = createTV({ twMergeConfig: TW_MERGE_CONFIG })
+
+export type { VariantProps } from 'tailwind-variants'
 
 /**
  * Joins class values and drops the Tailwind classes a later one overrides.
