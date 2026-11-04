@@ -390,6 +390,10 @@ button[aria-label^="Go to interaction row"] svg[data-testid="icon-waiting"] {
   --sb-icon: url("lucide-static/icons/check.svg");
 }
 
+[data-icon="circle-dot"] {
+  --sb-icon: url("lucide-static/icons/circle-dot.svg");
+}
+
 [data-icon="circle-check"] {
   --sb-icon: url("lucide-static/icons/circle-check.svg");
 }
@@ -406,6 +410,10 @@ button[aria-label^="Go to interaction row"] svg[data-testid="icon-waiting"] {
   --sb-icon: url("lucide-static/icons/file-code.svg");
 }
 
+[data-icon="image"] {
+  --sb-icon: url("lucide-static/icons/image.svg");
+}
+
 [data-icon="mouse-pointer-click"] {
   --sb-icon: url("lucide-static/icons/mouse-pointer-click.svg");
 }
@@ -420,4 +428,8 @@ button[aria-label^="Go to interaction row"] svg[data-testid="icon-waiting"] {
 
 [data-icon="terminal"] {
   --sb-icon: url("lucide-static/icons/terminal.svg");
+}
+
+[data-icon="text-cursor-input"] {
+  --sb-icon: url("lucide-static/icons/text-cursor-input.svg");
 }

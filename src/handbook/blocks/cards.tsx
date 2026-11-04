@@ -1,0 +1,72 @@
+import { AnchorMdx } from '@storybook/addon-docs/blocks'
+import { type ComponentProps, type ReactNode } from 'react'
+
+import { cn } from '@/lib/utils'
+
+/** Storybook's MDX link. Its types list only `href` and `target`, but it passes every other prop on to the `<a>`. */
+const Link = AnchorMdx as unknown as (
+  props: Partial<ComponentProps<typeof AnchorMdx>> & { className: string; children: ReactNode },
+) => ReactNode
+
+/** A grid of cards: groups, sections, related pages. */
+export function Cards({ children }: { children: ReactNode }) {
+  return <div className="sb-unstyled my-6 grid gap-3 sm:grid-cols-2">{children}</div>
+}
+
+type CardProps = {
+  title: string
+  /** A Lucide icon, named in `.storybook/manager-styles/icons.css`. */
+  icon?: string
+  /** Turns the card into a link: a Storybook path like `?path=/docs/elements-actions-button--docs`. */
+  href?: string
+  children?: ReactNode
+}
+
+/**
+ * One card of `Cards`: an icon, a title and a short description. A linked card is Storybook's MDX link, which opens
+ * `?path=` links in the Storybook UI instead of inside the docs frame, and shows an arrow.
+ */
+export function Card({ title, icon, href, children }: CardProps) {
+  const className = cn(
+    'nt-card group relative flex flex-col gap-1 rounded-l border border-line bg-surface p-4 text-ink no-underline',
+    href &&
+      'transition-colors duration-(--duration-fast) hover:border-line-strong hover:bg-surface-muted/60 focus-visible:outline-2 focus-visible:outline-focus',
+  )
+  const content = (
+    <>
+      {icon && (
+        <span aria-hidden="true" className="mb-3 grid size-8 place-items-center rounded-m bg-surface-muted">
+          <span
+            data-icon={icon}
+            className="size-4 bg-current mask-(--sb-icon) mask-contain mask-center mask-no-repeat"
+          />
+        </span>
+      )}
+      <span className="text-body font-semibold">{title}</span>
+      {/* MDX wraps the description in paragraphs: they take its type. */}
+      {children && <div className="text-body-s text-ink-muted [&_p]:m-0">{children}</div>}
+      {href && (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          className="absolute top-4 right-4 size-4 text-ink-subtle transition-colors duration-(--duration-fast) group-hover:text-ink"
+        >
+          <path d="M7 7h10v10M7 17 17 7" />
+        </svg>
+      )}
+    </>
+  )
+
+  return href ? (
+    <Link href={href} className={className}>
+      {content}
+    </Link>
+  ) : (
+    <div className={className}>{content}</div>
+  )
+}

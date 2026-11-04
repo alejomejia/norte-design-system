@@ -1,0 +1,59 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { CompositionExample } from '@/handbook/blocks/composition'
+import { PageHeader } from '@/handbook/blocks/page-header'
+
+<Meta title="Handbook/Composition" />
+
+<PageHeader section="Handbook" title="Composition">
+  Norte is built from small to large: tokens make elements, elements make components, and components make the
+  workspace's screens. Each layer only uses the ones below it.
+</PageHeader>
+
+## Atomic design
+
+Norte follows the idea behind [atomic design](https://atomicdesign.bradfrost.com/chapter-2/), by Brad Frost. It
+describes an interface the way chemistry describes matter: atoms join into molecules, molecules into organisms, and
+organisms fill templates and pages.
+
+What matters is the direction. Big pieces are made from small, finished ones, and each piece can be designed, tested
+and reused on its own before it's part of something bigger. A fix to a button reaches every dialog, form and page that
+uses it.
+
+Norte keeps the idea and drops the chemistry names. Nobody should have to argue whether a menu is a molecule or an
+organism: the names say what a piece is for.
+
+## The layers
+
+From the smallest to the largest, in the order of the sidebar.
+
+1. **Foundations, the tokens.** Colors, type, spacing, radius, elevation and motion. They draw nothing on their own,
+   but every value on screen comes from one. In atomic design, they'd sit below the atoms.
+2. **Elements, the atoms.** One job each: a button, a text field, a badge. They know nothing about the product.
+3. **Components, the molecules and organisms.** Elements put together to do something bigger: a dialog, a menu, tabs, a
+   card. Norte doesn't split molecules from organisms: the line between them is blurry, and size isn't what matters.
+   What matters is that a component still knows nothing about the product.
+4. **AI and Data, the product's own organisms.** Components that know Norte's world: a run timeline, an approval
+   request, a line chart. This is where the product's language lives.
+5. **Pages, the templates and pages.** Whole screens of the workspace, built only from the layers above, with realistic
+   content.
+
+## Rules
+
+- **Build only on the layers below.** An element never uses a component, and a component never uses a piece of AI. If a
+  piece needs something from a layer above, it's in the wrong layer.
+- **Compose, don't configure.** When a component starts growing a prop for every case, split it into parts that fit
+  together (a card, its header, its actions) instead.
+- **Layout belongs to the parent.** Pieces take no outside margin; whoever places them sets the gap, with a spacing
+  token. That's what lets the same button sit in a toolbar, a dialog and a form.
+- **States are stories, not pieces.** Loading, empty, error and disabled are stories of their component, never
+  components of their own.
+- **Each piece has one home.** It lives in one layer, in one group. A specific use stays with its domain: an approval
+  dialog is built on Dialog, and lives in AI.
+
+## An example, taken apart
+
+When an agent wants to do something a person has to allow, like emailing customers or spending money, it asks with an
+approval request. Each piece of it comes from a layer below, and every color, gap and corner comes from a token.
+
+<CompositionExample />

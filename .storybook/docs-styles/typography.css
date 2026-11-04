@@ -159,6 +159,12 @@
   }
 }
 
+/* A card that links (`cards.tsx`) keeps its own look: Storybook underlines and colors every link of a docs page. */
+#storybook-docs .sbdocs-content a.nt-card {
+  color: var(--sb-color-text);
+  text-decoration: none;
+}
+
 /* Inline code: a tight chip that sits in the line like a word. Storybook adds side margins, which open a gap before
  * the punctuation that follows. Long tokens may wrap inside, at their hyphens. */
 #storybook-docs .sbdocs-content code:not(.sb-unstyled *, pre *) {
