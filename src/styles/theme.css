@@ -151,8 +151,10 @@
     1
   ); /* Motion's spring(0.3, 0.3): a short overshoot, then it settles */
 
-  /* Animations, read with `animate-*`. `nudge`: one small shake, for something that failed. */
+  /* Animations, read with `animate-*`. `nudge`: one small shake, for something that failed. `shimmer`: a light that
+   * crosses a text again and again, for something that's still working (with a gradient text, `bg-size-[200%_100%]`). */
   --animate-nudge: nudge 320ms var(--ease-standard);
+  --animate-shimmer: shimmer 2.4s linear infinite;
 
   @keyframes nudge {
     20% {
@@ -166,6 +168,15 @@
     }
     80% {
       translate: 0.125rem; /* 2px */
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: 0% 0;
     }
   }
 }
