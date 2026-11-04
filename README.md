@@ -6,7 +6,7 @@ Norte is a fictional brand. This project shows how I build a design system: toke
 tokens, Storybook as a product people want to open, and releases a team can trust. It's based on a real design system
 I proposed at a company I work with, rebuilt from scratch with its own brand so it can be public.
 
-> **Status: in progress.** The tooling is in place; the foundations and components come next.
+> **Status: in progress.** The tooling and the foundations are in place; the components come next.
 
 ## Stack
 
@@ -52,6 +52,13 @@ classes. In the stylesheet your root layout imports:
 @import "norte-design-system/theme.css";
 @source "../node_modules/norte-design-system/dist";
 ```
+
+The theme replaces Tailwind's default colors, type sizes, radii and shadows with Norte's (see
+[decision 0010](docs/decisions/0010-theme-replaces-tailwind-defaults.md)).
+
+- **Fonts:** Norte uses Inter and JetBrains Mono. With `next/font`, expose them as the `--nt-font-sans` and
+  `--nt-font-mono` variables and the theme picks them up. Without them, it falls back to the system fonts.
+- **Dark theme:** set `data-theme="dark"` on `<html>` (next-themes does it with `attribute="data-theme"`).
 
 ## Contributing and versions
 
