@@ -117,7 +117,7 @@ release on `main` as `vX.Y.Z`. It happens when `dev` has something worth shippin
 git switch dev
 pnpm release:status               # the next version and the notes it includes
 pnpm release:version              # bumps package.json, writes CHANGELOG.md, deletes the used changesets
-pnpm check && pnpm build          # and read CHANGELOG.md
+pnpm typecheck && pnpm lint && pnpm test && pnpm build   # and read CHANGELOG.md
 git commit -am "chore(release): v0.2.0"
 
 # 2. Move main to it and tag it
@@ -128,6 +128,8 @@ git push origin main dev v0.2.0
 git switch dev
 ```
 
+- **Not `pnpm check` in step 1:** its `changeset status` compares `dev` with `main`, and once `release:version` has used
+  the changesets, it sees changed files with no note until `main` moves. Run the other checks on their own.
 - **`main` only fast-forwards to `dev`.** If `--ff-only` refuses, `main` has a commit that `dev` doesn't: find out why
   before going further.
 - **A pushed tag never moves and is never deleted.** If a release has a bug, fix it on `dev` and release a patch.
