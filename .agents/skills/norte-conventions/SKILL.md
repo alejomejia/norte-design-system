@@ -76,9 +76,10 @@ The rule: **ships in the package → `components/` or `lib/`; only explains the 
 
 ## Imports
 
-- **Never `../`.** Same folder: `./`. Anything else: `@/…` (`@/*` → `src/*`).
-- **Norte:** two exceptions, because their bundlers don't know the alias: `.storybook/manager.ts` (Storybook's own
-  esbuild) and `scripts/**` (plain Node). Biome's override allows exactly those.
+- **Go up one folder at most.** Same folder: `./`. The parent folder: `../` is fine. Anything further: the `@/` alias
+  (`@/*` → `src/*`), never `../../`. Biome enforces it.
+- **Norte:** files that run outside Vite don't know the alias (`.storybook/manager.ts`, bundled by Storybook's own
+  esbuild, and `scripts/**`, run by plain Node), so they keep to `./` and `../`.
 - `cn()` and `toCSSVars()` come from `@/lib/utils`; never import `clsx` or `tailwind-merge` in a component.
 
 ## Barrels
@@ -158,8 +159,8 @@ rg -n 'style=\{\{' src .storybook
 # Class strings built with template literals: use cn()
 rg -n 'className=\{`' src
 
-# ../ imports (manager.ts and scripts/ excepted)
-rg -n "from '\.\./" src .storybook -g '!manager.ts'
+# Imports that go up more than one folder: use the @/ alias
+rg -n "from '(\.\./){2,}" src .storybook scripts
 
 # Off-grid spacing classes (odd from 5 up, decimals other than 0.25 and 0.5)
 rg -n --pcre2 '(?<![\w-])-?(p[xytrblse]?|m[xytrblse]?|gap(-[xy])?|space-[xy]|inset(-[xy])?|top|right|bottom|left|w|h|size|min-w|min-h|max-w|max-h|basis|translate-[xy])-(?!(1|3|0\.25|0\.5)(?![\w./]))(\d*[13579]|\d+\.\d+)(?![\w./])' src -g '*.tsx' -g '*.ts'

@@ -6,7 +6,10 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!pnpm-lock.yaml"]
+    "includes": [
+      "**",
+      "!pnpm-lock.yaml"
+    ]
   },
   "formatter": {
     "indentStyle": "space",
@@ -53,8 +56,11 @@
           "options": {
             "patterns": [
               {
-                "group": ["../*", "../**"],
-                "message": "Use the `@/` alias instead of `../`."
+                "group": [
+                  "../../*",
+                  "../../**"
+                ],
+                "message": "Go up one folder at most (`../`); further than that, use the `@/` alias."
               }
             ]
           }
@@ -71,17 +77,5 @@
         "useTailwindSortedClasses": "error"
       }
     }
-  },
-  "overrides": [
-    {
-      "includes": ["scripts/**", ".storybook/manager.ts"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noRestrictedImports": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }
