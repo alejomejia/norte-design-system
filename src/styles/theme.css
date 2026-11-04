@@ -155,6 +155,8 @@
    * crosses a text again and again, for something that's still working (with a gradient text, `bg-size-[200%_100%]`). */
   --animate-nudge: nudge 320ms var(--ease-standard);
   --animate-shimmer: shimmer 2.4s linear infinite;
+  /* `glimmer`: a cell that brightens and dims, again and again; offset cells make a wave. */
+  --animate-glimmer: glimmer 1.6s var(--ease-standard) infinite;
 
   @keyframes nudge {
     20% {
@@ -168,6 +170,16 @@
     }
     80% {
       translate: 0.125rem; /* 2px */
+    }
+  }
+
+  @keyframes glimmer {
+    0%,
+    100% {
+      opacity: 0.2;
+    }
+    40% {
+      opacity: 1;
     }
   }
 
