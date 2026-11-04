@@ -91,8 +91,9 @@ dependencies apps install (they live in `package.json`, next to the dev tools): 
 Breaking means an app has to change its code to upgrade: a renamed prop, token or class, a removed export, a changed
 default.
 
-**How to write it:** for the people using the package, in the imperative, with names in backticks. For a breaking
-change, also say what apps must change.
+**How to write it:** one line, for the people using the package: what changed, in the imperative, with names in
+backticks. It says _what_ is in the release, not how it works: the details belong on the component's docs page, which
+the Changelog links to from each name. A breaking change adds one sentence: what apps must change.
 
 ```md
 ---
