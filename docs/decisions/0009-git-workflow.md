@@ -1,6 +1,6 @@
 # 0009. One main branch, checked by git hooks
 
-**Status:** Accepted · 2026-11-04
+**Status:** Superseded by [0011](0011-dev-and-main.md) · 2026-11-04
 
 ## Context
 

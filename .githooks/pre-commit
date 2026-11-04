@@ -1,3 +1,3 @@
 #!/bin/sh
-# No commits on main, and branch names that follow the rules (CONTRIBUTING.md).
-exec node scripts/git-hooks/check-branch.ts pre-commit
+# No commits straight to main (CONTRIBUTING.md -> Branches).
+exec node scripts/git-hooks/check-branch.ts
