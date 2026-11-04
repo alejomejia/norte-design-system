@@ -15,7 +15,7 @@ team behind Radix and Floating UI. Norte adds the brand on top. Base UI exposes 
 Tailwind styles directly:
 
 ```tsx
-<Menu.Item className="data-highlighted:bg-surface-raised data-disabled:opacity-50" />
+;<Menu.Item className="data-highlighted:bg-surface-raised data-disabled:opacity-50" />
 ```
 
 Simple components with no behavior to borrow (a badge, a card) are plain elements.

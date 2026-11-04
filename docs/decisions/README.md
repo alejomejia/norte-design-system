@@ -4,8 +4,8 @@ Why Norte is built the way it is. Each record is one decision: the context, what
 to look at it again. A record is never rewritten after the fact: if a decision changes, a new record replaces it and the
 old one says so.
 
-| #                                    | Decision                                  | Status   |
-| ------------------------------------ | ----------------------------------------- | -------- |
+| #                                     | Decision                                  | Status   |
+| ------------------------------------- | ----------------------------------------- | -------- |
 | [0001](0001-react-for-nextjs-apps.md) | React, for Next.js apps                   | Accepted |
 | [0002](0002-tailwind-css.md)          | Tailwind CSS v4, with the tokens as theme | Accepted |
 | [0003](0003-tailwind-variants.md)     | tailwind-variants for component styles    | Accepted |

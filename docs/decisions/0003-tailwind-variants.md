@@ -17,7 +17,7 @@ the component:
 - **Class merging is built in,** so an app's `className` replaces the conflicting classes instead of adding to them.
 
 ```tsx
-<button className={button({ variant, size, className })} />
+;<button className={button({ variant, size, className })} />
 ```
 
 ## Consequences

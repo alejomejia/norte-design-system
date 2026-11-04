@@ -33,7 +33,11 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "test:stories": "vitest run --project=storybook",
-    "check": "pnpm typecheck && biome ci ."
+    "check": "pnpm typecheck && biome ci . && changeset status",
+    "changeset": "changeset",
+    "release:status": "changeset status --verbose",
+    "release:version": "changeset version",
+    "release:tag": "changeset tag"
   },
   "peerDependencies": {
     "react": "^19.0.0",
@@ -41,6 +45,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.4",
+    "@changesets/cli": "^3.0.3",
     "@storybook/addon-a11y": "^10.6.5",
     "@storybook/addon-docs": "^10.6.5",
     "@storybook/addon-vitest": "^10.6.5",
