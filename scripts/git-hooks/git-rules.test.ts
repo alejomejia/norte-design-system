@@ -1,5 +1,4 @@
-import assert from 'node:assert/strict'
-import { describe, it } from 'node:test'
+import { describe, expect, it } from 'vitest'
 
 import { checkCommitMessage } from './git-rules.ts'
 
@@ -11,45 +10,45 @@ describe('checkCommitMessage', () => {
       'fix(menu)!: close on escape\n\nThe menu stayed open when focus was inside a submenu.',
       'chore(release): v0.2.0\n',
     ]) {
-      assert.deepEqual(checkCommitMessage(message), [], message)
+      expect(checkCommitMessage(message), message).toEqual([])
     }
   })
 
   it('ignores the comment lines git adds', () => {
-    assert.deepEqual(checkCommitMessage('docs: explain changesets\n# Please enter the commit message'), [])
+    expect(checkCommitMessage('docs: explain changesets\n# Please enter the commit message')).toEqual([])
   })
 
   it('lets the commits git writes itself through', () => {
     for (const message of ["Merge branch 'dev'", 'Revert "feat: add x"', 'fixup! feat: add x']) {
-      assert.deepEqual(checkCommitMessage(message), [], message)
+      expect(checkCommitMessage(message), message).toEqual([])
     }
   })
 
   it('rejects messages without a type', () => {
-    assert.equal(checkCommitMessage('Add a loading state').length, 1)
+    expect(checkCommitMessage('Add a loading state')).toHaveLength(1)
   })
 
   it('rejects unknown types and scopes that are not kebab-case', () => {
-    assert.match(checkCommitMessage('feature: add x')[0] ?? '', /type is one of/)
-    assert.match(checkCommitMessage('feat(Button): add x')[0] ?? '', /scope/)
+    expect(checkCommitMessage('feature: add x')[0] ?? '').toMatch(/type is one of/)
+    expect(checkCommitMessage('feat(Button): add x')[0] ?? '').toMatch(/scope/)
   })
 
   it('checks the summary', () => {
-    assert.match(checkCommitMessage('feat: Add x')[0] ?? '', /lowercase/)
-    assert.match(checkCommitMessage('feat: add x.')[0] ?? '', /period/)
-    assert.match(checkCommitMessage(`feat: ${'a'.repeat(70)}`)[0] ?? '', /72 characters/)
+    expect(checkCommitMessage('feat: Add x')[0] ?? '').toMatch(/lowercase/)
+    expect(checkCommitMessage('feat: add x.')[0] ?? '').toMatch(/period/)
+    expect(checkCommitMessage(`feat: ${'a'.repeat(70)}`)[0] ?? '').toMatch(/72 characters/)
   })
 
   it('needs an empty line before the body', () => {
-    assert.match(checkCommitMessage('feat: add x\nbecause y')[0] ?? '', /empty line/)
+    expect(checkCommitMessage('feat: add x\nbecause y')[0] ?? '').toMatch(/empty line/)
   })
 
   it('rejects AI attribution', () => {
-    assert.equal(checkCommitMessage('feat: add x\n\nCo-Authored-By: Claude <noreply@anthropic.com>').length, 1)
-    assert.equal(checkCommitMessage('feat: add x\n\nGenerated with Claude Code').length, 1)
+    expect(checkCommitMessage('feat: add x\n\nCo-Authored-By: Claude <noreply@anthropic.com>')).toHaveLength(1)
+    expect(checkCommitMessage('feat: add x\n\nGenerated with Claude Code')).toHaveLength(1)
   })
 
   it('allows a human co-author', () => {
-    assert.deepEqual(checkCommitMessage('feat: add x\n\nCo-Authored-By: Ana Gómez <ana@example.com>'), [])
+    expect(checkCommitMessage('feat: add x\n\nCo-Authored-By: Ana Gómez <ana@example.com>')).toEqual([])
   })
 })
