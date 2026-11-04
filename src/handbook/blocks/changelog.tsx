@@ -1,17 +1,19 @@
 import { Markdown } from '@storybook/addon-docs/blocks'
+import { type ReactNode } from 'react'
 
 import {
   BUMPS,
   type Bump,
   biggestBump,
   type ChangelogEntry,
+  COMPONENT_DOCS,
   nextVersion,
   PENDING,
   RELEASES,
 } from '@/handbook/changelog'
 import { cn } from '@/lib/utils'
 
-import { DocsLink } from './docs-link'
+import { DocsLink, StorybookLink } from './docs-link'
 
 /** Where a note's commit is read: the public repository. */
 const COMMIT_URL = 'https://github.com/alejomejia/norte-design-system/commit/'
@@ -50,6 +52,21 @@ function Pill({ tone = 'neutral', children }: { tone?: 'neutral' | 'accent'; chi
   )
 }
 
+/** Inline code in a note: a component's name links to its docs page, where the details are. */
+function NoteCode({ children }: { children?: ReactNode }) {
+  const href = typeof children === 'string' ? COMPONENT_DOCS[children] : undefined
+  return href ? (
+    <StorybookLink href={href}>
+      <code>{children}</code>
+    </StorybookLink>
+  ) : (
+    <code>{children}</code>
+  )
+}
+
+/** How a note's Markdown renders: inline, so its commit follows on the same line, with its names linked. */
+const NOTE_OPTIONS = { forceInline: true, overrides: { code: NoteCode } }
+
 /** A release's notes, grouped from the biggest bump to the smallest: breaking changes first, fixes last. */
 function Notes({ entries, id }: { entries: readonly ChangelogEntry[]; id: string }) {
   return BUMPS.map((bump) => {
@@ -64,7 +81,7 @@ function Notes({ entries, id }: { entries: readonly ChangelogEntry[]; id: string
         <ul className="nt-changelog-notes">
           {group.map(({ text, commit }) => (
             <li key={commit ?? text}>
-              <Markdown>{text}</Markdown>
+              <Markdown options={NOTE_OPTIONS}>{text}</Markdown>
               {commit && (
                 <DocsLink href={`${COMMIT_URL}${commit}`} className="nt-changelog-commit">
                   {commit.slice(0, 7)}
