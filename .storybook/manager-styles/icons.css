@@ -386,20 +386,36 @@ button[aria-label^="Go to interaction row"] svg[data-testid="icon-waiting"] {
 
 /* Icons painted by Norte's own additions (empty states, code blocks, docs callouts), named by `data-icon`. Add one here
  * before using it. */
-[data-icon="check"] {
-  --sb-icon: url("lucide-static/icons/check.svg");
+[data-icon="atom"] {
+  --sb-icon: url("lucide-static/icons/atom.svg");
 }
 
-[data-icon="circle-dot"] {
-  --sb-icon: url("lucide-static/icons/circle-dot.svg");
+[data-icon="bot"] {
+  --sb-icon: url("lucide-static/icons/bot.svg");
+}
+
+[data-icon="chart-column"] {
+  --sb-icon: url("lucide-static/icons/chart-column.svg");
+}
+
+[data-icon="check"] {
+  --sb-icon: url("lucide-static/icons/check.svg");
 }
 
 [data-icon="circle-check"] {
   --sb-icon: url("lucide-static/icons/circle-check.svg");
 }
 
+[data-icon="circle-dot"] {
+  --sb-icon: url("lucide-static/icons/circle-dot.svg");
+}
+
 [data-icon="circle-play"] {
   --sb-icon: url("lucide-static/icons/circle-play.svg");
+}
+
+[data-icon="component"] {
+  --sb-icon: url("lucide-static/icons/component.svg");
 }
 
 [data-icon="copy"] {
@@ -410,12 +426,32 @@ button[aria-label^="Go to interaction row"] svg[data-testid="icon-waiting"] {
   --sb-icon: url("lucide-static/icons/file-code.svg");
 }
 
+[data-icon="git-pull-request"] {
+  --sb-icon: url("lucide-static/icons/git-pull-request.svg");
+}
+
+[data-icon="history"] {
+  --sb-icon: url("lucide-static/icons/history.svg");
+}
+
 [data-icon="image"] {
   --sb-icon: url("lucide-static/icons/image.svg");
 }
 
+[data-icon="layers"] {
+  --sb-icon: url("lucide-static/icons/layers.svg");
+}
+
+[data-icon="layout-template"] {
+  --sb-icon: url("lucide-static/icons/layout-template.svg");
+}
+
 [data-icon="mouse-pointer-click"] {
   --sb-icon: url("lucide-static/icons/mouse-pointer-click.svg");
+}
+
+[data-icon="palette"] {
+  --sb-icon: url("lucide-static/icons/palette.svg");
 }
 
 [data-icon="shield"] {
