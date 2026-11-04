@@ -28,6 +28,8 @@ const PAIRS: [string, string, number][] = [
   ['success', 'success-subtle', TEXT],
   ['warning', 'warning-subtle', TEXT],
   ['danger', 'danger-subtle', TEXT],
+  ['danger', 'danger-muted', TEXT],
+  ['ink', 'surface-strong', TEXT],
   ...['line-strong', 'focus'].flatMap((ui) =>
     ['canvas', 'surface'].map((background): [string, string, number] => [ui, background, UI]),
   ),

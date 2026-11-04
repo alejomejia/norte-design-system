@@ -8,7 +8,7 @@ type Role = { name: string; text?: boolean }
 
 /** The roles by purpose, in the order a screen is built: the page, its text, its lines, then the accent and states. */
 const ROLE_GROUPS = {
-  surfaces: [{ name: 'canvas' }, { name: 'surface' }, { name: 'surface-muted' }],
+  surfaces: [{ name: 'canvas' }, { name: 'surface' }, { name: 'surface-muted' }, { name: 'surface-strong' }],
   text: [
     { name: 'ink', text: true },
     { name: 'ink-muted', text: true },
@@ -24,6 +24,7 @@ const ROLE_GROUPS = {
     { name: 'success-subtle' },
     { name: 'warning-subtle' },
     { name: 'danger-subtle' },
+    { name: 'danger-muted' },
   ],
 } satisfies Record<string, Role[]>
 
