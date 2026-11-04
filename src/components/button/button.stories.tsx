@@ -1,5 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react-vite'
-import { expect, fn } from 'storybook/test'
+import { useState } from 'react'
+import { expect, fn, waitFor } from 'storybook/test'
 
 import { Button } from '.'
 import { BUTTON_SIZES, BUTTON_VARIANTS } from './button.const'
@@ -21,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Starts an action. `primary` for the main one on a screen, `secondary` beside it, `ghost` for quiet ones in toolbars and lists, and `danger` for what can't be undone. While its action runs, it keeps its width and shows a spinner.",
+          "Starts an action. `primary` for the main one on a screen, `secondary` beside it, `ghost` for quiet ones in toolbars and lists, and `danger` for what can't be undone. While its action runs, it keeps its width and shows a spinner, and when the action succeeds the spinner can turn into a check.",
       },
     },
   },
@@ -92,6 +93,46 @@ export const Loading: Story = {
     await step('It keeps focus', async () => {
       button.focus()
       await expect(button).toHaveFocus()
+    })
+  },
+}
+
+/** How long the example action takes, in ms. */
+const RUN_DURATION = 1500
+
+/**
+ * When the action succeeds, the spinner turns into a check that draws itself, and the label comes back a moment later.
+ * Set `success` as `loading` turns off; the next click clears it. Screen readers hear "Done" (`successLabel`). Click it.
+ */
+export const Success: Story = {
+  name: 'Loading, then success',
+  parameters: { controls: { exclude: ['loading', 'success'] } },
+  render: function Render(args) {
+    const [status, setStatus] = useState<'idle' | 'running' | 'done'>('idle')
+
+    async function run(event: Parameters<NonNullable<typeof args.onClick>>[0]) {
+      args.onClick?.(event)
+      setStatus('running')
+      await new Promise((resolve) => setTimeout(resolve, RUN_DURATION))
+      setStatus('done')
+    }
+
+    return <Button {...args} loading={status === 'running'} success={status === 'done'} onClick={run} />
+  },
+  play: async ({ canvas, step, userEvent }) => {
+    const button = canvas.getByRole('button', { name: 'Run agent' })
+
+    await step('It shows a spinner while the action runs', async () => {
+      await userEvent.click(button)
+      await expect(button).toHaveAttribute('aria-busy', 'true')
+    })
+    await step('It announces the success', async () => {
+      await waitFor(() => expect(canvas.getByRole('status')).toHaveTextContent('Done'), { timeout: RUN_DURATION * 2 })
+      await expect(button).not.toHaveAttribute('aria-busy')
+    })
+    await step('Its label comes back', async () => {
+      await waitFor(() => expect(canvas.getByRole('status')).toHaveTextContent(''), { timeout: 3000 })
+      await expect(button).not.toHaveAttribute('data-disabled')
     })
   },
 }
