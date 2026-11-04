@@ -1,0 +1,222 @@
+/*
+ * The search field: a bordered input with the search icon and the ⌘K hint (the clear button while typing) inside it,
+ * and the tag filter button beside it. `manager-search.ts` keeps the results to typed queries, names a component's docs
+ * page after the component and highlights the query where it appears.
+ */
+#storybook-sidebar-region .search-field {
+  height: var(--sb-control-height);
+  /* Room for the tag filter button. */
+  margin-right: calc(var(--sb-control-height) + var(--sb-gap));
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  color: var(--sb-color-icon);
+  transition: var(--sb-transition);
+}
+
+/* "Create a new story", which writes a story file from the browser while running locally: the handbook's stories are
+ * written by hand, following the conventions. Without it the field spans the sidebar, next to the tag filters. */
+#storybook-sidebar-region button[aria-label="Create a new story"] {
+  display: none;
+}
+
+/* Focus: Norte's input ring instead of Storybook's outline. */
+#storybook-sidebar-region .search-field:focus-within {
+  border-color: var(--sb-color-focus);
+  outline: 0;
+  box-shadow: var(--sb-ring);
+}
+
+#storybook-sidebar-region #storybook-explorer-searchfield {
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  color: var(--sb-color-text);
+}
+
+#storybook-sidebar-region #storybook-explorer-searchfield::placeholder {
+  color: var(--sb-color-icon);
+}
+
+/* ⌘K, as an outlined key cap. */
+#storybook-sidebar-region .search-field > code {
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-surface-subtle);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text-muted);
+}
+
+/* Clear search: a square ghost button at the end of the field, inset so its corners stay concentric with the field's. */
+#storybook-sidebar-region .search-field button[aria-label="Clear search"] {
+  flex-shrink: 0;
+  width: var(--sb-icon-button-size-s);
+  height: var(--sb-icon-button-size-s);
+  margin-right: 0.25rem; /* 4px */
+  padding: 0;
+  border-radius: var(--sb-radius-s);
+  background-color: transparent;
+  color: var(--sb-color-icon);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-sidebar-region .search-field button[aria-label="Clear search"]:hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+/* Tag filters: an outlined icon button beside the field, as tall as it. Storybook renders it inside the field, next to
+ * the clear button, so only the button itself moves to the end of the search region, its positioned ancestor: moving
+ * their shared wrapper would take the clear button out of the field too. */
+#storybook-sidebar-region .search-field button[aria-label="Tag filters"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--sb-control-height);
+  height: var(--sb-control-height);
+  padding: 0;
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-sidebar-region .search-field button[aria-label="Tag filters"]:hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-sidebar-region .search-field button[aria-label="Tag filters"][aria-expanded="true"] {
+  background-color: var(--sb-color-accent);
+  color: var(--sb-color-text);
+}
+
+/* An empty field leaves the tree in place: Storybook would swap it for a "Recently opened" list, whose menu
+ * `manager-search.ts` keeps closed. While the field has focus, Storybook still hides the tree with `sb-sr-only`, so
+ * that's undone. Once there's a query, the tree gets `hidden` and the results take its place. */
+#storybook-explorer-tree.sb-sr-only:not([hidden]) {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  white-space: normal;
+  clip: auto;
+  clip-path: none;
+}
+
+/* The list itself, for the moment the menu takes to close. */
+#storybook-explorer-tree:not([hidden]) ~ [role="listbox"] {
+  display: none;
+}
+
+/* Results, in place of the tree while searching. They look like the tree's rows: the page or story's name, with its
+ * path under it. */
+#storybook-explorer-menu .search-result-item {
+  gap: var(--sb-gap);
+  align-items: flex-start;
+  padding: var(--sb-gap) var(--sb-row-padding);
+  border-radius: var(--sb-radius);
+  font-size: var(--sb-font-size);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+  animation: sb-row-in var(--sb-row-duration-out) var(--sb-row-ease);
+}
+
+/* `aria-selected` is the result highlighted with the pointer or the arrow keys. */
+#storybook-explorer-menu .search-result-item[aria-selected="true"] {
+  background-color: var(--sb-color-accent);
+}
+
+/* The icon, centered on the name's line. */
+#storybook-explorer-menu .search-result-item > div:first-child {
+  height: 1lh;
+  margin: 0;
+}
+
+#storybook-explorer-menu .search-result-item svg[type] {
+  color: var(--sb-color-icon);
+}
+
+#storybook-explorer-menu .search-result-item--label {
+  min-width: 0;
+  gap: var(--sb-row-gap);
+}
+
+#storybook-explorer-menu .search-result-item--label > div:first-child {
+  font-weight: var(--sb-font-weight-medium);
+}
+
+/* The path, cut at its end when too long, so its first segments always show. Storybook cuts each segment instead,
+ * which leaves only their first letters in a narrow sidebar. */
+#storybook-explorer-menu .search-result-item--label > div + div {
+  display: block;
+  overflow: hidden;
+  font-size: var(--sb-font-size-s);
+  color: var(--sb-color-text-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#storybook-explorer-menu .search-result-item--label > div + div > span {
+  display: inline;
+}
+
+/* A component's docs page (flagged by `manager-search.ts`): Storybook names it "Docs" and puts the component's name
+ * last in its path. The component's name becomes the title, and the rest of the path stays under it. */
+#storybook-explorer-menu .search-result-item[data-nt-docs] .search-result-item--label > div:first-child {
+  display: none;
+}
+
+#storybook-explorer-menu .search-result-item[data-nt-docs] .search-result-item--label > div + div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#storybook-explorer-menu .search-result-item[data-nt-docs] .search-result-item--label > div + div > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#storybook-explorer-menu .search-result-item[data-nt-docs] .search-result-item--label > div + div > span:last-child {
+  order: -1;
+  flex-basis: 100%;
+  margin-bottom: var(--sb-row-gap);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+}
+
+#storybook-explorer-menu
+  .search-result-item[data-nt-docs]
+  .search-result-item--label
+  > div
+  + div
+  > span:last-child::before {
+  content: none;
+}
+
+/* Storybook's marks fall on every letter its fuzzy search matched, scattered across words, so they read as plain text.
+ * `manager-search.ts` highlights where the query appears as typed instead. */
+#storybook-explorer-menu .search-result-item mark {
+  background-color: transparent;
+  font-weight: inherit;
+  color: inherit;
+}
+
+#storybook-explorer-menu ::highlight(nt-search-match) {
+  background-color: var(--sb-blue-100);
+  color: var(--sb-color-text);
+}

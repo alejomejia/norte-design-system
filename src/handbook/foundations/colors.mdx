@@ -1,0 +1,66 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { PageHeader } from '@/handbook/blocks/page-header'
+
+import { ColorRoles, ColorScale } from '@/handbook/blocks/colors'
+
+<Meta title="Foundations/Colors" />
+
+<PageHeader section="Foundations" title="Colors">
+  Norte is neutrals and one blue. The blue marks what you can act on and what's selected; everything else is gray.
+  Green, amber and red only tell the state of something, like a run that succeeded, needs attention or failed. They
+  never decorate.
+</PageHeader>
+
+> **Copy a token** with its chip, or any step of a scale with a click. You get its variable, like `var(--color-ink)`,
+> never the raw value, so what you paste keeps following the theme.
+
+## Roles
+
+Components read roles, never raw shades: `text-ink-muted` says what the text is for, and a brand change remaps the role
+instead of editing every component. Text roles show their contrast where they're read, and `pnpm test` fails if a pair
+drops below WCAG AA (4.5:1 for text, 3:1 for control borders and the focus ring).
+
+### Surfaces
+
+The page, and the cards, inputs and panels on it.
+
+<ColorRoles group="surfaces" />
+
+### Text
+
+From the main text down to hints, and the blue for links and active items.
+
+<ColorRoles group="text" />
+
+### Lines
+
+Dividers, the borders that outline a control, and the focus ring.
+
+<ColorRoles group="lines" />
+
+### Accent
+
+Norte's only brand color: primary fills, their hover, selections, and the text on them.
+
+<ColorRoles group="accent" />
+
+### Status
+
+The state of a run: the strong color for text and icons, its tint behind a message.
+
+<ColorRoles group="status" />
+
+## Scales
+
+The primitives behind the roles. Reach for one only when no role fits, like the steps of a chart.
+
+<ColorScale name="neutral" steps={[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+
+<ColorScale name="blue" steps={[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+
+<div className="sb-unstyled grid gap-x-4 md:grid-cols-3">
+  <ColorScale name="green" steps={[50, 700]} className="my-0" />
+  <ColorScale name="amber" steps={[50, 700]} className="my-0" />
+  <ColorScale name="red" steps={[50, 700]} className="my-0" />
+</div>

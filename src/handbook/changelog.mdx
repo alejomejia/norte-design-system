@@ -1,0 +1,38 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { NextRelease, Releases } from '@/handbook/blocks/changelog'
+import { PageHeader } from '@/handbook/blocks/page-header'
+
+<Meta title="Handbook/Changelog" />
+
+<PageHeader section="Handbook" title="Changelog">
+  What's new and what's fixed in each version of the package, newest first, and what the next one brings. Read it
+  before you upgrade.
+</PageHeader>
+
+## Next release
+
+The changes on `dev` that haven't shipped yet. Each one left a note, a changeset, and the biggest one decides the
+next version.
+
+<NextRelease />
+
+## Versions
+
+Each version of the package, with a note per change and the commit that made it. They're the entries of
+[`CHANGELOG.md`](https://github.com/alejomejia/norte-design-system/blob/main/CHANGELOG.md), written at each release from
+the changesets.
+
+<Releases />
+
+## Reading a version
+
+Versions follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
+
+- **Patches** (fixes and small adjustments) raise the last number (`0.1.0` → `0.1.1`). Upgrade any time: nothing changes for your code.
+- **New** raises the middle one (`0.1.1` → `0.2.0`): a new component, prop or token.
+- **Breaking changes** need a change in your code to upgrade, and say which. While Norte is on `0.x`, they raise the
+  middle number too, so read every `0.x` minor before upgrading. From `1.0.0` on, they raise the first.
+
+Pin the version you use, read the notes, and upgrade when you're ready. How a change gets its note is in
+[Contributing](https://github.com/alejomejia/norte-design-system/blob/dev/CONTRIBUTING.md#changesets).

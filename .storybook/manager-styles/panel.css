@@ -1,0 +1,212 @@
+/*
+ * The addon panel as a whole: its surface, its tabs, the move between them and the empty state every tab shares. Each
+ * addon's content has a file of its own (`controls.css`, `interactions.css`, `accessibility.css`). Storybook keeps every
+ * addon mounted and hides all but the open one, the only `[role="tabpanel"]` of the panel; React Aria ends its id with
+ * the addon's key (`…-tabpanel-storybook/actions/panel`).
+ */
+
+/* White, like the canvas: Storybook leaves the panel transparent, and the gray page showed in every tab but Controls. */
+#storybook-panel-root {
+  background-color: var(--sb-color-surface);
+}
+
+/* Tabs (Controls, Actions…): muted labels in the UI's type, the selected one in ink over a 2px line. */
+#storybook-panel-root [role="tab"] {
+  border-bottom-width: 2px;
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root [role="tab"]:hover {
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-panel-root [role="tab"][aria-selected="true"] {
+  border-bottom-color: var(--sb-color-text);
+  color: var(--sb-color-text);
+}
+
+#storybook-panel-root [role="tab"]:focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}
+
+/* The count next to a tab's name ("Controls 5"): a neutral pill, also on the selected tab. */
+#storybook-panel-root [role="tablist"][aria-label="Available addons"] [role="tab"] > div > span + div {
+  border-radius: calc(infinity * 1px);
+  background-color: var(--sb-color-accent);
+  box-shadow: none;
+  font-size: var(--sb-font-size-s);
+  font-variant-numeric: tabular-nums;
+  color: var(--sb-color-text-muted);
+}
+
+/* Changing tabs: the new tab's content fades in from just below, and the underline slides to the new tab. Storybook
+ * only switches the hidden panel on, which restarts the animation on every change. Accessibility's own lists
+ * (Violations, Passes…) fade the same way. */
+#storybook-panel-root > [role="tabpanel"],
+#storybook-panel-root > [role="tabpanel"] [role="tabpanel"][id*="-tabpanel-"] {
+  animation: sb-panel-in var(--sb-tab-duration) var(--sb-ease);
+}
+
+@keyframes sb-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem); /* 4px */
+  }
+}
+
+/* The underline is one line, anchored under the selected tab, so it travels between tabs instead of switching.
+ * Browsers without anchor positioning keep the selected tab's own border. */
+@supports (anchor-name: --nt-tab) {
+  #storybook-panel-root [role="tablist"][aria-label="Available addons"] {
+    position: relative;
+  }
+
+  #storybook-panel-root [role="tablist"][aria-label="Available addons"] [role="tab"][aria-selected="true"] {
+    border-bottom-color: transparent;
+    anchor-name: --nt-addon-tab;
+  }
+
+  #storybook-panel-root [role="tablist"][aria-label="Available addons"]::after {
+    content: "";
+    position: absolute;
+    position-anchor: --nt-addon-tab;
+    bottom: anchor(bottom);
+    left: anchor(left);
+    right: anchor(right);
+    height: 2px;
+    background-color: var(--sb-color-text);
+    transition:
+      left var(--sb-tab-duration) var(--sb-ease),
+      right var(--sb-tab-duration) var(--sb-ease);
+    pointer-events: none;
+  }
+}
+
+/* Empty states (`manager-empty-states.ts`): an icon on a soft tile, a title and a line of explanation, centered. They
+ * replace Storybook's own messages, which stay in the page, hidden. */
+[data-nt-replaced] {
+  display: none !important;
+}
+
+/* An empty state fills the tab panel it's in and centers in it: the whole tab for Actions and Interactions, the area
+ * under the lists for Accessibility. */
+#storybook-panel-root [role="tabpanel"]:has(> .nt-empty) {
+  position: relative;
+}
+
+.nt-empty {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem; /* 4px */
+  padding: 2rem 1rem; /* 32px, 16px */
+  background-color: var(--sb-color-surface);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  line-height: 1.25rem; /* 20px */
+  text-align: center;
+}
+
+.nt-empty__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem; /* 40px */
+  height: 2.5rem; /* 40px */
+  margin-bottom: var(--sb-gap);
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-accent);
+  color: var(--sb-color-text);
+}
+
+.nt-empty__icon::before {
+  content: "";
+  width: 1.5rem; /* 24px */
+  height: 1.5rem; /* 24px */
+  background-color: currentcolor;
+  mask: var(--sb-icon) center / 1.25rem no-repeat; /* 20px */
+}
+
+.nt-empty :is(.nt-empty__title, .nt-empty__description) {
+  margin: 0;
+}
+
+.nt-empty__title {
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+}
+
+.nt-empty__description {
+  max-width: 22rem; /* 352px */
+  color: var(--sb-color-text-muted);
+}
+
+/* Accessibility's sits under the 48px header of its lists (`accessibility.css`): as much room below centers it on the
+ * whole tab, where the others are. */
+#storybook-panel-root [role="tabpanel"] [role="tabpanel"] > .nt-empty {
+  padding-bottom: 5rem; /* 80px */
+}
+
+/* Actions: the Clear button goes while there's nothing to clear. */
+#storybook-panel-root
+  > [role="tabpanel"][id$="-tabpanel-storybook/actions/panel"]:has(> .nt-empty)
+  > div:not(.nt-empty):has(> button) {
+  display: none;
+}
+
+/* Clear, once there's a log: a small outlined button, like the others of the panel. */
+#storybook-panel-root > [role="tabpanel"][id$="-tabpanel-storybook/actions/panel"] > div:has(> button) {
+  padding: var(--sb-gap) var(--sb-panel-gutter);
+  background-color: transparent;
+}
+
+#storybook-panel-root > [role="tabpanel"][id$="-tabpanel-storybook/actions/panel"] > div:has(> button) > button {
+  height: 1.5rem; /* 24px */
+  padding-inline: var(--sb-gap);
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root
+    > [role="tabpanel"][id$="-tabpanel-storybook/actions/panel"]
+    > div:has(> button)
+    > button:hover {
+    background-color: var(--sb-color-accent);
+  }
+}
+
+/* The log of actions: each event in code type, on rows like the panel's. */
+#storybook-panel-root > [role="tabpanel"][id$="-tabpanel-storybook/actions/panel"] [data-radix-scroll-area-content] {
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+}
+
+/* Its keys in the light syntax theme's tag color instead of the inspector's purple, and the expand arrows readable.
+ * The inspector colors inline, which takes `!important` to beat. */
+#storybook-panel-root > [role="tabpanel"][id$="-tabpanel-storybook/actions/panel"] [style*="color: rgb(136, 19, 145)"] {
+  color: var(--sb-syntax-tag) !important;
+}
+
+#storybook-panel-root
+  > [role="tabpanel"][id$="-tabpanel-storybook/actions/panel"]
+  [style*="color: rgb(227, 229, 233)"] {
+  color: var(--sb-color-icon) !important;
+}

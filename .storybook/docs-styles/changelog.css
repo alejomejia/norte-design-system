@@ -1,0 +1,30 @@
+/*
+ * The Changelog page (`src/handbook/blocks/changelog.tsx`): its notes are docs text, so the lists and inline code
+ * follow the page, plus the commit each note links to.
+ */
+
+/* A note's paragraphs, rendered by Storybook's `Markdown`: tight inside their list item. */
+#storybook-docs .sbdocs-content .nt-changelog-notes > li p {
+  margin: 0 0 0.5rem; /* 8px */
+}
+
+#storybook-docs .sbdocs-content .nt-changelog-notes > li {
+  margin-bottom: 1rem; /* 16px */
+}
+
+/* The commit of a note: a quiet chip after its text, which only takes the text color on hover. */
+#storybook-docs .sbdocs-content a.nt-changelog-commit {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  color: var(--sb-color-text-muted);
+  text-decoration: none;
+  transition: color var(--sb-duration) var(--sb-ease);
+}
+
+@media (hover: hover) {
+  #storybook-docs .sbdocs-content a.nt-changelog-commit:hover {
+    color: var(--sb-color-text);
+  }
+}

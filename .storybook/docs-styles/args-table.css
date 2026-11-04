@@ -1,0 +1,21 @@
+/*
+ * The props table of a component page. Its layout, cells and controls are the Controls panel's
+ * (`manager-styles/controls.css`); this adds what only the docs show: a rounded frame around it.
+ */
+#storybook-docs table.docblock-argstable {
+  overflow: hidden;
+  margin-top: 1.5rem; /* 24px */
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-l);
+}
+
+/* The last section of the table ends on its own padding. */
+#storybook-docs .docblock-argstable tbody {
+  padding-bottom: 0.25rem; /* 4px */
+}
+
+/* Where the reset button finds the header row: below the table's margin, inside its border. */
+#storybook-docs div:has(> table.docblock-argstable) {
+  --nt-args-table-offset: calc(1.5rem + 1px); /* 24px */
+  --nt-args-table-inset: 1px;
+}

@@ -1,0 +1,169 @@
+/*
+ * Popover menus: the settings menu, the tag filters, the context menu of each story and the color picker of the
+ * controls. Each popover wraps its surface in two invisible dismiss buttons, so the surface is its second child.
+ */
+.react-aria-Popover:is(
+    [aria-label="Storybook menu"],
+    [aria-label="Tag filters"],
+    [aria-label="Context menu"],
+    [aria-label="Color picker"]
+  )
+  > div:nth-child(2) {
+  overflow: hidden;
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-l);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-popover);
+  filter: none;
+  backdrop-filter: none;
+  font-family: var(--sb-font-family);
+  color: var(--sb-color-text);
+}
+
+/* Every popover and tooltip grows in from its trigger and fades out. Storybook builds them with React Aria, which marks
+ * their first and last frames (`data-entering`, `data-exiting`) and waits for the animation before removing them. */
+:is(.react-aria-Popover, .react-aria-Tooltip) {
+  transform-origin: var(--trigger-anchor-point);
+}
+
+:is(.react-aria-Popover, .react-aria-Tooltip)[data-entering] {
+  animation: sb-popover-in var(--sb-duration) var(--sb-ease);
+}
+
+/* A closing one already lets clicks through to what's under it. */
+:is(.react-aria-Popover, .react-aria-Tooltip)[data-exiting] {
+  animation: sb-popover-out var(--sb-duration) var(--sb-ease) forwards;
+  pointer-events: none;
+}
+
+@keyframes sb-popover-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes sb-popover-out {
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+/* Menu rows */
+.react-aria-Popover :is([id^="list-item-"], #select-all, #deselect-all),
+.react-aria-Popover[aria-label="Tag filters"] :is(li > label, a) {
+  min-height: var(--sb-control-height);
+  border-radius: var(--sb-radius);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-regular);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+.react-aria-Popover :is([id^="list-item-"], #select-all, #deselect-all) *,
+.react-aria-Popover[aria-label="Tag filters"] :is(li > label, a) > span:first-of-type {
+  font-weight: inherit;
+}
+
+@media (hover: hover) {
+  .react-aria-Popover :is([id^="list-item-"], #select-all, #deselect-all):hover,
+  .react-aria-Popover[aria-label="Tag filters"] :is(li > label, a):hover {
+    background-color: var(--sb-color-accent);
+  }
+}
+
+/* "Select all" (or "Clear filters" once a filter is on) spans the menu like the rows under it: Storybook sizes it to
+ * its text, so its hover stopped halfway. */
+.react-aria-Popover[aria-label="Tag filters"] :is(#select-all, #deselect-all) {
+  flex: 1;
+  justify-content: flex-start;
+  text-align: start;
+}
+
+/* Built-in filters, like Documentation: Storybook draws an icon where the checkbox goes and swaps the two on hover, so
+ * the row jumped and looked unlike the status filters under it. They show their checkbox like the rest. */
+.react-aria-Popover[aria-label="Tag filters"] label > div:first-child > svg {
+  display: none;
+}
+
+.react-aria-Popover[aria-label="Tag filters"] label > div:first-child > input {
+  position: static;
+  opacity: 1;
+}
+
+/* The filters' checkboxes: Norte's, blue when checked. */
+.react-aria-Popover[aria-label="Tag filters"] input[type="checkbox"] {
+  accent-color: var(--sb-color-on);
+}
+
+.react-aria-Popover[aria-label] :is(a, button, input):focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}
+
+.react-aria-Popover :is([id^="list-item-"], #select-all, #deselect-all) svg,
+.react-aria-Popover[aria-label="Tag filters"] :is(label, a) svg {
+  color: var(--sb-color-icon);
+}
+
+/* The checks of the parts of the UI that are showing, in ink. */
+.react-aria-Popover :is(#list-item-S, #list-item-T, #list-item-A) svg {
+  color: var(--sb-color-text);
+}
+
+/* Storybook's onboarding guide in the settings menu, and "Learn how to add tags" in the tag filters: help for whoever
+ * sets Storybook up, not for people reading the handbook. */
+.react-aria-Popover[aria-label="Storybook menu"] li:has(> #list-item-guide),
+.react-aria-Popover[aria-label="Tag filters"] > div:nth-child(2) > div > div:has(> div > a) {
+  display: none;
+}
+
+.react-aria-Popover[aria-label="Storybook menu"] ul + ul {
+  border-top-color: var(--sb-color-border);
+}
+
+/* Shortcuts as plain muted text, not key caps. Storybook draws the cap on the span around the keys. */
+.react-aria-Popover[aria-label] span:has(> kbd) {
+  padding: 0;
+  background-color: transparent;
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  color: var(--sb-color-icon);
+}
+
+.react-aria-Popover[aria-label] kbd {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Tag names come lowercase, as they're written in the stories (`planned`): capitalized, like the badges. */
+.react-aria-Popover[aria-label="Tag filters"] input[data-tag] ~ * > span,
+.react-aria-Popover[aria-label="Tag filters"] label:has(input[data-tag]) > div + div > span {
+  text-transform: capitalize;
+}
+
+/* Exclude, shown on a hovered filter: a quiet text button. */
+.react-aria-Popover[aria-label="Tag filters"] button[aria-label^="Exclude tag"] {
+  border-radius: var(--sb-radius-s);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  .react-aria-Popover[aria-label="Tag filters"] button[aria-label^="Exclude tag"]:hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+/* Tag counts: secondary information. */
+.react-aria-Popover[aria-label="Tag filters"] label > span:last-child {
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-regular);
+  font-variant-numeric: tabular-nums;
+  color: var(--sb-color-text-muted);
+}

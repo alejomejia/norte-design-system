@@ -1,0 +1,216 @@
+/*
+ * The Interactions tab: the steps of a story's play function, with a toolbar to step through them. A quiet toolbar of
+ * ghost icon buttons, the run's status as a badge, and the steps as rows in the UI's type, with Lucide status icons
+ * (`icons.css`) and the light syntax theme. A story without a play function shows an empty state instead
+ * (`manager-empty-states.ts`).
+ */
+
+#storybook-panel-root [role="toolbar"][aria-label="Component test playback controls"] {
+  min-height: 3rem; /* 48px */
+  padding-inline: 0;
+  border-bottom: 1px solid var(--sb-color-border);
+  background-color: var(--sb-color-surface);
+  font-family: var(--sb-font-family);
+}
+
+/* A story without a play function has no run to step through: only its empty state stays. */
+#storybook-panel-root [role="tabpanel"]:has(.nt-empty) [role="toolbar"][aria-label="Component test playback controls"] {
+  display: none;
+}
+
+#storybook-panel-root [role="toolbar"][aria-label="Component test playback controls"] > div {
+  padding-inline: var(--sb-panel-gutter) var(--sb-gap);
+}
+
+/* The run's status (Wait, Runs, Pass, Fail, Bail): a badge in words, not capitals. Pass in blue, Fail in red, the rest
+ * neutral. */
+#storybook-panel-root [aria-label^="Story status:"] {
+  min-width: 0;
+  padding: 0.125rem var(--sb-gap); /* 2px */
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-accent);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--sb-color-text-muted);
+}
+
+#storybook-panel-root [aria-label="Story status: Pass"] {
+  background-color: var(--sb-color-status-ready-subtle);
+  color: var(--sb-color-status-ready);
+}
+
+#storybook-panel-root [aria-label="Story status: Fail"] {
+  background-color: var(--sb-color-danger-subtle);
+  color: var(--sb-color-danger);
+}
+
+/* Scroll to end: a small outlined button, the toolbar's only one without an icon. */
+#storybook-panel-root [role="toolbar"][aria-label="Component test playback controls"] button:not([aria-label]) {
+  height: 1.5rem; /* 24px */
+  padding-inline: var(--sb-gap);
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+#storybook-panel-root [role="toolbar"][aria-label="Component test playback controls"] button:not([aria-label]) + span {
+  width: 1px;
+  height: 1rem; /* 16px */
+  margin-inline: 0.25rem; /* 4px */
+  background-color: var(--sb-color-border);
+}
+
+/* Playback (go to start, back, forward, go to end) and rerun: ghost icon buttons. */
+#storybook-panel-root
+  [role="toolbar"][aria-label="Component test playback controls"]
+  button:is(
+    [aria-label="Go to start"],
+    [aria-label="Go back"],
+    [aria-label="Go forward"],
+    [aria-label="Go to end"],
+    [aria-label="Rerun"]
+  ) {
+  justify-content: center;
+  width: var(--sb-icon-button-size);
+  height: var(--sb-icon-button-size);
+  margin: 0;
+  padding: 0;
+  border-radius: var(--sb-radius);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root
+    [role="toolbar"][aria-label="Component test playback controls"]
+    button:not([aria-disabled="true"]):hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+  }
+}
+
+#storybook-panel-root [role="toolbar"][aria-label="Component test playback controls"] button[aria-disabled="true"] {
+  opacity: 0.4;
+}
+
+#storybook-panel-root [role="toolbar"][aria-label="Component test playback controls"] button:focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: -2px;
+}
+
+/* The story's file, which opens in the editor: secondary, in code type. */
+#storybook-panel-root
+  [role="toolbar"][aria-label="Component test playback controls"]
+  button[aria-label="Open in editor"] {
+  padding-inline: var(--sb-gap);
+  border-radius: var(--sb-radius-s);
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-regular);
+  color: var(--sb-color-text-muted);
+  transition: var(--sb-transition);
+}
+
+/* Steps: one row each, no lines between them, the hovered one tinted. */
+#storybook-panel-root section:has(> ol > li button[aria-label^="Go to interaction row"]) > ol {
+  margin: 0;
+  padding: var(--sb-gap) 0;
+  list-style: none;
+}
+
+#storybook-panel-root li:has(button[aria-label^="Go to interaction row"]) {
+  border: 0;
+  font-family: var(--sb-font-family);
+}
+
+#storybook-panel-root button[aria-label^="Go to interaction row"] {
+  align-items: center;
+  gap: var(--sb-gap);
+  min-height: var(--sb-row-height);
+  padding: 0.25rem var(--sb-panel-gutter); /* 4px */
+  font-family: var(--sb-font-family);
+  color: var(--sb-color-text);
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  #storybook-panel-root button[aria-label^="Go to interaction row"]:hover {
+    background-color: var(--sb-color-surface-subtle);
+  }
+}
+
+/* Each step's status: done in blue, failed in red, running and waiting in gray. */
+#storybook-panel-root button[aria-label^="Go to interaction row"] svg[data-testid="icon-done"] {
+  color: var(--sb-color-status-ready);
+}
+
+#storybook-panel-root button[aria-label^="Go to interaction row"] svg[data-testid="icon-error"] {
+  color: var(--sb-color-danger);
+}
+
+#storybook-panel-root
+  button[aria-label^="Go to interaction row"]
+  svg[data-testid^="icon-"]:is([data-testid="icon-active"], [data-testid="icon-waiting"]) {
+  color: var(--sb-color-icon);
+}
+
+/* The call of each step, in code type. Storybook colors each part inline, from a palette of its own, so each color is
+ * matched and swapped for the light theme's, which takes `!important` to beat an inline style. */
+#storybook-panel-root button[aria-label^="Go to interaction row"] > div {
+  margin-left: 0 !important;
+  font-family: var(--sb-font-family-code);
+  font-size: var(--sb-font-size-s);
+  line-height: 1.25rem; /* 20px */
+  color: var(--sb-syntax-text);
+}
+
+/* Text, punctuation and object keys */
+#storybook-panel-root button[aria-label^="Go to interaction row"] [style*="color: rgb(68, 68, 68)"] {
+  color: var(--sb-syntax-text) !important;
+}
+
+/* Muted parts, and null or undefined */
+#storybook-panel-root
+  button[aria-label^="Go to interaction row"]
+  :is([style*="color: rgb(125, 153, 170)"], [style*="color: rgb(105, 131, 148)"]) {
+  color: var(--sb-syntax-comment) !important;
+}
+
+/* Methods and functions */
+#storybook-panel-root
+  button[aria-label^="Go to interaction row"]
+  :is([style*="color: rgb(2, 113, 182)"], [style*="color: rgb(234, 117, 9)"]) {
+  color: var(--sb-syntax-function) !important;
+}
+
+#storybook-panel-root button[aria-label^="Go to interaction row"] [style*="color: rgb(22, 178, 66)"] {
+  color: var(--sb-syntax-string) !important;
+}
+
+/* Numbers, booleans, dates and an element's id or class */
+#storybook-panel-root
+  button[aria-label^="Go to interaction row"]
+  :is(
+    [style*="color: rgb(93, 64, 208)"],
+    [style*="color: rgb(244, 24, 64)"],
+    [style*="color: rgb(69, 157, 156)"],
+    [style*="color: rgb(31, 153, 229)"]
+  ) {
+  color: var(--sb-syntax-constant) !important;
+}
+
+/* Element names and class instances */
+#storybook-panel-root
+  button[aria-label^="Go to interaction row"]
+  :is([style*="color: rgb(111, 44, 172)"], [style*="color: rgb(161, 92, 32)"]) {
+  color: var(--sb-syntax-tag) !important;
+}

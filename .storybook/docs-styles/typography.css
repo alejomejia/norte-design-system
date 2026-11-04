@@ -1,0 +1,216 @@
+/*
+ * Docs text: headings, paragraphs, lists, links, quotes and inline code. Storybook wraps stories and its own blocks
+ * (canvases, code, the props table) in `.sb-unstyled`, and so do Norte's handbook blocks, so every rule here skips
+ * those and what's inside them.
+ *
+ * Long pages read in steps: sections open with a hairline and a clear heading, running text is a shade softer than the
+ * headings and never wider than about 75 characters, numbered lists are steps on a line, and quotes are callouts. The
+ * page's title and lead live in its header (`page-header.tsx`).
+ */
+#storybook-docs .sbdocs-wrapper {
+  padding: 4rem 2.5rem; /* 64px, 40px */
+  background-color: var(--sb-color-surface);
+  font-family: var(--sb-font-family);
+  color: var(--sb-color-text);
+}
+
+#storybook-docs .sbdocs-content {
+  max-width: 53rem; /* 848px */
+}
+
+/* Sections: each opens with a hairline across the page, except the first one under the page header. */
+#storybook-docs .sbdocs-content h2:not(.sb-unstyled, .sb-unstyled *) {
+  margin: 3rem 0 1rem; /* 48px, 16px */
+  padding: 3rem 0 0; /* 48px */
+  border: 0;
+  border-top: 1px solid var(--sb-color-border);
+  font-family: var(--sb-font-family);
+  font-size: 1.5rem; /* 24px */
+  font-weight: var(--sb-font-weight-semibold);
+  line-height: 2rem; /* 32px */
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: var(--sb-color-text);
+}
+
+#storybook-docs .sbdocs-content > header.sb-unstyled + h2,
+#storybook-docs .sbdocs-content > header.sb-unstyled + p + h2 {
+  margin-top: 0;
+  padding-top: 0;
+  border: 0;
+}
+
+/* Subsections, and each story's title on a component page: a step above the text, set apart by weight and the space
+ * above. The paragraph right under one is its description, in muted text. */
+#storybook-docs .sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) {
+  margin: 2.5rem 0 0.5rem; /* 40px, 8px */
+  font-family: var(--sb-font-family);
+  font-size: 1.125rem; /* 18px */
+  font-weight: var(--sb-font-weight-semibold);
+  line-height: 1.75rem; /* 28px */
+  letter-spacing: -0.01em;
+  color: var(--sb-color-text);
+}
+
+#storybook-docs .sbdocs-content h2:not(.sb-unstyled, .sb-unstyled *) + h3 {
+  margin-top: 2rem; /* 32px */
+}
+
+#storybook-docs .sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) + p {
+  color: var(--sb-color-text-muted);
+}
+
+/* A label above a group of content. */
+#storybook-docs .sbdocs-content h4:not(.sb-unstyled, .sb-unstyled *) {
+  margin: 2rem 0 0.5rem; /* 32px, 8px */
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-semibold);
+  line-height: 1.25rem; /* 20px */
+  color: var(--sb-color-text-muted);
+}
+
+/* The link that appears next to a heading on hover. */
+#storybook-docs .sbdocs-content a[aria-label^="Copy heading URL"] {
+  color: var(--sb-color-icon);
+}
+
+#storybook-docs .sbdocs-content :is(p, ul, ol):not(.sb-unstyled, .sb-unstyled *) {
+  max-width: 42rem; /* 672px: about 75 characters */
+  margin: 0 0 1rem; /* 16px */
+  font-family: var(--sb-font-family);
+  font-size: 1rem; /* 16px */
+  line-height: 1.75rem; /* 28px */
+  color: var(--sb-color-text-body);
+}
+
+#storybook-docs .sbdocs-content ul:not(.sb-unstyled, .sb-unstyled *) {
+  padding-left: 1.5rem; /* 24px */
+}
+
+#storybook-docs .sbdocs-content li:not(.sb-unstyled, .sb-unstyled *) {
+  margin: 0 0 0.5rem; /* 8px */
+  padding-left: 0.25rem; /* 4px */
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#storybook-docs .sbdocs-content li:not(.sb-unstyled, .sb-unstyled *)::marker {
+  color: var(--sb-neutral-400);
+}
+
+/* Numbered lists are steps: each number in a circle, joined to the next one by a line. */
+#storybook-docs .sbdocs-content ol:not(.sb-unstyled, .sb-unstyled *) {
+  padding-left: 0;
+  list-style: none;
+  counter-reset: nt-step;
+}
+
+#storybook-docs .sbdocs-content ol:not(.sb-unstyled, .sb-unstyled *) > li {
+  position: relative;
+  margin: 0;
+  padding: 0 0 1rem 2.5rem; /* 16px, 40px */
+  counter-increment: nt-step;
+}
+
+#storybook-docs .sbdocs-content ol:not(.sb-unstyled, .sb-unstyled *) > li::before {
+  content: counter(nt-step);
+  position: absolute;
+  top: 0.125rem; /* 2px: centered on the first 28px line */
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 1.5rem; /* 24px */
+  height: 1.5rem; /* 24px */
+  border-radius: calc(infinity * 1px); /* a pill */
+  background-color: var(--sb-color-accent);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-semibold);
+  line-height: 1;
+  color: var(--sb-color-text);
+}
+
+#storybook-docs .sbdocs-content ol:not(.sb-unstyled, .sb-unstyled *) > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 2rem; /* 32px */
+  bottom: 0.25rem; /* 4px */
+  left: 0.75rem; /* 12px */
+  border-left: 1px solid var(--sb-color-border);
+}
+
+/* Bold words lead: the names in lists and the start of a step. */
+#storybook-docs .sbdocs-content strong:not(.sb-unstyled *) {
+  font-weight: var(--sb-font-weight-semibold);
+  color: var(--sb-color-text);
+}
+
+#storybook-docs .sbdocs-content a:not(.sb-unstyled *, [aria-label^="Copy heading URL"]) {
+  color: var(--sb-color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--sb-color-control);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--sb-duration) var(--sb-ease);
+}
+
+@media (hover: hover) {
+  #storybook-docs .sbdocs-content a:not(.sb-unstyled *, [aria-label^="Copy heading URL"]):hover {
+    text-decoration-color: currentcolor;
+  }
+}
+
+/* A card that links (`cards.tsx`) keeps its own look: Storybook underlines and colors every link of a docs page. */
+#storybook-docs .sbdocs-content a.nt-card {
+  color: var(--sb-color-text);
+  text-decoration: none;
+}
+
+/* Inline code: a tight chip that sits in the line like a word. Storybook adds side margins, which open a gap before
+ * the punctuation that follows. Long tokens may wrap inside, at their hyphens. */
+#storybook-docs .sbdocs-content code:not(.sb-unstyled *, pre *) {
+  margin: 0;
+  padding: 0.0625rem 0.25rem; /* 1px, 4px */
+  border: 0;
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-accent);
+  font-family: var(--sb-font-family-code);
+  font-size: 0.875em;
+  white-space: normal;
+  color: var(--sb-color-text);
+}
+
+/* Quotes: a callout with an info icon. */
+#storybook-docs .sbdocs-content blockquote:not(.sb-unstyled, .sb-unstyled *) {
+  display: grid;
+  grid-template-columns: var(--sb-icon-size) minmax(0, 1fr);
+  gap: 0.75rem; /* 12px */
+  max-width: 42rem; /* 672px */
+  margin: 1.5rem 0; /* 24px */
+  padding: 0.75rem 1rem; /* 12px, 16px */
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius);
+  background-color: var(--sb-color-surface-subtle);
+  font-size: var(--sb-font-size);
+  line-height: 1.5rem; /* 24px */
+  color: var(--sb-color-text-body);
+}
+
+#storybook-docs .sbdocs-content blockquote:not(.sb-unstyled, .sb-unstyled *)::before {
+  content: "";
+  height: 1.5rem; /* 24px: centers the icon on the first line */
+  background-color: var(--sb-color-icon);
+  mask: url("lucide-static/icons/info.svg") center / var(--sb-icon-size) no-repeat;
+}
+
+#storybook-docs .sbdocs-content blockquote:not(.sb-unstyled, .sb-unstyled *) > p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+#storybook-docs .sbdocs-content hr:not(.sb-unstyled, .sb-unstyled *) {
+  margin: 2rem 0; /* 32px */
+  border: 0;
+  border-top: 1px solid var(--sb-color-border);
+}

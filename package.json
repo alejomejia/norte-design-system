@@ -1,7 +1,7 @@
 {
   "name": "norte-design-system",
-  "version": "0.0.0",
-  "description": "Norte design system: design tokens and React components for a furniture and lighting store, documented in Storybook.",
+  "version": "0.1.0",
+  "description": "Norte design system: design tokens and React components for an AI agent workspace, documented in Storybook.",
   "license": "MIT",
   "author": "Alejandro Mejía (https://alejandromejia.dev)",
   "private": true,
@@ -33,7 +33,7 @@
     "typecheck": "tsc --build",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "test": "node --test \"scripts/**/*.test.ts\"",
+    "test": "vitest run --project=unit",
     "test:stories": "vitest run --project=storybook",
     "check": "pnpm typecheck && biome ci . && pnpm test && changeset status",
     "changeset": "changeset",
@@ -61,6 +61,7 @@
     "@vitejs/plugin-react": "^6.2.1",
     "@vitest/browser-playwright": "^5.1.0",
     "@vitest/coverage-v8": "^5.1.0",
+    "lucide-static": "^1.67.0",
     "playwright": "^1.64.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -70,5 +71,13 @@
     "vite": "^8.3.5",
     "vite-plugin-dts": "^5.1.2",
     "vitest": "^5.1.0"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.9.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.67.0",
+    "motion": "^14.9.0",
+    "tailwind-merge": "^3.7.0",
+    "tailwind-variants": "~3.3.1"
   }
 }

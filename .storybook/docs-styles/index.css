@@ -1,0 +1,15 @@
+/*
+ * The docs pages, restyled to match the Storybook UI: Norte's type, neutral colors, framed canvases and dark code
+ * blocks. Imported by `preview.ts`, after the pieces it shares with the UI (the variables, the icons, the status
+ * badges, the props table and the code blocks of `manager-styles/`).
+ *
+ * Stories render inside these pages, so the text rules skip Storybook's blocks and Norte's handbook blocks
+ * (`sb-unstyled`) and never reach inside a story. Selectors start at `#storybook-docs`, the docs root, to outrank
+ * Storybook's own styles, which are injected after this file.
+ */
+
+@import "./typography.css";
+@import "./canvas.css";
+@import "./args-table.css";
+@import "./toc.css";
+@import "./changelog.css";

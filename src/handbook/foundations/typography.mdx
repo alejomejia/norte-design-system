@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { PageHeader } from '@/handbook/blocks/page-header'
+
+import { FontWeights, TypeScale, TypeSpecimen } from '@/handbook/blocks/typography'
+
+<Meta title="Foundations/Typography" />
+
+<PageHeader section="Foundations" title="Typography">
+  Two typefaces: Inter for the interface, and JetBrains Mono for code, logs and everything an agent writes. Mono output
+  next to sans labels makes it clear at a glance what a person wrote and what a machine did.
+</PageHeader>
+
+## Typefaces
+
+### Inter
+
+Every label, text and heading of the interface.
+
+<TypeSpecimen family="sans" />
+
+### JetBrains Mono
+
+Code, logs and agent output: anything a machine wrote.
+
+<TypeSpecimen family="mono" />
+
+## Scale
+
+Seven sizes. Each one brings its line height, always a multiple of 4px, so text sits on the same grid as everything
+else, and the large ones tighten their tracking. `text-body-s` is the interface's default; `text-body` is for reading.
+
+<TypeScale />
+
+## Weights
+
+Three weights. Hierarchy comes from size and color first, so bold stays rare and means something.
+
+<FontWeights />

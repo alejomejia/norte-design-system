@@ -1,0 +1,42 @@
+/*
+ * Status badges next to component names in the sidebar (`manager.ts`): Planned, Beta, Ready or Deprecated, read from
+ * the status tag of each component's stories. The same as the docs page header's (`status-badge.tsx`), sized for the
+ * tree: planned, the status of most of the map, stays the quietest.
+ */
+.nt-status {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  height: 1rem; /* 16px */
+  padding-inline: 0.25rem; /* 4px */
+  border: 1px solid var(--nt-status-border, transparent);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--nt-status-tint, transparent);
+  font-family: var(--sb-font-family);
+  font-size: 0.6875rem; /* 11px */
+  font-weight: var(--sb-font-weight-medium);
+  line-height: 1;
+  color: var(--nt-status-color);
+  white-space: nowrap;
+}
+
+.nt-status[data-status="planned"] {
+  --nt-status-border: var(--sb-color-border);
+  --nt-status-color: var(--sb-color-text-muted);
+}
+
+.nt-status[data-status="beta"] {
+  --nt-status-border: var(--sb-color-status-ready);
+  --nt-status-color: var(--sb-color-status-ready);
+}
+
+.nt-status[data-status="ready"] {
+  --nt-status-tint: var(--sb-color-status-ready-subtle);
+  --nt-status-color: var(--sb-color-status-ready);
+}
+
+.nt-status[data-status="deprecated"] {
+  --nt-status-tint: var(--sb-color-accent);
+  --nt-status-color: var(--sb-color-text-muted);
+  text-decoration: line-through;
+}
