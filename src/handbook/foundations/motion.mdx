@@ -14,12 +14,15 @@ import { Durations, Easings } from '@/handbook/blocks/motion'
 
 ## Durations
 
-Three lengths: fast for hovers and presses, base for most changes, slow for what enters the screen.
+Three lengths: fast for hovers and presses, base for most changes, slow for what enters the screen. The spring has a
+length of its own: the time its curve takes to settle.
 
 <Durations />
 
 ## Easing
 
-Each change gets the curve of what it does. Hover a card to watch it.
+Each change gets the curve of what it does. Hover a card to watch it. The spring is
+[Motion](https://motion.dev)'s `spring(0.3, 0.3)` written as a CSS `linear()` curve, so a CSS transition and a Motion
+animation settle the same way, with no JavaScript for the CSS one.
 
 <Easings />

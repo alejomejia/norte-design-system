@@ -122,11 +122,31 @@
     0 0.25rem 0.75rem oklch(0 0 0 / 8%), 0 0.0625rem 0.125rem oklch(0 0 0 / 4%); /* 0, 4px, 12px · 0, 1px, 2px */
   --shadow-l: 0 1rem 2.5rem oklch(0 0 0 / 12%), 0 0.125rem 0.5rem oklch(0 0 0 / 6%); /* 0, 16px, 40px · 0, 2px, 8px */
 
-  /* Easing: `standard` for most changes, `enter` for what appears, `exit` for what leaves. */
+  /* Easing: `standard` for most changes, `enter` for what appears, `exit` for what leaves, `spring` for small things that
+   * settle, read with `duration-(--duration-spring)`. */
   --ease-*: initial;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring: linear(
+    0,
+    0.1144,
+    0.3475,
+    0.5885,
+    0.7844,
+    0.9194,
+    0.9987,
+    1.0359,
+    1.046,
+    1.0413,
+    1.0308,
+    1.0196,
+    1.0104,
+    1.004,
+    1.0002,
+    0.9984,
+    1
+  ); /* Motion's spring(0.3, 0.3): a short overshoot, then it settles */
 }
 
 @layer theme {
@@ -137,6 +157,7 @@
     --duration-fast: 120ms; /* Hovers, presses */
     --duration-base: 200ms; /* Most transitions */
     --duration-slow: 320ms; /* Panels and dialogs entering */
+    --duration-spring: 500ms; /* The whole spring curve, settling included */
   }
 
   /* Motion collapses here, so every component that reads the durations respects the setting without its own query. */
@@ -145,6 +166,7 @@
       --duration-fast: 0ms;
       --duration-base: 0ms;
       --duration-slow: 0ms;
+      --duration-spring: 0ms;
     }
   }
 }

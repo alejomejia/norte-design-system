@@ -4,12 +4,14 @@ import { extendTailwindMerge } from 'tailwind-merge'
 import { createTV, type TWMergeConfig } from 'tailwind-variants'
 
 // tailwind-merge only knows Tailwind's default names, and guesses that unknown `text-*` classes are colors. Norte's
-// type scale has its own names, so they're listed here, or `cn('text-caption text-ink')` would drop the size. `cn` and
-// `tv` share it, so both resolve conflicts the same way.
+// type scale and easings have their own names, so they're listed here, or `cn('text-caption text-ink')` would drop the
+// size and `cn('ease-standard', 'ease-spring')` would keep both. `cn` and `tv` share it, so both resolve conflicts the
+// same way.
 const TW_MERGE_CONFIG = {
   extend: {
     theme: {
       text: ['caption', 'body-s', 'body', 'heading-s', 'heading-m', 'heading-l', 'display'],
+      ease: ['standard', 'enter', 'exit', 'spring'],
     },
   },
 } satisfies TWMergeConfig

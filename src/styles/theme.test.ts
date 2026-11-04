@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 
+import { spring } from 'motion'
 import { describe, expect, it } from 'vitest'
 
 import { parseTokens } from '@/handbook/tokens/tokens'
@@ -50,5 +51,12 @@ describe('primitives', () => {
       .filter(({ name, value }) => name.startsWith('color-') && !isInSrgbGamut(oklchToLinearRgb(parseOklch(value))))
       .map(({ name }) => name)
     expect(outside).toEqual([])
+  })
+})
+
+describe('the spring', () => {
+  it("is Motion's spring(0.3, 0.3), so CSS and Motion animations settle the same way", () => {
+    const easing = tokens.get('ease-spring')?.value.replaceAll(/\s+/g, ' ').replace('( ', '(').replace(' )', ')')
+    expect(`${tokens.get('duration-spring')?.value} ${easing}`).toBe(String(spring(0.3, 0.3)))
   })
 })

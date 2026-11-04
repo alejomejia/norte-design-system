@@ -18,6 +18,8 @@ describe('Motion timing', () => {
   })
 
   it('the spring matches the one --ease-spring was made from', () => {
-    expect(tokens.get('ease-spring')?.note).toContain(`spring(${MOTION_SPRING.visualDuration}, ${MOTION_SPRING.bounce})`)
+    expect(tokens.get('ease-spring')?.note).toContain(
+      `spring(${MOTION_SPRING.visualDuration}, ${MOTION_SPRING.bounce})`,
+    )
   })
 })

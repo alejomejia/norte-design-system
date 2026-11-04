@@ -28,6 +28,12 @@ describe('tv', () => {
   })
 })
 
+describe('cn with easings', () => {
+  it("keeps only the last of Norte's easings", () => {
+    expect(cn('ease-standard', 'ease-spring')).toBe('ease-spring')
+  })
+})
+
 describe('toCSSVars', () => {
   it('turns numbers into rem and leaves strings alone', () => {
     expect(toCSSVars({ gap: 16, swatch: 'var(--color-ink)', empty: null })).toEqual({
