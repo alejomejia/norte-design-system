@@ -16,6 +16,10 @@ import viteConfig from './vite.config.ts'
 export default mergeConfig(
   viteConfig,
   defineConfig({
+    // Vite finds dependencies as tests import them, and one found mid-run (a component's first story, Motion's lazy
+    // features) is optimized with a page reload that fails the running story. Scanning every story up front finds them
+    // all before the first test.
+    optimizeDeps: { entries: ['src/**/*.stories.tsx'] },
     test: {
       coverage: {
         include: ['src/**/*.{ts,tsx}'],
