@@ -2,6 +2,7 @@ import { type Preview } from '@storybook/react-vite'
 
 import { create } from 'storybook/theming'
 
+import { DocsLink } from '@/handbook/blocks/docs-link'
 import { DocsPage } from '@/handbook/blocks/docs-page'
 
 import { addArgCategories } from './arg-categories'
@@ -47,6 +48,8 @@ const preview: Preview = {
       theme: create(THEME_VARS),
       // Every component page opens with the same header card as the handbook pages.
       page: DocsPage,
+      // Every link of the docs: one that leaves Storybook opens in a new tab (`docs-link.tsx`).
+      components: { a: DocsLink },
       toc: {
         title: 'On this page',
         // Sections and their subsections: the h2 and h3 of handbook pages, and "Stories" and each story on component

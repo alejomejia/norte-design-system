@@ -1,12 +1,8 @@
-import { AnchorMdx } from '@storybook/addon-docs/blocks'
-import { type ComponentProps, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 import { cn } from '@/lib/utils'
 
-/** Storybook's MDX link. Its types list only `href` and `target`, but it passes every other prop on to the `<a>`. */
-const Link = AnchorMdx as unknown as (
-  props: Partial<ComponentProps<typeof AnchorMdx>> & { className: string; children: ReactNode },
-) => ReactNode
+import { ExternalIcon, isExternal, StorybookLink } from './docs-link'
 
 /** A grid of cards: groups, sections, related pages. */
 export function Cards({ children }: { children: ReactNode }) {
@@ -17,14 +13,17 @@ type CardProps = {
   title: string
   /** A Lucide icon, named in `.storybook/manager-styles/icons.css`. */
   icon?: string
-  /** Turns the card into a link: a Storybook path like `?path=/docs/elements-actions-button--docs`. */
+  /**
+   * Turns the card into a link: a Storybook path like `?path=/docs/elements-actions-button--docs`, or a full URL, which
+   * opens in a new tab.
+   */
   href?: string
   children?: ReactNode
 }
 
 /**
- * One card of `Cards`: an icon, a title and a short description. A linked card is Storybook's MDX link, which opens
- * `?path=` links in the Storybook UI instead of inside the docs frame, and shows an arrow.
+ * One card of `Cards`: an icon, a title and a short description. A linked card shows an arrow: inside Storybook it's
+ * Storybook's link, which opens the page in its UI instead of inside the docs frame; outside, it opens in a new tab.
  */
 export function Card({ title, icon, href, children }: CardProps) {
   const className = cn(
@@ -46,26 +45,23 @@ export function Card({ title, icon, href, children }: CardProps) {
       {/* MDX wraps the description in paragraphs: they take its type. */}
       {children && <div className="text-body-s text-ink-muted [&_p]:m-0">{children}</div>}
       {href && (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          className="absolute top-4 right-4 size-4 text-ink-subtle transition-colors duration-(--duration-fast) group-hover:text-ink"
-        >
-          <path d="M7 7h10v10M7 17 17 7" />
-        </svg>
+        <ExternalIcon className="absolute top-4 right-4 size-4 text-ink-subtle transition-colors duration-(--duration-fast) group-hover:text-ink" />
       )}
+      {isExternal(href) && <span className="sr-only"> (opens in a new tab)</span>}
     </>
   )
 
+  if (isExternal(href)) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer" className={className}>
+        {content}
+      </a>
+    )
+  }
   return href ? (
-    <Link href={href} className={className}>
+    <StorybookLink href={href} className={className}>
       {content}
-    </Link>
+    </StorybookLink>
   ) : (
     <div className={className}>{content}</div>
   )
