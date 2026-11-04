@@ -33,7 +33,7 @@
     "typecheck": "tsc --build",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "test": "node --test \"scripts/**/*.test.ts\"",
+    "test": "vitest run --project=unit",
     "test:stories": "vitest run --project=storybook",
     "check": "pnpm typecheck && biome ci . && pnpm test && changeset status",
     "changeset": "changeset",
@@ -70,5 +70,9 @@
     "vite": "^8.3.5",
     "vite-plugin-dts": "^5.1.2",
     "vitest": "^5.1.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.7.0"
   }
 }
