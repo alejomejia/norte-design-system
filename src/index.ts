@@ -17,6 +17,21 @@ export {
 } from './components/card'
 export { Checkbox, type CheckboxProps } from './components/checkbox'
 export { CodeField, type CodeFieldProps } from './components/code-field'
+export {
+  AlertDialog,
+  type AlertDialogProps,
+  type AlertDialogTriggerProps,
+  Dialog,
+  type DialogBodyProps,
+  type DialogCloseProps,
+  type DialogDescriptionProps,
+  type DialogFooterProps,
+  type DialogHeaderProps,
+  type DialogPopupProps,
+  type DialogProps,
+  type DialogTitleProps,
+  type DialogTriggerProps,
+} from './components/dialog'
 export { Icon, type IconName, type IconProps } from './components/icon'
 export { IconButton, type IconButtonProps } from './components/icon-button'
 export { KeyboardKey, type KeyboardKeyProps } from './components/keyboard-key'
