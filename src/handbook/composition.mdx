@@ -27,8 +27,8 @@ organism: the names say what a piece is for.
 
 From the smallest to the largest, in the order of the sidebar.
 
-1. **Foundations, the tokens.** Colors, type, spacing, radius, elevation and motion. They draw nothing on their own,
-   but every value on screen comes from one. In atomic design, they'd sit below the atoms.
+1. **Foundations, the tokens.** Colors, type, spacing, radius, elevation, motion and the icon set. They draw nothing on
+   their own, but every value on screen comes from one. In atomic design, they'd sit below the atoms.
 2. **Elements, the atoms.** One job each: a button, a text field, a badge. They know nothing about the product.
 3. **Components, the molecules and organisms.** Elements put together to do something bigger: a dialog, a menu, tabs, a
    card. Norte doesn't split molecules from organisms: the line between them is blurry, and size isn't what matters.
@@ -50,6 +50,26 @@ From the smallest to the largest, in the order of the sidebar.
   components of their own.
 - **Each piece has one home.** It lives in one layer, in one group. A specific use stays with its domain: an approval
   dialog is built on Dialog, and lives in AI.
+
+## Where a piece belongs
+
+Ask these in order. The first question that sends the piece somewhere decides its layer.
+
+1. **Does it know about agents, runs or approvals?** Then it lives in AI, however small it is (a run's status). Charts
+   and tables live in Data.
+2. **Does it arrange other pieces?** Groups, lists, stacks, and anything with room for other pieces inside it, are
+   components.
+3. **Does it open, close or control something else?** A tab and its panel, a trigger and its menu: components.
+4. **Is it made of pieces that each keep a job of their own?** Then it's a component. A search field is a text field
+   that takes the query and an icon button that clears it: two jobs.
+5. **None of the above?** It does one job and would work the same in any product: it's an element.
+
+Holding another element doesn't make a piece a component on its own. An icon button has an icon inside, but the icon
+has no job there: it's the button's label, so the icon button is an element. A toolbar of icon buttons arranges them and
+moves focus between them: a component.
+
+> **Not sure?** Build it as a component. A piece that turns out to have one job moves down to Elements easily; an
+> element that grew a layout is harder to take apart, because everything that uses it depends on that layout.
 
 ## An example, taken apart
 
