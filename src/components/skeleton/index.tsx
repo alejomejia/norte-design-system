@@ -4,6 +4,8 @@ import { type ReactNode, useRef } from 'react'
 
 import { useInViewport } from '@/lib/hooks'
 
+import { nameParts } from '@/lib/utils'
+
 import { SKELETON_LABEL } from './skeleton.const'
 import { skeletonStyles } from './skeleton.styles'
 import { SkeletonBox, SkeletonCircle, SkeletonText } from './skeleton-shapes'
@@ -59,8 +61,14 @@ function SkeletonRoot({
   )
 }
 
-export const Skeleton = Object.assign(SkeletonRoot, {
-  Text: SkeletonText,
-  Box: SkeletonBox,
-  Circle: SkeletonCircle,
-})
+// The root's name too: its function is `SkeletonRoot`.
+SkeletonRoot.displayName = 'Skeleton'
+
+export const Skeleton = Object.assign(
+  SkeletonRoot,
+  nameParts('Skeleton', {
+    Text: SkeletonText,
+    Box: SkeletonBox,
+    Circle: SkeletonCircle,
+  }),
+)

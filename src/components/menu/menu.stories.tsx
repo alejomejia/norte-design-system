@@ -10,8 +10,11 @@ import { Menu } from '.'
 
 const onDuplicate = fn()
 
-/** The run's ⋯ menu: what can be done with run #128. */
-function RunActions(props: { onDuplicate?: () => void }) {
+/**
+ * The run's ⋯ menu: what can be done with run #128. A function the stories call, not a component, so the code panel
+ * shows the Menu markup rather than this helper's name.
+ */
+function runActions(props: { onDuplicate?: () => void } = {}) {
   return (
     <>
       <Menu.Item icon="share" shortcut={['⌘', 'S']}>
@@ -55,9 +58,7 @@ const meta = {
   render: (args) => (
     <Menu {...args}>
       <Menu.Trigger render={<IconButton icon="more" label="Run actions" />} />
-      <Menu.Popup align="end">
-        <RunActions onDuplicate={onDuplicate} />
-      </Menu.Popup>
+      <Menu.Popup align="end">{runActions({ onDuplicate })}</Menu.Popup>
     </Menu>
   ),
 } satisfies Meta<typeof Menu>
@@ -187,9 +188,7 @@ export const WithATooltip: Story = {
       <Tooltip content="Run actions">
         <Menu.Trigger render={<IconButton icon="more" label="Run actions" />} />
       </Tooltip>
-      <Menu.Popup align="end">
-        <RunActions />
-      </Menu.Popup>
+      <Menu.Popup align="end">{runActions()}</Menu.Popup>
     </Menu>
   ),
   play: async ({ canvas, canvasElement, step }) => {
@@ -288,9 +287,7 @@ export const InContext: Story = {
         <Tooltip content="Run actions">
           <Menu.Trigger render={<IconButton icon="more" label="Run actions" size="s" />} />
         </Tooltip>
-        <Menu.Popup align="end">
-          <RunActions />
-        </Menu.Popup>
+        <Menu.Popup align="end">{runActions()}</Menu.Popup>
       </Menu>
     </div>
   ),

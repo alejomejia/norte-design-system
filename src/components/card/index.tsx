@@ -2,6 +2,8 @@
 
 import { useRender } from '@base-ui/react/use-render'
 
+import { nameParts } from '@/lib/utils'
+
 import { type CARD_PADDINGS, type CARD_VARIANTS } from './card.const'
 import { cardStyles } from './card.styles'
 import { CardAction, CardBody, CardDescription, CardFooter, CardHeader, CardLink, CardTitle } from './card-parts'
@@ -49,12 +51,18 @@ function CardRoot({ variant = 'outline', padding = 'm', render, className, ref, 
   })
 }
 
-export const Card = Object.assign(CardRoot, {
-  Header: CardHeader,
-  Title: CardTitle,
-  Description: CardDescription,
-  Action: CardAction,
-  Body: CardBody,
-  Footer: CardFooter,
-  Link: CardLink,
-})
+// The root's name too: its function is `CardRoot`.
+CardRoot.displayName = 'Card'
+
+export const Card = Object.assign(
+  CardRoot,
+  nameParts('Card', {
+    Header: CardHeader,
+    Title: CardTitle,
+    Description: CardDescription,
+    Action: CardAction,
+    Body: CardBody,
+    Footer: CardFooter,
+    Link: CardLink,
+  }),
+)

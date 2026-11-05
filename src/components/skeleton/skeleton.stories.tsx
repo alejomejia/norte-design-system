@@ -7,8 +7,11 @@ import { Button } from '@/components/button'
 import { Skeleton, type SkeletonProps } from '.'
 import { SKELETON_CIRCLE_SIZES, SKELETON_TEXT_SIZES } from './skeleton.const'
 
-/** A result of the run while it loads: who found it, a few lines about it, and a chart. */
-function ResultPlaceholder(props: Omit<SkeletonProps, 'children'>) {
+/**
+ * A result of the run while it loads: who found it, a few lines about it, and a chart. A function the stories call, not
+ * a component, so the code panel shows the Skeleton markup rather than this helper's name.
+ */
+function resultPlaceholder(props: Omit<SkeletonProps, 'children'>) {
   return (
     <Skeleton {...props} className="flex flex-col gap-4">
       <div className="flex items-center gap-3">
@@ -51,11 +54,7 @@ const meta = {
       },
     },
   },
-  render: (args) => (
-    <div className="sb-panel">
-      <ResultPlaceholder {...args} />
-    </div>
-  ),
+  render: (args) => <div className="sb-panel">{resultPlaceholder(args)}</div>,
 } satisfies Meta<typeof Skeleton>
 
 export default meta
@@ -177,11 +176,12 @@ export const Appearing: Story = {
           Show again
         </Button>
         <div className="sb-row items-start">
-          <div className="sb-panel sb-box-m">
-            <ResultPlaceholder key={run} label="Loading after a moment" />
+          {/* The key remounts them on each press, so they appear again. */}
+          <div key={`waiting-${run}`} className="sb-panel sb-box-m">
+            {resultPlaceholder({ label: 'Loading after a moment' })}
           </div>
-          <div className="sb-panel sb-box-m">
-            <ResultPlaceholder key={run} label="Loading at once" immediate />
+          <div key={`immediate-${run}`} className="sb-panel sb-box-m">
+            {resultPlaceholder({ label: 'Loading at once', immediate: true })}
           </div>
         </div>
       </div>

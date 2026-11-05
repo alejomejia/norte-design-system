@@ -2,6 +2,8 @@
 
 import { Menu as BaseMenu } from '@base-ui/react/menu'
 
+import { nameParts } from '@/lib/utils'
+
 import {
   MenuCheckboxItem,
   MenuGroup,
@@ -58,15 +60,21 @@ function MenuTrigger(props: MenuTriggerProps) {
   return <BaseMenu.Trigger {...props} />
 }
 
-export const Menu = Object.assign(MenuRoot, {
-  Trigger: MenuTrigger,
-  Popup: MenuPopup,
-  Item: MenuItem,
-  LinkItem: MenuLinkItem,
-  CheckboxItem: MenuCheckboxItem,
-  RadioGroup: MenuRadioGroup,
-  RadioItem: MenuRadioItem,
-  Group: MenuGroup,
-  Separator: MenuSeparator,
-  Submenu: MenuSubmenu,
-})
+// The root's name too: its function is `MenuRoot`.
+MenuRoot.displayName = 'Menu'
+
+export const Menu = Object.assign(
+  MenuRoot,
+  nameParts('Menu', {
+    Trigger: MenuTrigger,
+    Popup: MenuPopup,
+    Item: MenuItem,
+    LinkItem: MenuLinkItem,
+    CheckboxItem: MenuCheckboxItem,
+    RadioGroup: MenuRadioGroup,
+    RadioItem: MenuRadioItem,
+    Group: MenuGroup,
+    Separator: MenuSeparator,
+    Submenu: MenuSubmenu,
+  }),
+)
