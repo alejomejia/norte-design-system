@@ -86,7 +86,6 @@ const preview: Preview = {
           ['Colors', 'Typography', 'Spacing', 'Shape', 'Motion', 'Icons'],
           'Elements',
           [
-            'Overview',
             'Actions',
             ['Button', 'Icon button', 'Link'],
             'Form controls',
