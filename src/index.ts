@@ -4,6 +4,17 @@ export { Avatar, type AvatarProps, type AvatarSize, type AvatarStatus } from './
 export { AvatarGroup, type AvatarGroupItem, type AvatarGroupProps } from './components/avatar-group'
 export { Badge, type BadgeProps } from './components/badge'
 export { Button, type ButtonProps } from './components/button'
+export {
+  Card,
+  type CardActionProps,
+  type CardBodyProps,
+  type CardDescriptionProps,
+  type CardFooterProps,
+  type CardHeaderProps,
+  type CardLinkProps,
+  type CardProps,
+  type CardTitleProps,
+} from './components/card'
 export { Checkbox, type CheckboxProps } from './components/checkbox'
 export { CodeField, type CodeFieldProps } from './components/code-field'
 export { Icon, type IconName, type IconProps } from './components/icon'
