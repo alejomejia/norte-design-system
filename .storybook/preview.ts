@@ -110,7 +110,7 @@ const preview: Preview = {
           'AI',
           [
             'Conversation',
-            ['Prompt input', 'Message', 'Streaming text', 'Suggestions'],
+            ['Prompt input', 'Voice input', 'Message', 'Streaming text', 'Suggestions'],
             'Agents',
             ['Run status', 'Plan', 'Reasoning', 'Tool call', 'Approval request'],
             'Sources',
