@@ -169,6 +169,18 @@
    * ring and shrinks back as it goes. Their lengths differ, so the two never line up the same way twice. */
   --animate-spinner: spinner 2s linear infinite;
   --animate-spinner-arc: spinner-arc 1.5s var(--ease-standard) infinite;
+  /* `breathe`: something that's still loading dims and brightens, again and again, like a skeleton's shapes. */
+  --animate-breathe: breathe 2s ease-in-out infinite;
+
+  @keyframes breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
 
   @keyframes nudge {
     20% {

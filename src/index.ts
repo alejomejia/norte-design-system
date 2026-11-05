@@ -15,6 +15,13 @@ export { PromptInput, type PromptInputProps } from './components/prompt-input'
 export { Reasoning, type ReasoningProps, type ReasoningStatus } from './components/reasoning'
 export { RunStatus, type RunStatusProps, type RunStatusValue } from './components/run-status'
 export { Select, type SelectItem, type SelectProps } from './components/select'
+export {
+  Skeleton,
+  type SkeletonBoxProps,
+  type SkeletonCircleProps,
+  type SkeletonProps,
+  type SkeletonTextProps,
+} from './components/skeleton'
 export { Spinner, type SpinnerProps } from './components/spinner'
 export { Switch, type SwitchProps } from './components/switch'
 export { TextField, type TextFieldProps } from './components/text-field'
