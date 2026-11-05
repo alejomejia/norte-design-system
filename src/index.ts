@@ -16,3 +16,4 @@ export { ToastProvider, type ToastProviderProps, useToast } from './components/t
 export { ToolCall, type ToolCallProps, type ToolCallStatus } from './components/tool-call'
 export { Tooltip, type TooltipProps, TooltipProvider, type TooltipProviderProps } from './components/tooltip'
 export { UndoAction, type UndoActionProps } from './components/undo-action'
+export { VoiceInput, type VoiceInputProps } from './components/voice-input'

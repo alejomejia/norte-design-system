@@ -18,6 +18,7 @@ import {
   Info,
   Link,
   type LucideIcon,
+  Mic,
   Paperclip,
   Pause,
   Pencil,
@@ -78,6 +79,7 @@ export const ICONS = {
   terminal: Terminal,
   tool: Wrench,
   user: User,
+  voice: Mic,
   warning: TriangleAlert,
 } as const satisfies Record<string, LucideIcon>
 
