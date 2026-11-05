@@ -37,6 +37,16 @@ export {
   type MenuTriggerProps,
 } from './components/menu'
 export { Plan, type PlanProps, type PlanStep, type PlanStepStatus } from './components/plan'
+export {
+  Popover,
+  type PopoverCloseProps,
+  type PopoverDescriptionProps,
+  type PopoverHeaderProps,
+  type PopoverPopupProps,
+  type PopoverProps,
+  type PopoverTitleProps,
+  type PopoverTriggerProps,
+} from './components/popover'
 export { PromptInput, type PromptInputProps } from './components/prompt-input'
 export { Reasoning, type ReasoningProps, type ReasoningStatus } from './components/reasoning'
 export { RunStatus, type RunStatusProps, type RunStatusValue } from './components/run-status'
