@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { biggestBump, nextVersion, parseChangelog, parseChangeset } from './changelog'
+import { biggestBump, componentDocs, nextVersion, parseChangelog, parseChangeset } from './changelog'
 
 const CHANGELOG = `# Changelog
 
@@ -86,5 +86,19 @@ describe('nextVersion', () => {
     ['0.1.3', 'major', '1.0.0'],
   ] as const)('takes %s with a %s to %s', (version, bump, expected) => {
     expect(nextVersion(version, bump)).toBe(expected)
+  })
+})
+
+describe('componentDocs', () => {
+  it("links each component's name to its docs page", () => {
+    expect(
+      componentDocs({
+        '/src/components/icon-button/icon-button.stories.tsx': "const meta = { title: 'Elements/Actions/Icon button' }",
+        '/src/components/button/button.stories.tsx': "const meta = { title: 'Elements/Actions/Button' }",
+      }),
+    ).toEqual({
+      IconButton: '?path=/docs/elements-actions-icon-button--docs',
+      Button: '?path=/docs/elements-actions-button--docs',
+    })
   })
 })

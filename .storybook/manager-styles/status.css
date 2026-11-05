@@ -1,7 +1,6 @@
 /*
- * Status badges next to component names in the sidebar (`manager.ts`): Planned, Beta, Ready or Deprecated, read from
- * the status tag of each component's stories. The same as the docs page header's (`status-badge.tsx`), sized for the
- * tree: planned, the status of most of the map, stays the quietest.
+ * Status badges next to component names in the sidebar (`manager.ts`): Beta, Ready or Deprecated, read from the
+ * status tag of each component's stories. The same as the docs page header's (`status-badge.tsx`), sized for the tree.
  */
 .nt-status {
   display: inline-flex;
@@ -18,11 +17,6 @@
   line-height: 1;
   color: var(--nt-status-color);
   white-space: nowrap;
-}
-
-.nt-status[data-status="planned"] {
-  --nt-status-border: var(--sb-color-border);
-  --nt-status-color: var(--sb-color-text-muted);
 }
 
 .nt-status[data-status="beta"] {

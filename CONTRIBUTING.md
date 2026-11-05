@@ -91,8 +91,9 @@ dependencies apps install (they live in `package.json`, next to the dev tools): 
 Breaking means an app has to change its code to upgrade: a renamed prop, token or class, a removed export, a changed
 default.
 
-**How to write it:** for the people using the package, in the imperative, with names in backticks. For a breaking
-change, also say what apps must change.
+**How to write it:** one line, for the people using the package: what changed, in the imperative, with names in
+backticks. It says _what_ is in the release, not how it works: the details belong on the component's docs page, which
+the Changelog links to from each name. A breaking change adds one sentence: what apps must change.
 
 ```md
 ---
@@ -117,7 +118,7 @@ release on `main` as `vX.Y.Z`. It happens when `dev` has something worth shippin
 git switch dev
 pnpm release:status               # the next version and the notes it includes
 pnpm release:version              # bumps package.json, writes CHANGELOG.md, deletes the used changesets
-pnpm check && pnpm build          # and read CHANGELOG.md
+pnpm typecheck && pnpm lint && pnpm test && pnpm build   # and read CHANGELOG.md
 git commit -am "chore(release): v0.2.0"
 
 # 2. Move main to it and tag it
@@ -128,6 +129,8 @@ git push origin main dev v0.2.0
 git switch dev
 ```
 
+- **Not `pnpm check` in step 1:** its `changeset status` compares `dev` with `main`, and once `release:version` has used
+  the changesets, it sees changed files with no note until `main` moves. Run the other checks on their own.
 - **`main` only fast-forwards to `dev`.** If `--ff-only` refuses, `main` has a commit that `dev` doesn't: find out why
   before going further.
 - **A pushed tag never moves and is never deleted.** If a release has a bug, fix it on `dev` and release a patch.

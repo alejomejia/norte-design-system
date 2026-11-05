@@ -102,3 +102,27 @@ export function nextVersion(version: string, bump: Bump): string {
   if (bump === 'minor') return `${major}.${minor + 1}.0`
   return `${major}.${minor}.${patch + 1}`
 }
+
+// A story file's title: `title: 'Elements/Actions/Icon button'`.
+const STORY_TITLE = /title:\s*'([^']+)'/
+
+/**
+ * Each component's docs page by its name, from the story files: `IconButton` (folder `icon-button`) →
+ * `?path=/docs/elements-actions-icon-button--docs`, for linking the names in the notes. Ids follow Storybook's: the
+ * title in lowercase, with every run of other characters as one dash.
+ */
+export function componentDocs(storyFiles: Record<string, string>): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(storyFiles).flatMap(([path, source]) => {
+      const folder = path.split('/').at(-2) ?? ''
+      const title = STORY_TITLE.exec(source)?.[1]
+      if (!title) return []
+      const name = folder.replaceAll(/(^|-)(\w)/g, (_, _dash, letter: string) => letter.toUpperCase())
+      const id = title
+        .toLowerCase()
+        .replaceAll(/[^a-z0-9]+/g, '-')
+        .replaceAll(/^-|-$/g, '')
+      return [[name, `?path=/docs/${id}--docs`]]
+    }),
+  )
+}

@@ -1,43 +1,47 @@
 # norte-design-system
 
+## 0.2.0
+
+### Minor Changes
+
+- 02e0c26: Add `CodeField`: a one-time code with one slot per character, paste and autofill. Adds `animate-settle`.
+- cc1d2e5: Add `Plan`: an agent's plan as a checklist it ticks off, each finished step struck through.
+- 059f67f: Add `PromptInput`: a growing text area with attachments, the model, dictation, and send that becomes stop.
+- d17fb14: Add `Reasoning`: an agent's steps under a "Thinking" header with a live clock, folded into one line when done. Adds the
+  `animate-shimmer` animation.
+- 87b535b: Add `RunStatus`: what an agent is doing in one row, with a rippling lattice and a stopwatch. Adds `animate-glimmer`.
+- e905112: Add `Select`: one option from a short list, with a highlight that glides between rows and a `ghost` variant for toolbars.
+- 747e1a0: Add `ToastProvider` and `useToast`: Sonner-style stacked toasts, with a type icon, an action and promise toasts.
+- d3015f5: Add `ToolCall`: one tool call of an agent as a chip, with a live timer and its outcome. Adds the `animate-nudge` animation.
+- 4ded760: Add `Tooltip` and `TooltipProvider`: short labels that warm up across a toolbar, with an optional shortcut. Adds the
+  `inverse` and `on-inverse` color roles.
+- b85f63a: Add `UndoAction`: a finished action with an Undo button and a draining countdown. Adds `animate-drain`.
+- 2e43bbc: Add `VoiceInput`: a mic button that grows into a recording pill with live level bars. Adds the `voice` icon.
+- b4dfb74: Add `hover` to `Button`: `fade` brings the fill in quietly, for buttons in a row. `IconButton` always fades, and a ghost icon rests muted.
+- 74b5bdf: Add the `surface-strong` and `danger-muted` color roles and the `--duration-slower` duration; `accent-hover` is darker.
+- 537d764: Add `keys` to `KeyboardKey`: a shortcut's keys in one cap, like `⌘K`.
+
+### Patch Changes
+
+- 7b8b8ee: `Button` hovers wipe a fill across from the left, and the secondary outline darkens with it.
+- 8b31603: `Checkbox` draws its check a moment after the box starts filling.
+- 501ecfd: `Checkbox` wipes its fill in from the left when checked, like the `Button` hover.
+
 ## 0.1.0
 
 ### Minor Changes
 
-- 413c767: Add `Badge`, a short label for a status or a count, in five tones (`neutral`, `accent`, `success`, `warning`,
-  `danger`). `dot` shows a dot in its tone, and `live` pulses it for a state that's still changing, like a run in progress.
-- d9fae2d: Add the brand foundations to `theme.css`. Colors come in two layers: primitives (a neutral scale, one blue accent and
-  status colors) and roles that components read (`canvas`, `surface`, `ink`, `line`, `accent`, `focus`, `success`…). It
-  also adds the type scale (`text-caption` to `text-display`, in Inter and JetBrains Mono), font weights, radii, shadows,
-  easings and durations, which drop to zero under reduced motion.
-  
-  The theme replaces Tailwind's defaults: classes like `bg-blue-500`, `text-xl` or `rounded-lg` no longer exist in apps
-  that import it. Use the Norte names instead (`bg-accent`, `text-heading-s`, `rounded-l`).
-- 6478e6a: Add `Button`: `primary`, `secondary`, `ghost` and `danger` variants in two sizes (`s`, `m`), and `type="button"` by
-  default so it never submits a form by accident. Built on Base UI.
-  
-  - **Hover and press:** a fill grows from the button's center on hover, and a press sinks it a little and lets it spring
-    back.
-  - **`loading`:** a spinner in place of the label; the button keeps its width and focus, and ignores clicks.
-  - **`success`:** set it as `loading` turns off, and the spinner turns into a check that draws itself, then the label
-    comes back. Screen readers hear `successLabel` ("Done"). Animated with Motion, which loads the first time a button is
-    busy. Adds `motion` as a dependency.
-- b5785f8: Add `Checkbox`, for options a form saves later: when checked, the box fills and draws its check, and `indeterminate`
-  shows a mixed state for a box that checks a group. `children` is its label. Built on Base UI.
-- 0e58f58: Add `IconButton`: a square button with an `icon` and no visible label, for actions that repeat in toolbars, rows and
-  cards. It has `Button`'s variants, sizes and states, is `ghost` by default, and requires a `label`, its accessible name.
-- 7ea71c5: Add `Icon`, which draws one of Norte's 36 icons, drawn by Lucide and named after what they mean (`agent`, `approve`,
-  `run`…): `name` picks it, `size` sets `s` (16px, the default), `m` (24px) or `l` (32px), and `label` gives it an
-  accessible name when nothing next to it says what it means. It takes the color of its text and keeps a 1.5px stroke at
-  every size. Adds `lucide-react` as a dependency.
-- dce870f: Add `KeyboardKey`, one key written the way it looks on a keyboard (`<kbd>`). Place several side by side for a shortcut,
-  and give symbols a `label` (`Command` for `⌘`) so screen readers say the key's name.
-- c9912d9: Add the `--ease-spring` easing (`ease-spring`) and its `--duration-spring` duration: Motion's `spring(0.3, 0.3)` as a CSS
-  `linear()` curve, for small things that settle, like a press or a check. `cn` and `tv` now know Norte's easings, so
-  `cn('ease-standard', 'ease-spring')` keeps only the last one.
-- 0fd0e95: Add `Switch`, for a setting that applies right away: its thumb springs across the track, and stretches toward where
-  it's going while pressed. `children` is its label, and clicking the label toggles it. Built on Base UI.
+- 413c767: Add `Badge`: a status or a count in five tones, with a `dot` that pulses when `live`.
+- d9fae2d: Add the brand foundations to `theme.css`: color roles, type scale, radii, shadows and motion. It replaces
+  Tailwind's default theme, so classes like `bg-blue-500` become Norte's (`bg-accent`).
+- 6478e6a: Add `Button`: four variants, two sizes, and `loading` and `success` states. Adds `motion`.
+- b5785f8: Add `Checkbox`, with an `indeterminate` state for groups.
+- 0e58f58: Add `IconButton`: an icon-only `Button` with a required `label`.
+- 7ea71c5: Add `Icon`: 36 Lucide icons named by meaning, in three sizes. Adds `lucide-react`.
+- dce870f: Add `KeyboardKey`, a key written the way it looks on a keyboard.
+- c9912d9: Add the `--ease-spring` easing and `--duration-spring`, made with Motion's `spring()`.
+- 0fd0e95: Add `Switch`, for settings that apply right away.
 
 ### Patch Changes
 
-- 3008b0c: Add `clsx` and `tailwind-merge` as dependencies: the components merge their classes with an app's `className` through them.
+- 3008b0c: Add `clsx` and `tailwind-merge` as dependencies, to merge an app's `className`.

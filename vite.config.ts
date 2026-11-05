@@ -41,8 +41,8 @@ export default defineConfig({
       tsconfigPath: './tsconfig.app.json',
       entryRoot: 'src',
       include: ['src/**/*.ts', 'src/**/*.tsx'],
-      // Storybook-only files: stories, the handbook pages and the placeholders of planned components.
-      exclude: ['src/**/*.stories.tsx', 'src/**/*.test.ts', 'src/handbook/**', 'src/placeholders/**'],
+      // Storybook-only files: stories and the handbook pages.
+      exclude: ['src/**/*.stories.tsx', 'src/**/*.test.ts', 'src/handbook/**'],
     }),
   ],
   resolve: {

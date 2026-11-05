@@ -51,19 +51,23 @@
   --color-amber-50: oklch(0.987 0.015 95);
   --color-amber-700: oklch(0.555 0.146 49);
   --color-red-50: oklch(0.971 0.013 17);
+  --color-red-100: oklch(0.936 0.032 17);
   --color-red-700: oklch(0.505 0.19 27);
 
   /* Roles. Every text and border pair is checked for WCAG AA by `pnpm test` (`scripts/tokens/`). */
   --color-canvas: var(--color-white); /* The page */
   --color-surface: var(--color-white); /* Cards, inputs, panels */
   --color-surface-muted: var(--color-neutral-100); /* Hovered rows, code, quiet fills */
+  --color-surface-strong: var(--color-neutral-200); /* Hovered fills of quiet controls, like a ghost button */
+  --color-inverse: var(--color-neutral-900); /* Dark surfaces on a light page: tooltips */
+  --color-on-inverse: var(--color-white); /* Text on an inverse surface */
   --color-ink: var(--color-neutral-900); /* Text */
   --color-ink-muted: var(--color-neutral-600); /* Secondary text */
   --color-ink-subtle: var(--color-neutral-500); /* Hints, placeholders, timestamps */
   --color-line: var(--color-neutral-200); /* Dividers and quiet borders */
   --color-line-strong: var(--color-neutral-400); /* Borders that outline a control: 3:1 at least */
   --color-accent: var(--color-blue-600); /* Primary fills */
-  --color-accent-hover: var(--color-blue-700); /* Primary fills, hovered or pressed */
+  --color-accent-hover: var(--color-blue-800); /* Primary fills, hovered or pressed */
   --color-accent-subtle: var(--color-blue-50); /* Selected rows, highlights */
   --color-on-accent: var(--color-white); /* Text on an accent fill */
   --color-accent-ink: var(--color-blue-600); /* Accent-colored text: links, active items */
@@ -74,6 +78,7 @@
   --color-warning-subtle: var(--color-amber-50); /* Behind a warning */
   --color-danger: var(--color-red-700); /* Text and icons of an error: a run that failed */
   --color-danger-subtle: var(--color-red-50); /* Behind an error */
+  --color-danger-muted: var(--color-red-100); /* Hovered fills of danger controls */
 }
 
 @theme {
@@ -147,6 +152,66 @@
     0.9984,
     1
   ); /* Motion's spring(0.3, 0.3): a short overshoot, then it settles */
+
+  /* Animations, read with `animate-*`. `nudge`: one small shake, for something that failed. `shimmer`: a light that
+   * crosses a text again and again, for something that's still working (with a gradient text, `bg-size-[200%_100%]`). */
+  --animate-nudge: nudge 320ms var(--ease-standard);
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  /* `glimmer`: a cell that brightens and dims, again and again; offset cells make a wave. */
+  --animate-glimmer: glimmer 1.6s var(--ease-standard) infinite;
+  /* `drain`: a bar that empties toward its start, once: a countdown (set its length with `animation-duration`). */
+  --animate-drain: drain 5s linear forwards;
+  /* `settle`: something arriving drops the last few pixels into place, once, like a digit into its slot. */
+  --animate-settle: settle var(--duration-base) var(--ease-enter);
+
+  @keyframes nudge {
+    20% {
+      translate: -0.25rem; /* -4px */
+    }
+    40% {
+      translate: 0.25rem; /* 4px */
+    }
+    60% {
+      translate: -0.125rem; /* -2px */
+    }
+    80% {
+      translate: 0.125rem; /* 2px */
+    }
+  }
+
+  @keyframes settle {
+    from {
+      translate: 0 -0.25rem; /* -4px */
+    }
+  }
+
+  @keyframes drain {
+    from {
+      scale: 1 1;
+    }
+    to {
+      scale: 0 1;
+    }
+  }
+
+  @keyframes glimmer {
+    0%,
+    100% {
+      opacity: 0.2;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: 0% 0;
+    }
+  }
 }
 
 @layer theme {
@@ -157,6 +222,7 @@
     --duration-fast: 120ms; /* Hovers, presses */
     --duration-base: 200ms; /* Most transitions */
     --duration-slow: 320ms; /* Panels and dialogs entering */
+    --duration-slower: 500ms; /* Fills that sweep across a control, like a button's hover */
     --duration-spring: 500ms; /* The whole spring curve, settling included */
   }
 
@@ -166,6 +232,7 @@
       --duration-fast: 0ms;
       --duration-base: 0ms;
       --duration-slow: 0ms;
+      --duration-slower: 0ms;
       --duration-spring: 0ms;
     }
   }

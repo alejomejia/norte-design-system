@@ -1,8 +1,118 @@
 import { Meta } from '@storybook/addon-docs/blocks'
 
+import { Card, Cards } from '@/handbook/blocks/cards'
+import { PageHeader } from '@/handbook/blocks/page-header'
+import { Topography } from '@/handbook/blocks/topography'
+
 <Meta title="Handbook/Introduction" />
 
-# Norte Design System
+<PageHeader section="Handbook" title="Norte Design System" cover={<Topography />}>
+  The shared design language of Norte, a workspace where teams run AI agents and review their work: the brand
+  foundations and the React components built on them, in one package.
+</PageHeader>
 
-The shared design language of Norte, a workspace where teams run AI agents and review their work: the brand foundations (color, typography,
-spacing) and the React components built on them, in one package.
+> **Status: early.** The foundations and the first elements are ready to use, and the components for AI agents come
+> next. Each component shows its status next to its name: **beta** while its API may still change, **ready** once it's
+> settled.
+
+## How this handbook is organized
+
+The sidebar goes from the smallest pieces to whole screens, and each section builds only on the ones above it.
+
+<Cards>
+  <Card title="Foundations" icon="palette" href="?path=/docs/foundations-colors--docs">
+    The tokens every component reads: color roles, type, spacing, shape, motion and icons. Each one copies its
+    variable.
+  </Card>
+  <Card title="Elements" icon="atom" href="?path=/docs/elements-actions-button--docs">
+    The smallest pieces, with one job each: buttons, form controls, icons, badges.
+  </Card>
+  <Card title="Components" icon="component">
+    Elements put together into general interface pieces: dialogs, menus, toasts, tabs, cards.
+  </Card>
+  <Card title="AI" icon="bot">
+    Pieces that know about agents, runs and their sources: the prompt, tool calls, approvals, a run's status.
+  </Card>
+  <Card title="Data" icon="chart-column">
+    Charts and tables, for what agents measure and produce.
+  </Card>
+  <Card title="Pages" icon="layout-template">
+    Whole screens of the workspace, built from everything above.
+  </Card>
+</Cards>
+
+Every component has a page with a playground, every variant and state, and a table of its props. The handbook also
+holds pages about the system itself:
+
+<Cards>
+  <Card title="Composition" icon="layers" href="?path=/docs/handbook-composition--docs">
+    How the layers build on each other, and how to tell where a piece belongs.
+  </Card>
+  <Card title="Changelog" icon="history" href="?path=/docs/handbook-changelog--docs">
+    What's new and what's patched in each version, and what the next one brings.
+  </Card>
+  <Card
+    title="Contributing"
+    icon="git-pull-request"
+    href="https://github.com/alejomejia/norte-design-system/blob/dev/CONTRIBUTING.md"
+  >
+    Branches, commits, changesets and releases.
+  </Card>
+</Cards>
+
+## Where a new component goes
+
+Go down the list and stop at the first match:
+
+1. **A token or a guideline** goes in Foundations.
+2. **A piece that can't be split** into smaller parts that are useful on their own is an Element.
+3. **A piece that knows about agents, runs, approvals or sources** goes in AI, however small it is.
+4. **A chart or a table** goes in Data.
+5. **Anything else** is a Component, and a whole screen is a Page.
+
+> States like loading, empty or failed are stories of a component, not new components. The questions behind each step,
+> with examples, are on [Composition](?path=/docs/handbook-composition--docs).
+
+## Using the package
+
+Install it, then add the theme to the stylesheet your app's root layout imports. The components ship with their
+Tailwind classes, not compiled CSS, so your Tailwind builds them together with your own classes.
+
+```bash
+pnpm add norte-design-system
+```
+
+```css
+@import "tailwindcss";
+@import "norte-design-system/theme.css";
+@source "../node_modules/norte-design-system/dist";
+```
+
+```tsx
+import { Button, Icon } from 'norte-design-system'
+
+export function RunButton() {
+  return (
+    <Button>
+      <Icon name="run" /> Run agent
+    </Button>
+  )
+}
+```
+
+**Fonts:** Norte uses Inter and JetBrains Mono. With `next/font`, expose them as the `--nt-font-sans` and
+`--nt-font-mono` variables and the theme picks them up.
+
+## Theming
+
+Every value is a token, a CSS custom property, and components read roles, never raw colors. To adjust Norte in one
+app, point a role somewhere else after the theme, and every component that reads it follows:
+
+```css
+@theme {
+  --color-accent: var(--color-blue-700);
+}
+```
+
+Every component also takes a `className`, merged last, so one class in your code wins over the component's own
+without a fight over specificity.

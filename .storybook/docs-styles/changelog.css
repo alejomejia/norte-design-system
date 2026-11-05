@@ -3,19 +3,16 @@
  * follow the page, plus the commit each note links to.
  */
 
-/* A note's paragraphs, rendered by Storybook's `Markdown`: tight inside their list item. */
-#storybook-docs .sbdocs-content .nt-changelog-notes > li p {
-  margin: 0 0 0.5rem; /* 8px */
-}
-
+/* One line per note: its text, then its commit. */
 #storybook-docs .sbdocs-content .nt-changelog-notes > li {
-  margin-bottom: 1rem; /* 16px */
+  margin-bottom: 0.5rem; /* 8px */
 }
 
 /* The commit of a note: a quiet chip after its text, which only takes the text color on hover. */
 #storybook-docs .sbdocs-content a.nt-changelog-commit {
   display: inline-flex;
   align-items: center;
+  margin-left: 0.5rem; /* 8px */
   font-family: var(--sb-font-family-code);
   font-size: var(--sb-font-size-s);
   color: var(--sb-color-text-muted);

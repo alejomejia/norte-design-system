@@ -5,7 +5,7 @@ import { Icon, type IconName } from '@/components/icon'
 
 import { iconButton } from './icon-button.styles'
 
-export type IconButtonProps = Omit<ButtonProps, 'children'> & {
+export type IconButtonProps = Omit<ButtonProps, 'children' | 'hover'> & {
   /** The icon, by its name in Norte's set. */
   icon: IconName
   /**
@@ -25,7 +25,14 @@ export type IconButtonProps = Omit<ButtonProps, 'children'> & {
  */
 export function IconButton({ icon, label, variant = 'ghost', size = 'm', className, ...props }: IconButtonProps) {
   return (
-    <Button {...props} variant={variant} size={size} aria-label={label} className={iconButton({ size, className })}>
+    <Button
+      {...props}
+      variant={variant}
+      size={size}
+      hover="fade"
+      aria-label={label}
+      className={iconButton({ size, ghost: variant === 'ghost', className })}
+    >
       <Icon name={icon} />
     </Button>
   )

@@ -1,4 +1,5 @@
 import { type Meta, type StoryObj } from '@storybook/react-vite'
+import { expect } from 'storybook/test'
 
 import { KeyboardKey } from '.'
 
@@ -11,7 +12,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A key or a shortcut, like ⌘K, written the way it looks on a keyboard.',
+        component:
+          'A key or a shortcut, like ⌘K, written the way it looks on a keyboard: one cap, its keys side by side. Pass a shortcut as `keys`, a single key as `children`.',
       },
     },
   },
@@ -24,19 +26,29 @@ export const Playground: Story = {
   parameters: { docs: { canvas: { sourceState: 'shown' } } },
 }
 
-/** A shortcut: its keys side by side. Symbols get a `label`, so screen readers say "Command K", not "⌘ K". */
+/**
+ * A shortcut: its `keys` in one cap, side by side, like `⌘K`. Symbols are read by name, so screen readers say "Command
+ * K", not "⌘ K".
+ */
 export const Shortcut: Story = {
+  args: { keys: ['⌘', 'K'], children: undefined },
+  play: async ({ canvas, step }) => {
+    await step('Screen readers hear the keys by name', async () => {
+      await expect(canvas.getByText('K').closest('kbd')?.parentElement).toHaveTextContent('Command K')
+    })
+  },
+}
+
+/** Common shortcuts in Norte. */
+export const Shortcuts: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="sb-row">
-      <span className="inline-flex gap-1">
-        <KeyboardKey label="Command">⌘</KeyboardKey>
-        <KeyboardKey>K</KeyboardKey>
-      </span>
-      <span className="inline-flex gap-1">
-        <KeyboardKey label="Shift">⇧</KeyboardKey>
-        <KeyboardKey>Enter</KeyboardKey>
-      </span>
+      <KeyboardKey keys={['⌘', 'K']} />
+      <KeyboardKey keys={['⌘', '↵']} />
+      <KeyboardKey keys={['⇧', '↵']} />
+      <KeyboardKey keys={['⌘', '⇧', 'P']} />
+      <KeyboardKey>Esc</KeyboardKey>
     </div>
   ),
 }
@@ -47,8 +59,7 @@ export const InText: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <p className="text-body-s text-ink-muted">
-      Press <KeyboardKey>Enter</KeyboardKey> to send, or <KeyboardKey label="Shift">⇧</KeyboardKey>{' '}
-      <KeyboardKey>Enter</KeyboardKey> for a new line.
+      Press <KeyboardKey keys={['↵']} /> to send, or <KeyboardKey keys={['⇧', '↵']} /> for a new line.
     </p>
   ),
 }

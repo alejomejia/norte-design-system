@@ -40,6 +40,11 @@
   gap: 1rem; /* 16px */
 }
 
+/* A row that ends on the right, for components that grow to the left of where they sit: the voice input's pill. */
+.sb-row--end {
+  justify-content: flex-end;
+}
+
 /* One under the other, each at its own width: states, content shapes. */
 .sb-stack {
   display: flex;

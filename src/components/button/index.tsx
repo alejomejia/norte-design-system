@@ -3,7 +3,7 @@
 import { Button as BaseButton } from '@base-ui/react/button'
 import { type ReactNode, useState } from 'react'
 
-import { type BUTTON_SIZES, BUTTON_SUCCESS_DURATION, type BUTTON_VARIANTS } from './button.const'
+import { type BUTTON_HOVERS, type BUTTON_SIZES, BUTTON_SUCCESS_DURATION, type BUTTON_VARIANTS } from './button.const'
 import { useSuccessFeedback } from './button.hooks'
 import { button, buttonContent } from './button.styles'
 import { ButtonFeedback } from './button-feedback'
@@ -16,6 +16,11 @@ export type ButtonProps = Omit<BaseButton.Props, 'className' | 'children' | 'dis
   variant?: (typeof BUTTON_VARIANTS)[number]
   /** Its height: `s` (32px) in toolbars and dense rows, `m` (40px) everywhere else. */
   size?: (typeof BUTTON_SIZES)[number]
+  /**
+   * How the fill arrives on hover: `wipe` sweeps it across, to draw the eye to an action; `fade` brings it in quietly,
+   * for buttons that sit in a row, where a sweep on each would be too much. Icon buttons always fade.
+   */
+  hover?: (typeof BUTTON_HOVERS)[number]
   /**
    * While its action runs: shows a spinner in place of the label, keeps the button's width and ignores clicks. It stays
    * focusable, so focus isn't lost, and announces itself as busy.
@@ -47,6 +52,7 @@ export type ButtonProps = Omit<BaseButton.Props, 'className' | 'children' | 'dis
 export function Button({
   variant = 'primary',
   size = 'm',
+  hover = 'wipe',
   loading = false,
   success,
   successLabel = 'Done',
@@ -73,7 +79,7 @@ export function Button({
         disabled={disabled || busy}
         focusableWhenDisabled={busy}
         aria-busy={loading || undefined}
-        className={button({ variant, size, busy, loading, className })}
+        className={button({ variant, size, hover, busy, loading, className })}
       >
         {hasBeenBusy && <ButtonFeedback state={state} animateIn={!busyAtMount} />}
         <span className={buttonContent({ busy })}>{children}</span>

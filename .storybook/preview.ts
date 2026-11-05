@@ -77,7 +77,7 @@ const preview: Preview = {
     },
     options: {
       // The map of the sidebar: sections, their groups and their components, in order. A new component takes its place
-      // here; the planned ones live in `src/placeholders/`.
+      // here.
       storySort: {
         order: [
           'Handbook',
@@ -86,11 +86,10 @@ const preview: Preview = {
           ['Colors', 'Typography', 'Spacing', 'Shape', 'Motion', 'Icons'],
           'Elements',
           [
-            'Overview',
             'Actions',
             ['Button', 'Icon button', 'Link'],
             'Form controls',
-            ['Text field', 'Textarea', 'Select', 'Checkbox', 'Switch'],
+            ['Text field', 'Textarea', 'Select', 'Checkbox', 'Switch', 'Code field'],
             'Media',
             ['Logo', 'Icon', 'Avatar'],
             'Indicators',
@@ -101,7 +100,7 @@ const preview: Preview = {
             'Overlays',
             ['Dialog', 'Menu', 'Popover', 'Tooltip'],
             'Feedback',
-            ['Toast', 'Alert', 'Empty state'],
+            ['Toast', 'Undo action', 'Alert', 'Empty state'],
             'Navigation',
             ['Tabs', 'Breadcrumb', 'Command menu'],
             'Content',
@@ -110,9 +109,9 @@ const preview: Preview = {
           'AI',
           [
             'Conversation',
-            ['Prompt input', 'Message', 'Streaming text', 'Suggestions'],
+            ['Prompt input', 'Voice input', 'Message', 'Streaming text', 'Suggestions'],
             'Agents',
-            ['Tool call', 'Approval request', 'Run timeline', 'Run status'],
+            ['Run status', 'Plan', 'Reasoning', 'Tool call', 'Approval request'],
             'Sources',
             ['Citation', 'Source list'],
           ],
