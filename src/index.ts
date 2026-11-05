@@ -10,5 +10,6 @@ export { Plan, type PlanProps, type PlanStep, type PlanStepStatus } from './comp
 export { Reasoning, type ReasoningProps, type ReasoningStatus } from './components/reasoning'
 export { RunStatus, type RunStatusProps, type RunStatusValue } from './components/run-status'
 export { Switch, type SwitchProps } from './components/switch'
+export { ToastProvider, type ToastProviderProps, useToast } from './components/toast'
 export { ToolCall, type ToolCallProps, type ToolCallStatus } from './components/tool-call'
 export { UndoAction, type UndoActionProps } from './components/undo-action'
