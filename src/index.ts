@@ -75,6 +75,13 @@ export {
 } from './components/skeleton'
 export { Spinner, type SpinnerProps } from './components/spinner'
 export { Switch, type SwitchProps } from './components/switch'
+export {
+  Tabs,
+  type TabsListProps,
+  type TabsPanelProps,
+  type TabsProps,
+  type TabsTabProps,
+} from './components/tabs'
 export { TextField, type TextFieldProps } from './components/text-field'
 export { Textarea, type TextareaProps } from './components/textarea'
 export { ToastProvider, type ToastProviderProps, useToast } from './components/toast'

@@ -2,6 +2,7 @@
 export { contrastRatio, isInSrgbGamut, type LinearRgb, oklchToLinearRgb, parseOklch, toHex } from './color'
 export { nameParts } from './components'
 export { mergeRefs } from './refs'
+export { getScrollEdges, type ScrollEdges } from './scroll'
 export { drawShader, type ShaderUniforms } from './shader'
 export { cn, type Rgb, readCssColor, toCSSVars, tv, type VariantProps } from './styles'
 export { initials } from './text'
