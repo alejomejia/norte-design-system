@@ -3,10 +3,12 @@ import { tv } from '@/lib/utils'
 /**
  * A tooltip: a small dark label that slides 4px out from its trigger as it fades in, so it seems to come from the
  * control it describes, on whichever side it opens (`data-side`). It leaves faster than it came, with a fade only. When
- * tooltips are warm, the next one appears at once (`data-instant`), with no animation to wait for.
+ * tooltips are warm, the next one appears at once (`data-instant`), with no animation to wait for. It sits a layer above
+ * menus, popovers and dialogs (`z-50`), since it labels whatever is under the pointer, wherever that is.
  */
 export const tooltipStyles = tv({
   slots: {
+    positioner: 'z-60',
     popup: [
       'flex items-center gap-2 rounded-s bg-inverse px-2 py-1 text-caption font-medium text-on-inverse shadow-m',
       'transition-[opacity,translate] duration-(--duration-slow) ease-enter',

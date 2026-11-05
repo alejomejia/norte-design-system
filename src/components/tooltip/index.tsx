@@ -54,7 +54,7 @@ export function Tooltip({
       {/* The delay is set here, not only on the provider, so a tooltip outside one opens as quickly. */}
       <BaseTooltip.Trigger render={children} delay={delay} />
       <BaseTooltip.Portal>
-        <BaseTooltip.Positioner side={side} align={align} sideOffset={8}>
+        <BaseTooltip.Positioner side={side} align={align} sideOffset={8} className={styles.positioner()}>
           <BaseTooltip.Popup className={styles.popup({ className })}>
             {content}
             {shortcut && <KeyboardKey keys={shortcut} className={styles.shortcut()} />}
