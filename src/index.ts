@@ -22,6 +22,20 @@ export { IconButton, type IconButtonProps } from './components/icon-button'
 export { KeyboardKey, type KeyboardKeyProps } from './components/keyboard-key'
 export { Link, type LinkProps } from './components/link'
 export { Logo, type LogoProps } from './components/logo'
+export {
+  Menu,
+  type MenuCheckboxItemProps,
+  type MenuGroupProps,
+  type MenuItemProps,
+  type MenuLinkItemProps,
+  type MenuPopupProps,
+  type MenuProps,
+  type MenuRadioGroupProps,
+  type MenuRadioItemProps,
+  type MenuSeparatorProps,
+  type MenuSubmenuProps,
+  type MenuTriggerProps,
+} from './components/menu'
 export { Plan, type PlanProps, type PlanStep, type PlanStepStatus } from './components/plan'
 export { PromptInput, type PromptInputProps } from './components/prompt-input'
 export { Reasoning, type ReasoningProps, type ReasoningStatus } from './components/reasoning'
