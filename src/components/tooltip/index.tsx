@@ -5,7 +5,7 @@ import { type ReactElement, type ReactNode } from 'react'
 
 import { KeyboardKey } from '@/components/keyboard-key'
 
-import { TOOLTIP_DELAY, type TOOLTIP_SIDES, TOOLTIP_WARM_WINDOW } from './tooltip.const'
+import { type TOOLTIP_ALIGNS, TOOLTIP_DELAY, type TOOLTIP_SIDES, TOOLTIP_WARM_WINDOW } from './tooltip.const'
 import { tooltipStyles } from './tooltip.styles'
 
 export type TooltipProps = {
@@ -13,17 +13,25 @@ export type TooltipProps = {
   content: ReactNode
   /** A keyboard shortcut for the same action, shown after the words: `['⌘', '↵']`. */
   shortcut?: string[]
-  /** The element it describes: a single element that takes a ref, like `IconButton`. */
+  /**
+   * The element it describes: a single element that takes a ref, like `IconButton`. A disabled button needs
+   * `focusableWhenDisabled`, or it gets no hover or focus and the tooltip never opens.
+   */
   children: ReactElement
   /** Where it opens, relative to the trigger. It flips when there's no room. */
   side?: (typeof TOOLTIP_SIDES)[number]
+  /** How it lines up with the trigger along that side: `start`, `center` or `end`. It shifts to stay on screen. */
+  align?: (typeof TOOLTIP_ALIGNS)[number]
+  /** How long the pointer rests on the trigger before it opens, in ms. Focus opens it at once. */
+  delay?: number
   className?: string
 }
 
 /**
  * A short label that appears when a control is hovered or focused, for what an icon alone can't say: "Copy output",
- * with its shortcut. Not for anything people must read to use the page. Inside `TooltipProvider`, tooltips warm up:
- * the first one waits a moment, and its neighbors then open at once. Built on Base UI's Tooltip. Idea from React Bits'
+ * with its shortcut. Not for anything people must read to use the page. It opens once the pointer rests on its
+ * trigger for a moment (`delay`). Inside `TooltipProvider`, tooltips warm up: after the first, its neighbors open at
+ * once. Built on Base UI's Tooltip. Idea from React Bits'
  * Warm Tooltip.
  *
  * @example
@@ -31,13 +39,22 @@ export type TooltipProps = {
  *   <IconButton icon="copy" label="Copy output" />
  * </Tooltip>
  */
-export function Tooltip({ content, shortcut, children, side = 'top', className }: TooltipProps) {
+export function Tooltip({
+  content,
+  shortcut,
+  children,
+  side = 'top',
+  align = 'center',
+  delay = TOOLTIP_DELAY,
+  className,
+}: TooltipProps) {
   const styles = tooltipStyles()
   return (
     <BaseTooltip.Root>
-      <BaseTooltip.Trigger render={children} />
+      {/* The delay is set here, not only on the provider, so a tooltip outside one opens as quickly. */}
+      <BaseTooltip.Trigger render={children} delay={delay} />
       <BaseTooltip.Portal>
-        <BaseTooltip.Positioner side={side} sideOffset={8}>
+        <BaseTooltip.Positioner side={side} align={align} sideOffset={8}>
           <BaseTooltip.Popup className={styles.popup({ className })}>
             {content}
             {shortcut && <KeyboardKey keys={shortcut} className={styles.shortcut()} />}
@@ -50,21 +67,11 @@ export function Tooltip({ content, shortcut, children, side = 'top', className }
 
 export type TooltipProviderProps = {
   children: ReactNode
-  /** How long the pointer rests on a trigger before the first tooltip opens, in ms. */
-  delay?: number
   /** How long tooltips stay warm after one closes, in ms: a neighbor hovered within it opens at once. */
   warmWindow?: number
 }
 
 /** Groups tooltips so they warm up together: wrap the app, or a toolbar, once. */
-export function TooltipProvider({
-  children,
-  delay = TOOLTIP_DELAY,
-  warmWindow = TOOLTIP_WARM_WINDOW,
-}: TooltipProviderProps) {
-  return (
-    <BaseTooltip.Provider delay={delay} timeout={warmWindow}>
-      {children}
-    </BaseTooltip.Provider>
-  )
+export function TooltipProvider({ children, warmWindow = TOOLTIP_WARM_WINDOW }: TooltipProviderProps) {
+  return <BaseTooltip.Provider timeout={warmWindow}>{children}</BaseTooltip.Provider>
 }
