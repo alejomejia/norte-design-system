@@ -13,6 +13,7 @@ export { Reasoning, type ReasoningProps, type ReasoningStatus } from './componen
 export { RunStatus, type RunStatusProps, type RunStatusValue } from './components/run-status'
 export { Select, type SelectItem, type SelectProps } from './components/select'
 export { Switch, type SwitchProps } from './components/switch'
+export { TextField, type TextFieldProps } from './components/text-field'
 export { ToastProvider, type ToastProviderProps, useToast } from './components/toast'
 export { ToolCall, type ToolCallProps, type ToolCallStatus } from './components/tool-call'
 export { Tooltip, type TooltipProps, TooltipProvider, type TooltipProviderProps } from './components/tooltip'
