@@ -131,7 +131,15 @@ export function PromptInput({
             <IconButton variant="secondary" icon="stop" label={labels.stop} onClick={onStop} />
           ) : (
             <Tooltip content={labels.send} shortcut={['↵']}>
-              <IconButton type="submit" variant="primary" icon="send" label={labels.send} disabled={!canSend} />
+              {/* Focusable while disabled, so its tooltip still opens on an empty prompt. */}
+              <IconButton
+                type="submit"
+                variant="primary"
+                icon="send"
+                label={labels.send}
+                disabled={!canSend}
+                focusableWhenDisabled
+              />
             </Tooltip>
           )}
         </div>

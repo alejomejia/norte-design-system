@@ -35,6 +35,12 @@ export type ButtonProps = Omit<BaseButton.Props, 'className' | 'children' | 'dis
   successLabel?: string
   /** Ignores clicks and dims the button. Prefer explaining why an action isn't available over disabling it. */
   disabled?: boolean
+  /**
+   * Keeps a disabled button hoverable and in the tab order (`aria-disabled` in place of the native `disabled`), while
+   * it still ignores clicks. Set it when a tooltip explains the button: a natively disabled button gets no hover or
+   * focus, so its tooltip could never open. A busy button does it on its own.
+   */
+  focusableWhenDisabled?: boolean
   /** The label, with an icon before or after it if it needs one. */
   children: ReactNode
   className?: string
@@ -57,6 +63,7 @@ export function Button({
   success,
   successLabel = 'Done',
   disabled = false,
+  focusableWhenDisabled = false,
   className,
   children,
   ...props
@@ -77,7 +84,7 @@ export function Button({
         type="button"
         {...props}
         disabled={disabled || busy}
-        focusableWhenDisabled={busy}
+        focusableWhenDisabled={busy || focusableWhenDisabled}
         aria-busy={loading || undefined}
         className={button({ variant, size, hover, busy, loading, className })}
       >
