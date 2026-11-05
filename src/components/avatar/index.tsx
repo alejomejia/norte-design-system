@@ -18,11 +18,13 @@ import { AvatarEffect } from './avatar-effect'
 
 export type AvatarStatus = (typeof AVATAR_STATUSES)[number]
 
+export type AvatarSize = (typeof AVATAR_SIZES)[number]
+
 type AvatarBaseProps = Omit<BaseAvatar.Root.Props, 'className' | 'children' | 'render'> & {
   /** Who it is. It gives the initials and the name screen readers hear. */
   name: string
   /** `s` (24px) in dense rows, `m` (32px) in messages and cards, `l` (40px) in the sidebar's footer. */
-  size?: (typeof AVATAR_SIZES)[number]
+  size?: AvatarSize
   /** A dot on the corner: whether they're around. Screen readers hear it after the name. */
   status?: AvatarStatus
   /** What screen readers hear for each status, to translate them. */

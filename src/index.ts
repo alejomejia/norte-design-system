@@ -1,6 +1,7 @@
 // The package's public API: every component and its public types are exported from here.
 
-export { Avatar, type AvatarProps, type AvatarStatus } from './components/avatar'
+export { Avatar, type AvatarProps, type AvatarSize, type AvatarStatus } from './components/avatar'
+export { AvatarGroup, type AvatarGroupItem, type AvatarGroupProps } from './components/avatar-group'
 export { Badge, type BadgeProps } from './components/badge'
 export { Button, type ButtonProps } from './components/button'
 export { Checkbox, type CheckboxProps } from './components/checkbox'
