@@ -32,23 +32,31 @@ export const Playground: Story = {
   parameters: { docs: { canvas: { sourceState: 'shown' } } },
 }
 
-/** In context: approving an agent's step. Undo brings the choice back; waiting makes it final. */
+/**
+ * In context: approving an agent's step. Undo fades the row away and brings the choice back; waiting makes it final, and
+ * the row settles into plain text.
+ */
 export const ApprovingAStep: Story = {
   name: 'Approving a step',
   parameters: { controls: { disable: true } },
   render: function Render() {
     const [decision, setDecision] = useState<'approved' | 'final'>()
 
-    if (decision === 'final')
-      return <p className="text-body-s text-ink-muted">Approved: the agent is sending the emails.</p>
-    if (decision === 'approved')
+    if (decision)
       return (
-        <UndoAction onUndo={() => setDecision(undefined)} onCommit={() => setDecision('final')}>
-          Approved
-        </UndoAction>
+        <div className="sb-stack">
+          <UndoAction onUndo={() => setDecision(undefined)} onCommit={() => setDecision('final')}>
+            Approved
+          </UndoAction>
+          {decision === 'final' && (
+            <p className="text-body-s text-ink-muted transition-opacity duration-(--duration-slow) ease-enter starting:opacity-0">
+              The agent is sending the emails.
+            </p>
+          )}
+        </div>
       )
     return (
-      <div className="sb-row">
+      <div className="sb-row transition-opacity duration-(--duration-base) ease-enter starting:opacity-0">
         <Button onClick={() => setDecision('approved')}>Approve</Button>
         <Button variant="secondary">Reject</Button>
       </div>
@@ -56,24 +64,26 @@ export const ApprovingAStep: Story = {
   },
 }
 
-/** A short countdown, to watch it commit: the bar and the button leave, the outcome stays. */
+/** Wait out the countdown: the bar drains, then the box and the button fade away around the outcome, which stays. */
 export const Commits: Story = {
-  args: { duration: 600 },
+  args: { duration: 5000 },
   play: async ({ args, canvas, step }) => {
     await step('When the time runs out, it commits', async () => {
-      await waitFor(() => expect(args.onCommit).toHaveBeenCalledOnce(), { timeout: 2000 })
-      await expect(canvas.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
+      await waitFor(() => expect(args.onCommit).toHaveBeenCalledOnce(), { timeout: 7000 })
+      // The button keeps its place, so nothing moves, but it's inert: no one can press it, and screen readers skip it.
+      await expect(canvas.getByRole('button', { name: 'Undo' })).toHaveAttribute('inert')
       await expect(canvas.getByRole('status')).toHaveTextContent('Approved')
     })
   },
 }
 
-/** Undo before the time runs out: it's called, and the row leaves. */
+/** Undo before the time runs out: the row fades away, then `onUndo` is called. */
 export const Undoing: Story = {
   play: async ({ args, canvas, step }) => {
-    await step('Undo takes it back', async () => {
+    await step('Undo takes it back once the row has left', async () => {
       await userEvent.click(canvas.getByRole('button', { name: 'Undo' }))
-      await expect(args.onUndo).toHaveBeenCalledOnce()
+      await waitFor(() => expect(args.onUndo).toHaveBeenCalledOnce())
+      await expect(canvas.queryByRole('status')).not.toBeInTheDocument()
       await expect(args.onCommit).not.toHaveBeenCalled()
     })
   },
