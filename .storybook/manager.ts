@@ -7,6 +7,7 @@ import { STATUSES, statusOf } from '../src/handbook/statuses'
 import { watchCodeBlocks } from './code-blocks'
 import { watchCopy } from './manager-copy'
 import { watchEmptyStates } from './manager-empty-states'
+import { watchSidebarGroups } from './manager-groups'
 import { watchSearchResults } from './manager-search'
 import { watchRangeLabels } from './range-controls'
 import { THEME_VARS } from './theme'
@@ -49,5 +50,6 @@ watchCopy()
 watchCodeBlocks('#storybook-panel-root')
 watchEmptyStates()
 watchSearchResults()
+watchSidebarGroups()
 watchRangeLabels()
 limitTooltips()
