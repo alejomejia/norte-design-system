@@ -50,6 +50,11 @@ export const DisabledOption: Story = {
 /** Without a label above it, it needs an `aria-label`: in a toolbar, the context says what it picks. */
 export const WithoutALabel: Story = { name: 'Without a label', args: { label: undefined, 'aria-label': 'Model' } }
 
+/** In a toolbar: borderless, as wide as its value. */
+export const Ghost: Story = {
+  args: { variant: 'ghost', label: undefined, 'aria-label': 'Model', defaultValue: 'balanced' },
+}
+
 /** The keyboard picks too: open, arrow down, Enter. */
 export const Keyboard: Story = {
   play: async ({ args, canvas, canvasElement, step }) => {

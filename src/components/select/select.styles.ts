@@ -38,4 +38,17 @@ export const selectStyles = tv({
       'transition-[top,height,opacity] duration-(--duration-base) ease-standard not-supports-[anchor-name:--nt]:hidden',
     ],
   },
+  variants: {
+    variant: {
+      outline: {},
+      // Borderless and as wide as its value, for toolbars: a prompt's model picker.
+      ghost: {
+        root: 'inline-flex',
+        popup: 'min-w-56',
+        trigger:
+          'h-8 min-w-0 border-transparent px-2 text-ink-muted not-data-disabled:hover:border-transparent not-data-disabled:hover:bg-surface-muted not-data-disabled:hover:text-ink data-popup-open:border-transparent data-popup-open:bg-surface-muted',
+      },
+    },
+  },
+  defaultVariants: { variant: 'outline' },
 })

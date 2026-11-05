@@ -21,6 +21,8 @@ export type SelectProps = Omit<BaseSelect.Root.Props<string>, 'items' | 'childre
   label?: ReactNode
   /** What the trigger shows before anything is picked. */
   placeholder?: ReactNode
+  /** `outline` for forms; `ghost`, borderless and as wide as its value, for toolbars. */
+  variant?: 'outline' | 'ghost'
   'aria-label'?: string
   className?: string
 }
@@ -33,8 +35,16 @@ export type SelectProps = Omit<BaseSelect.Root.Props<string>, 'items' | 'childre
  * @example
  * <Select label="Model" items={MODELS} defaultValue="fast" />
  */
-export function Select({ items, label, placeholder, 'aria-label': ariaLabel, className, ...props }: SelectProps) {
-  const styles = selectStyles()
+export function Select({
+  items,
+  label,
+  placeholder,
+  variant = 'outline',
+  'aria-label': ariaLabel,
+  className,
+  ...props
+}: SelectProps) {
+  const styles = selectStyles({ variant })
   return (
     <BaseSelect.Root items={items} {...props}>
       <div className={styles.root({ className })}>
