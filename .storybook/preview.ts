@@ -112,7 +112,7 @@ const preview: Preview = {
             'Conversation',
             ['Prompt input', 'Message', 'Streaming text', 'Suggestions'],
             'Agents',
-            ['Tool call', 'Reasoning', 'Approval request', 'Run status'],
+            ['Run status', 'Plan', 'Reasoning', 'Tool call', 'Approval request'],
             'Sources',
             ['Citation', 'Source list'],
           ],
