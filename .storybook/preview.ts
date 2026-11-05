@@ -101,7 +101,7 @@ const preview: Preview = {
             'Overlays',
             ['Dialog', 'Menu', 'Popover', 'Tooltip'],
             'Feedback',
-            ['Toast', 'Alert', 'Empty state'],
+            ['Toast', 'Undo action', 'Alert', 'Empty state'],
             'Navigation',
             ['Tabs', 'Breadcrumb', 'Command menu'],
             'Content',

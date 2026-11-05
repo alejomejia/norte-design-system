@@ -11,3 +11,4 @@ export { Reasoning, type ReasoningProps, type ReasoningStatus } from './componen
 export { RunStatus, type RunStatusProps, type RunStatusValue } from './components/run-status'
 export { Switch, type SwitchProps } from './components/switch'
 export { ToolCall, type ToolCallProps, type ToolCallStatus } from './components/tool-call'
+export { UndoAction, type UndoActionProps } from './components/undo-action'

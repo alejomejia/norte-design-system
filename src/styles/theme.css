@@ -157,6 +157,8 @@
   --animate-shimmer: shimmer 2.4s linear infinite;
   /* `glimmer`: a cell that brightens and dims, again and again; offset cells make a wave. */
   --animate-glimmer: glimmer 1.6s var(--ease-standard) infinite;
+  /* `drain`: a bar that empties toward its start, once: a countdown (set its length with `animation-duration`). */
+  --animate-drain: drain 5s linear forwards;
 
   @keyframes nudge {
     20% {
@@ -170,6 +172,15 @@
     }
     80% {
       translate: 0.125rem; /* 2px */
+    }
+  }
+
+  @keyframes drain {
+    from {
+      scale: 1 1;
+    }
+    to {
+      scale: 0 1;
     }
   }
 
