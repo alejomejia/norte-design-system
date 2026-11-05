@@ -12,4 +12,5 @@ export { RunStatus, type RunStatusProps, type RunStatusValue } from './component
 export { Switch, type SwitchProps } from './components/switch'
 export { ToastProvider, type ToastProviderProps, useToast } from './components/toast'
 export { ToolCall, type ToolCallProps, type ToolCallStatus } from './components/tool-call'
+export { Tooltip, type TooltipProps, TooltipProvider, type TooltipProviderProps } from './components/tooltip'
 export { UndoAction, type UndoActionProps } from './components/undo-action'

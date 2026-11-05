@@ -8,12 +8,19 @@ type Role = { name: string; text?: boolean }
 
 /** The roles by purpose, in the order a screen is built: the page, its text, its lines, then the accent and states. */
 const ROLE_GROUPS = {
-  surfaces: [{ name: 'canvas' }, { name: 'surface' }, { name: 'surface-muted' }, { name: 'surface-strong' }],
+  surfaces: [
+    { name: 'canvas' },
+    { name: 'surface' },
+    { name: 'surface-muted' },
+    { name: 'surface-strong' },
+    { name: 'inverse' },
+  ],
   text: [
     { name: 'ink', text: true },
     { name: 'ink-muted', text: true },
     { name: 'ink-subtle', text: true },
     { name: 'accent-ink', text: true },
+    { name: 'on-inverse', text: true },
   ],
   lines: [{ name: 'line' }, { name: 'line-strong' }, { name: 'focus' }],
   accent: [{ name: 'accent' }, { name: 'accent-hover' }, { name: 'accent-subtle' }, { name: 'on-accent', text: true }],
@@ -50,9 +57,9 @@ function toLabel(name: string) {
 function RoleCard({ role }: { role: Role }) {
   const name = `color-${role.name}`
   const { reference, note } = token(name)
-  // `on-accent` is read on the accent, every other text role on the page.
+  // `on-accent` is read on the accent and `on-inverse` on the inverse surface, every other text role on the page.
   const ratio = role.text
-    ? contrastRatio(rgb(name), rgb(role.name === 'on-accent' ? 'color-accent' : 'color-canvas'))
+    ? contrastRatio(rgb(name), rgb(role.name.startsWith('on-') ? `color-${role.name.slice(3)}` : 'color-canvas'))
     : null
 
   return (

@@ -25,6 +25,7 @@ const PAIRS: [string, string, number][] = [
   ['accent-ink', 'accent-subtle', TEXT],
   ['on-accent', 'accent', TEXT],
   ['on-accent', 'accent-hover', TEXT],
+  ['on-inverse', 'inverse', TEXT],
   ['success', 'success-subtle', TEXT],
   ['warning', 'warning-subtle', TEXT],
   ['danger', 'danger-subtle', TEXT],

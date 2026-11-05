@@ -59,6 +59,8 @@
   --color-surface: var(--color-white); /* Cards, inputs, panels */
   --color-surface-muted: var(--color-neutral-100); /* Hovered rows, code, quiet fills */
   --color-surface-strong: var(--color-neutral-200); /* Hovered fills of quiet controls, like a ghost button */
+  --color-inverse: var(--color-neutral-900); /* Dark surfaces on a light page: tooltips */
+  --color-on-inverse: var(--color-white); /* Text on an inverse surface */
   --color-ink: var(--color-neutral-900); /* Text */
   --color-ink-muted: var(--color-neutral-600); /* Secondary text */
   --color-ink-subtle: var(--color-neutral-500); /* Hints, placeholders, timestamps */
