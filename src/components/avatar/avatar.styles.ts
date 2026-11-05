@@ -28,7 +28,7 @@ export const avatar = tv({
       agent: { frame: 'bg-linear-to-br from-(--avatar-light) via-(--avatar-mid) to-(--avatar-deep)' },
     } satisfies Record<(typeof AVATAR_KINDS)[number], object>,
     size: {
-      s: { root: 'size-6', initials: 'text-caption', status: 'size-2' },
+      s: { root: 'size-6', initials: 'text-caption-s', status: 'size-2' },
       m: { root: 'size-8', initials: 'text-caption', status: 'size-2' },
       l: { root: 'size-10', initials: 'text-body-s', status: 'size-3' },
     } satisfies Record<(typeof AVATAR_SIZES)[number], object>,

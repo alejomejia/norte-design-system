@@ -10,7 +10,7 @@ import { createTV, type TWMergeConfig } from 'tailwind-variants'
 const TW_MERGE_CONFIG = {
   extend: {
     theme: {
-      text: ['caption', 'body-s', 'body', 'heading-s', 'heading-m', 'heading-l', 'display'],
+      text: ['caption-s', 'caption', 'body-s', 'body', 'heading-s', 'heading-m', 'heading-l', 'display'],
       ease: ['standard', 'enter', 'exit', 'spring'],
     },
   },

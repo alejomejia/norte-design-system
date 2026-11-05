@@ -5,6 +5,7 @@ import { cn, toCSSVars, tv } from './styles'
 describe('cn', () => {
   it('keeps a Norte text size next to a text color', () => {
     expect(cn('text-caption', 'text-ink')).toBe('text-caption text-ink')
+    expect(cn('text-caption-s', 'text-ink-muted')).toBe('text-caption-s text-ink-muted')
   })
 
   it('lets a later class win a conflict', () => {

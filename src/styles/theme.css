@@ -90,6 +90,8 @@
 
   /* The type scale: each size brings its line height (a multiple of 4px) and, for the large ones, tighter tracking. */
   --text-*: initial;
+  --text-caption-s: 0.625rem; /* 10px: the smallest text, only for a few characters, like a small avatar's initials */
+  --text-caption-s--line-height: 0.75rem; /* 12px */
   --text-caption: 0.75rem; /* 12px */
   --text-caption--line-height: 1rem; /* 16px */
   --text-body-s: 0.875rem; /* 14px: the interface's default */
