@@ -1,15 +1,15 @@
 import { AnchorMdx } from '@storybook/addon-docs/blocks'
 import { type ComponentProps, type ReactNode } from 'react'
 
+import { isExternalUrl } from '@/lib/utils'
+
 /** Storybook's MDX link. Its types list only `href` and `target`, but it passes every other prop on to the `<a>`. */
 export const StorybookLink = AnchorMdx as unknown as (
   props: Partial<ComponentProps<typeof AnchorMdx>> & { className?: string; children: ReactNode },
 ) => ReactNode
 
 /** Whether a link leaves Storybook: a full URL to another site. */
-export function isExternal(href: string | undefined): href is string {
-  return href !== undefined && /^https?:\/\//.test(href)
-}
+export const isExternal = isExternalUrl
 
 /** Lucide's arrow-up-right, the mark of a link that opens in a new tab. */
 export function ExternalIcon({ className }: { className?: string }) {

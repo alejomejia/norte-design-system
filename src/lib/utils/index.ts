@@ -3,3 +3,4 @@ export { contrastRatio, isInSrgbGamut, type LinearRgb, oklchToLinearRgb, parseOk
 export { mergeRefs } from './refs'
 export { cn, toCSSVars, tv, type VariantProps } from './styles'
 export { formatElapsed } from './time'
+export { isExternalUrl } from './url'
