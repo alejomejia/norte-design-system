@@ -49,7 +49,6 @@ export function AvatarGroup({
       <div role="group" aria-label={labels.group(avatars.length)} className={styles.root({ className })}>
         {avatars.slice(0, shown).map((avatar, index) => (
           // Names can repeat; their place in the row can't.
-          // biome-ignore lint/suspicious/noArrayIndexKey: the order is the identity here
           <Tooltip key={`${avatar.name}-${index}`} content={avatar.name}>
             <Avatar {...avatar} size={size} className={styles.item()} />
           </Tooltip>
