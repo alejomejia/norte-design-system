@@ -3,6 +3,7 @@
 export { Badge, type BadgeProps } from './components/badge'
 export { Button, type ButtonProps } from './components/button'
 export { Checkbox, type CheckboxProps } from './components/checkbox'
+export { CodeField, type CodeFieldProps } from './components/code-field'
 export { Icon, type IconName, type IconProps } from './components/icon'
 export { IconButton, type IconButtonProps } from './components/icon-button'
 export { KeyboardKey, type KeyboardKeyProps } from './components/keyboard-key'

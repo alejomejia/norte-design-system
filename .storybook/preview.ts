@@ -90,7 +90,7 @@ const preview: Preview = {
             'Actions',
             ['Button', 'Icon button', 'Link'],
             'Form controls',
-            ['Text field', 'Textarea', 'Select', 'Checkbox', 'Switch'],
+            ['Text field', 'Textarea', 'Select', 'Checkbox', 'Switch', 'Code field'],
             'Media',
             ['Logo', 'Icon', 'Avatar'],
             'Indicators',
