@@ -171,6 +171,8 @@
   --animate-spinner-arc: spinner-arc 1.5s var(--ease-standard) infinite;
   /* `breathe`: something that's still loading dims and brightens, again and again, like a skeleton's shapes. */
   --animate-breathe: breathe 2s ease-in-out infinite;
+  /* `swing`: a compass needle finding north, once: it swings past, back, and settles, each swing smaller. */
+  --animate-swing: swing 1.2s ease-in-out;
 
   @keyframes breathe {
     0%,
@@ -179,6 +181,24 @@
     }
     50% {
       opacity: 0.5;
+    }
+  }
+
+  @keyframes swing {
+    from {
+      rotate: -40deg;
+    }
+    35% {
+      rotate: 14deg;
+    }
+    60% {
+      rotate: -6deg;
+    }
+    80% {
+      rotate: 2deg;
+    }
+    to {
+      rotate: 0deg;
     }
   }
 

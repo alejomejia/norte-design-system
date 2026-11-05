@@ -3,6 +3,7 @@ import { addons } from 'storybook/manager-api'
 import { create } from 'storybook/theming'
 
 // Storybook bundles the manager with its own esbuild, which doesn't know the `@/` alias.
+import { LOGO_NEEDLE, LOGO_WORDMARK } from '../src/components/logo/logo.const'
 import { STATUSES, statusOf } from '../src/handbook/statuses'
 import { watchCodeBlocks } from './code-blocks'
 import { watchCopy } from './manager-copy'
@@ -18,10 +19,10 @@ import '@fontsource-variable/jetbrains-mono'
 import './manager-styles/index.css'
 
 /**
- * Norte's mark, a needle pointing north, next to the wordmark. The needle is split down its middle: the left half a step
- * darker, as if lit from the right. Storybook renders `brandTitle` as HTML.
+ * Norte's logo, the needle and the outlined wordmark, drawn from Logo's own paths so the two never drift apart.
+ * Storybook renders `brandTitle` as HTML, so it's a string rather than the component.
  */
-const BRAND = `<span class="nt-brand"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="nt-brand-shade" d="M8 1.5v9.25L2.5 14Z" /><path d="M8 1.5 13.5 14 8 10.75Z" /></svg>Norte</span>`
+const BRAND = `<span class="nt-brand"><svg class="nt-brand-mark" viewBox="${LOGO_NEEDLE.viewBox}" aria-hidden="true"><path class="nt-brand-shade" d="${LOGO_NEEDLE.shade}" /><path d="${LOGO_NEEDLE.light}" /></svg><svg class="nt-brand-wordmark" viewBox="${LOGO_WORDMARK.viewBox}" role="img" aria-label="Norte"><path d="${LOGO_WORDMARK.path}" /></svg></span>`
 
 addons.setConfig({
   theme: create({ ...THEME_VARS, brandTitle: BRAND, brandUrl: './', brandTarget: '_self' }),

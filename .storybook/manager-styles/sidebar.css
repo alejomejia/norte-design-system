@@ -41,22 +41,26 @@ div:has(> div > #storybook-sidebar-region) {
   align-items: center;
   /* Tight: the needle is narrower than its box, so this reads as about 8px. */
   gap: 0.25rem; /* 4px */
-  font-family: var(--sb-font-family);
+  /* The wordmark is outlined (`LOGO_WORDMARK`) and sized in em, so this sets its size. */
   font-size: 1.125rem; /* 18px */
-  font-weight: var(--sb-font-weight-semibold);
-  letter-spacing: -0.02em;
-  color: var(--sb-color-text);
 }
 
 /* The north needle, Norte's mark: the brand blue, its left half a step darker. */
-.nt-brand svg {
+.nt-brand-mark {
   width: 1.5rem; /* 24px */
   height: 1.5rem; /* 24px */
   fill: var(--sb-blue-600);
 }
 
-.nt-brand .nt-brand-shade {
+.nt-brand-shade {
   fill: var(--sb-blue-800);
+}
+
+/* The wordmark: its cap height plus the round letters' dip, like Logo's. */
+.nt-brand-wordmark {
+  width: auto;
+  height: 0.7388em;
+  fill: var(--sb-color-text);
 }
 
 /* Settings: a ghost icon button, with a background only while hovered or open. */
