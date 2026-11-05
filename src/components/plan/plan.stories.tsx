@@ -7,10 +7,10 @@ import { Button } from '@/components/button'
 import { Plan, type PlanStep } from '.'
 
 const LABELS = [
-  'Read the brief and the three role descriptions',
-  'Search job boards for senior design engineer openings in Spain, remote or in Madrid',
-  'Compare salary bands across the best matches',
-  'Draft a shortlist with the reasons for each',
+  "Read the brief and last quarter's pricing report",
+  'Visit the pricing pages of the five main competitors, and their archived versions from the last quarter',
+  'Compare seat prices and annual discounts for teams of 10 to 50',
+  'Draft a summary of what changed for the leadership team',
 ]
 
 /** The plan with the first `done` steps finished and the next one in progress. */

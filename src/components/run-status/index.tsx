@@ -38,7 +38,7 @@ const CELLS = Array.from({ length: RUN_STATUS_GRID ** 2 }, (_, index) => ({
  * from React Bits' Lattice Loader.
  *
  * @example
- * <RunStatus status="working" label="Research agent" detail="Searching job boards" startedAt={run.startedAt} />
+ * <RunStatus status="working" label="Research agent" detail="Visiting pricing pages" startedAt={run.startedAt} />
  */
 export function RunStatus({
   status,

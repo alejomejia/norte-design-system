@@ -8,10 +8,10 @@ import { Reasoning } from '.'
 import { REASONING_STATUSES } from './reasoning.const'
 
 const STEPS = [
-  'Reading the brief: three senior roles, remote within Spain',
-  'Searching job boards for design engineer openings',
-  'Comparing salary bands across the twelve best matches',
-  'Drafting a shortlist with the reasons for each',
+  'Reading the brief: five competitors, team plans for 10 to 50 seats',
+  'Visiting each pricing page and its archived version',
+  'Comparing seat prices and annual discounts',
+  'Drafting a summary of what changed since last quarter',
 ]
 
 const meta = {

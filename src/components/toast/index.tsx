@@ -35,7 +35,7 @@ function ToastList({ closeLabel }: { closeLabel: string }) {
  * <ToastProvider><App /></ToastProvider>
  * // anywhere inside:
  * const toast = useToast()
- * toast.add({ title: 'Run finished', description: 'The shortlist is ready.', type: 'success' })
+ * toast.add({ title: 'Run finished', description: 'The summary is ready.', type: 'success' })
  */
 export function ToastProvider({
   children,

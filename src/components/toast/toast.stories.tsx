@@ -11,9 +11,9 @@ function Demo() {
 
   function runAgent() {
     toast.promise(new Promise((resolve) => setTimeout(resolve, 2200)), {
-      loading: { title: 'Research agent is running', description: 'Searching job boards…' },
-      success: { title: 'Run finished', description: 'The shortlist of 12 roles is ready.' },
-      error: { title: 'Run failed', description: 'The careers site timed out.' },
+      loading: { title: 'Research agent is running', description: 'Visiting pricing pages…' },
+      success: { title: 'Run finished', description: 'The pricing summary is ready.' },
+      error: { title: 'Run failed', description: 'A pricing page timed out.' },
     })
   }
 

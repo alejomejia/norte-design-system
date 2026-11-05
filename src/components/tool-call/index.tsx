@@ -36,7 +36,7 @@ export type ToolCallProps = {
  * the fill completes in the color of the outcome. Inspired by React Bits' Call Chip.
  *
  * @example
- * <ToolCall name="web_search" detail="design engineer roles" status="running" startedAt={call.startedAt} />
+ * <ToolCall name="web_search" detail="competitor pricing" status="running" startedAt={call.startedAt} />
  */
 export function ToolCall({
   name,

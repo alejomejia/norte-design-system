@@ -29,7 +29,7 @@ export type PlanProps = {
  * Bits' Spring Check, made calmer.
  *
  * @example
- * <Plan steps={[{ label: 'Read the brief', status: 'done' }, { label: 'Search job boards', status: 'active' }]} />
+ * <Plan steps={[{ label: 'Read the brief', status: 'done' }, { label: 'Visit pricing pages', status: 'active' }]} />
  */
 export function Plan({ steps, statusLabels = PLAN_STATUS_LABELS, className }: PlanProps) {
   const ref = useRef<HTMLOListElement>(null)

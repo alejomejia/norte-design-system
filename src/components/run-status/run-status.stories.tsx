@@ -19,7 +19,7 @@ const meta = {
     endedAt: { table: { disable: true } },
     statusLabels: { table: { disable: true } },
   },
-  args: { status: 'working', label: 'Research agent', detail: 'Searching job boards', startedAt: 0 },
+  args: { status: 'working', label: 'Research agent', detail: 'Visiting pricing pages', startedAt: 0 },
   // Every story starts its run when it renders, so the stopwatch starts from zero.
   render: function Render(args) {
     const [startedAt] = useState(() => Date.now())
@@ -52,10 +52,10 @@ export const Statuses: Story = {
   render: function Render(args) {
     const [startedAt] = useState(() => Date.now())
     const details: Record<RunStatusValue, string> = {
-      working: 'Searching job boards',
+      working: 'Visiting pricing pages',
       waiting: 'Wants to send 3 emails',
-      done: 'Shortlist ready',
-      failed: 'The careers site timed out',
+      done: 'Summary ready',
+      failed: 'A pricing page timed out',
     }
     return (
       <div className="sb-stack sb-stack--stretch sb-box-l">
@@ -72,7 +72,7 @@ export const Announced: Story = {
   parameters: { controls: { disable: true } },
   play: async ({ canvas, step }) => {
     await step('It is a live region with the status in words', async () => {
-      await expect(canvas.getByRole('status')).toHaveTextContent('Research agentWorking:Searching job boards')
+      await expect(canvas.getByRole('status')).toHaveTextContent('Research agentWorking:Visiting pricing pages')
     })
   },
 }
@@ -95,10 +95,10 @@ export const Live: Story = {
 
 const PHASES: { at: number; status: RunStatusValue; detail: string }[] = [
   { at: 0, status: 'working', detail: 'Reading the brief' },
-  { at: 1500, status: 'working', detail: 'Searching job boards' },
+  { at: 1500, status: 'working', detail: 'Visiting pricing pages' },
   { at: 3500, status: 'waiting', detail: 'Wants to send 3 emails' },
   { at: 5500, status: 'working', detail: 'Sending emails' },
-  { at: 7000, status: 'done', detail: 'Shortlist ready' },
+  { at: 7000, status: 'done', detail: 'Summary ready' },
 ]
 
 function LiveRun() {

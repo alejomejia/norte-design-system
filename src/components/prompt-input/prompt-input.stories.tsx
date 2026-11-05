@@ -73,7 +73,9 @@ export const Playground: Story = {
 }
 
 /** While the agent runs: send becomes stop. */
-export const Running: Story = { args: { running: true, defaultValue: 'Find senior design engineer roles in Madrid' } }
+export const Running: Story = {
+  args: { running: true, defaultValue: "Compare our competitors' pricing for team plans" },
+}
 
 /** Only the text and the send button: everything in the toolbar is optional. */
 export const Minimal: Story = {
@@ -94,12 +96,12 @@ export const Keyboard: Story = {
       await expect(canvas.getByRole('button', { name: 'Send' })).toBeDisabled()
     })
     await step('Shift + Enter adds a line', async () => {
-      await userEvent.type(prompt, 'Find roles{Shift>}{Enter}{/Shift}in Madrid')
-      await expect(prompt).toHaveValue('Find roles\nin Madrid')
+      await userEvent.type(prompt, 'Compare pricing{Shift>}{Enter}{/Shift}for teams')
+      await expect(prompt).toHaveValue('Compare pricing\nfor teams')
     })
     await step('Enter sends it, and the prompt clears', async () => {
       await userEvent.keyboard('{Enter}')
-      await expect(args.onSubmit).toHaveBeenCalledWith('Find roles\nin Madrid')
+      await expect(args.onSubmit).toHaveBeenCalledWith('Compare pricing\nfor teams')
       await expect(prompt).toHaveValue('')
     })
   },

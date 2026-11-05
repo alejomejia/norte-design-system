@@ -20,7 +20,7 @@ const meta = {
     startedAt: { table: { disable: true } },
     endedAt: { table: { disable: true } },
   },
-  args: { name: 'web_search', detail: 'design engineer roles in Madrid', status: 'running', startedAt: 0 },
+  args: { name: 'web_search', detail: 'competitor pricing for team plans', status: 'running', startedAt: 0 },
   // Every story starts its call when it renders, so the timer and the fill start from zero.
   render: function Render(args) {
     const [startedAt] = useState(() => Date.now())
@@ -54,13 +54,13 @@ export const Running: Story = {
 
 /** Finished: the fill completes in green and the icon turns into a check. */
 export const Success: Story = {
-  args: { status: 'success', name: 'read_file', detail: 'briefs/q3-hiring.md' },
+  args: { status: 'success', name: 'read_file', detail: 'briefs/q3-pricing.md' },
   render: (args) => <ToolCall {...args} startedAt={0} endedAt={1840} />,
 }
 
 /** Failed: red, a cross, and one small nudge to catch the eye. */
 export const Failure: Story = {
-  args: { status: 'error', name: 'fetch_url', detail: 'https://careers.example.com/jobs' },
+  args: { status: 'error', name: 'fetch_url', detail: 'https://pricing.example.com/teams' },
   render: (args) => <ToolCall {...args} startedAt={0} endedAt={12_300} />,
 }
 
@@ -83,10 +83,10 @@ export const InARun: Story = {
 
 /** A pretend run: each call starts after the one before it and ends after its own time, the third one in a failure. */
 const CALLS: { name: string; detail: string; startAt: number; endAt: number; outcome: ToolCallStatus }[] = [
-  { name: 'web_search', detail: 'design engineer roles in Madrid', startAt: 0, endAt: 2400, outcome: 'success' },
-  { name: 'read_file', detail: 'briefs/q3-hiring.md', startAt: 600, endAt: 1800, outcome: 'success' },
-  { name: 'fetch_url', detail: 'https://careers.example.com/jobs', startAt: 1200, endAt: 4200, outcome: 'error' },
-  { name: 'write_summary', detail: 'reports/roles.md', startAt: 2600, endAt: 6400, outcome: 'success' },
+  { name: 'web_search', detail: 'competitor pricing for team plans', startAt: 0, endAt: 2400, outcome: 'success' },
+  { name: 'read_file', detail: 'briefs/q3-pricing.md', startAt: 600, endAt: 1800, outcome: 'success' },
+  { name: 'fetch_url', detail: 'https://pricing.example.com/teams', startAt: 1200, endAt: 4200, outcome: 'error' },
+  { name: 'write_summary', detail: 'reports/pricing-q3.md', startAt: 2600, endAt: 6400, outcome: 'success' },
 ]
 
 function Run() {
