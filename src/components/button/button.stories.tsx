@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { expect, fn, waitFor } from 'storybook/test'
 
 import { Button } from '.'
-import { BUTTON_SIZES, BUTTON_VARIANTS } from './button.const'
+import { BUTTON_HOVERS, BUTTON_SIZES, BUTTON_VARIANTS } from './button.const'
 
 const meta = {
   title: 'Elements/Actions/Button',
@@ -12,6 +12,7 @@ const meta = {
   argTypes: {
     variant: { control: 'inline-radio', options: BUTTON_VARIANTS },
     size: { control: 'inline-radio', options: BUTTON_SIZES },
+    hover: { control: 'inline-radio', options: BUTTON_HOVERS },
     children: { control: 'text' },
     // Base UI's escape hatches. `render` gets its docs with Link, the element it's for.
     render: { table: { disable: true } },
@@ -69,6 +70,31 @@ export const Variants: Story = {
         <Button key={variant} {...args} variant={variant}>
           {variant.charAt(0).toUpperCase() + variant.slice(1)}
         </Button>
+      ))}
+    </div>
+  ),
+}
+
+/**
+ * Hover each row: `wipe` sweeps the fill across, for the action you want noticed; `fade` brings it in quietly, for
+ * buttons that sit in a row, where a sweep on each would be too much.
+ */
+export const Hovers: Story = {
+  parameters: { controls: { exclude: ['hover', 'variant', 'children'] } },
+  render: (args) => (
+    <div className="sb-stack">
+      {BUTTON_HOVERS.map((hover) => (
+        <div key={hover} className="sb-row">
+          <Button {...args} hover={hover} variant="secondary">
+            Edit instructions
+          </Button>
+          <Button {...args} hover={hover} variant="ghost">
+            View logs
+          </Button>
+          <Button {...args} hover={hover} variant="ghost">
+            Share
+          </Button>
+        </div>
       ))}
     </div>
   ),
