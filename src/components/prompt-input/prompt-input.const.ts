@@ -7,3 +7,9 @@ export const PROMPT_INPUT_LABELS = {
   attach: 'Attach files',
   model: 'Model',
 }
+
+/** How many lines the prompt shows when empty. */
+export const PROMPT_INPUT_MIN_ROWS = 2
+
+/** How many lines the prompt grows to before it scrolls. */
+export const PROMPT_INPUT_MAX_ROWS = 10

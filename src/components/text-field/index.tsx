@@ -1,9 +1,9 @@
 'use client'
 
-import { Field } from '@base-ui/react/field'
 import { Input } from '@base-ui/react/input'
-import { type ReactNode, type Ref, useMemo, useRef, useState } from 'react'
+import { type Ref, useMemo, useRef, useState } from 'react'
 
+import { Field, type FieldProps } from '@/components/field'
 import { Icon, type IconName } from '@/components/icon'
 import { IconButton } from '@/components/icon-button'
 import { mergeRefs } from '@/lib/utils'
@@ -15,21 +15,12 @@ export type TextFieldProps = Omit<
   Input.Props,
   'className' | 'render' | 'size' | 'value' | 'defaultValue' | 'onValueChange' | 'children'
 > &
-  Pick<Field.Root.Props, 'validate' | 'validationMode' | 'validationDebounceTime' | 'invalid'> & {
+  Omit<FieldProps, 'aside' | 'children' | 'className'> & {
     /** The text, when the app controls it. */
     value?: string
     defaultValue?: string
     /** Called with the new text as the person types, and with `''` when the clear button empties the field. */
     onValueChange?: (value: string) => void
-    /** The label above the input. Without one, give the field an `aria-label`. */
-    label?: ReactNode
-    /** A hint under the input, read by screen readers with it: what goes in, or what happens with it. */
-    description?: ReactNode
-    /**
-     * What's wrong, and how to fix it. Marks the field invalid and shows under the description. Without it, the
-     * browser's own message shows when a built-in check fails (`required`, `type="email"`) or `validate` returns one.
-     */
-    error?: ReactNode
     /** `s` (32px) for toolbars and filters, `m` (40px) in forms. */
     size?: (typeof TEXT_FIELD_SIZES)[number]
     /** An icon at the start of the input, by its name in Norte's set: `search` for a filter. */
@@ -78,10 +69,6 @@ export function TextField({
   const inputRef = useRef<HTMLInputElement>(null)
   const mergedRef = useMemo(() => mergeRefs(inputRef, ref), [ref])
 
-  // The last error the app passed, so it can fade out with its words rather than as an empty line once it's cleared.
-  const [lastError, setLastError] = useState(error)
-  if (error !== undefined && error !== lastError) setLastError(error)
-
   function change(next: string) {
     if (value === undefined) setOwnValue(next)
     onValueChange?.(next)
@@ -100,16 +87,18 @@ export function TextField({
   })
 
   return (
-    <Field.Root
+    <Field
+      label={label}
+      description={description}
+      error={error}
       name={name}
       disabled={disabled}
       validate={validate}
       validationMode={validationMode}
       validationDebounceTime={validationDebounceTime}
-      invalid={invalid ?? (error ? true : undefined)}
-      className={styles.root({ className })}
+      invalid={invalid}
+      className={className}
     >
-      {label && <Field.Label className={styles.label()}>{label}</Field.Label>}
       <div className={styles.control()}>
         <Input
           ref={mergedRef}
@@ -126,26 +115,6 @@ export function TextField({
           </span>
         )}
       </div>
-      {description && <Field.Description className={styles.description()}>{description}</Field.Description>}
-      <Field.Error
-        match={error ? true : undefined}
-        className={styles.error()}
-        render={(errorProps, state) => {
-          // Base UI fills `children` with the browser's message; the app's own error wins over it.
-          const message =
-            error ?? (errorProps.children || (state.transitionStatus === 'ending' ? lastError : undefined))
-          return (
-            <div {...errorProps}>
-              {message && (
-                <>
-                  <Icon name="error" />
-                  <span>{message}</span>
-                </>
-              )}
-            </div>
-          )
-        }}
-      />
-    </Field.Root>
+    </Field>
   )
 }
