@@ -122,7 +122,8 @@ export function PromptInput({
         </div>
         <div className={styles.group()}>
           {onRecordingChange && (
-            <VoiceInput recording={recording} onRecordingChange={onRecordingChange} stream={stream} />
+            // At the toolbar's right end: the pill opens to the left, over the toolbar.
+            <VoiceInput side="left" recording={recording} onRecordingChange={onRecordingChange} stream={stream} />
           )}
           {running ? (
             <IconButton variant="secondary" icon="stop" label={labels.stop} onClick={onStop} />

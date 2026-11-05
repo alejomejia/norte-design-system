@@ -25,3 +25,9 @@ export function syntheticLevel(seconds: number, bar: number): number {
   const wave = Math.sin(seconds * (3.1 + bar * 0.7) + bar * 1.9) * 0.5 + Math.sin(seconds * 1.3 + bar * 2.6) * 0.5
   return clampLevel(0.45 + wave * 0.4)
 }
+
+/** A recording's length as a clock (`0:04`, `12:30`): whole seconds, so it ticks steadily and keeps its width. */
+export function formatRecordingTime(ms: number): string {
+  const seconds = Math.floor(Math.max(0, ms) / 1000)
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
+}

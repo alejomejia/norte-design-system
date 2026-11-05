@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { expect, fn, userEvent, waitFor } from 'storybook/test'
 
 import { VoiceInput } from '.'
+import { VOICE_INPUT_SIDES } from './voice-input.const'
 
 const meta = {
   title: 'AI/Conversation/Voice input',
@@ -10,10 +11,19 @@ const meta = {
   tags: ['beta'],
   argTypes: {
     recording: { control: 'boolean' },
+    side: { control: 'inline-radio', options: VOICE_INPUT_SIDES },
     stream: { table: { disable: true } },
     labels: { table: { disable: true } },
   },
   args: { recording: false, onRecordingChange: fn() },
+  // A box as wide as the pill, so it has room to open; opening to the left, the mic sits at the box's right end.
+  decorators: [
+    (Story, { args }) => (
+      <div className={args.side === 'left' ? 'sb-row sb-row--end sb-box-s' : 'sb-row sb-box-s'}>
+        <Story />
+      </div>
+    ),
+  ],
   // The story owns the recording state, as an app would; the bars move on their own, without a microphone.
   render: function Render(args) {
     const [recording, setRecording] = useState(args.recording)
@@ -42,13 +52,22 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** Click the mic: the pill grows to the left, and the stop button takes the focus. */
+/** Click the mic: the pill grows to the right, and the stop button takes the focus. */
 export const Playground: Story = {
   parameters: { docs: { canvas: { sourceState: 'shown' } } },
 }
 
 /** Recording, with bars that move on their own: what it looks like without a microphone, as here. */
 export const Recording: Story = { args: { recording: true } }
+
+/**
+ * `side="left"` for a mic at the right end of a toolbar, as in `PromptInput`: the pill opens over the toolbar, and the
+ * stop button stays where the mic was.
+ */
+export const OpensToTheLeft: Story = {
+  name: 'Opens to the left',
+  args: { side: 'left' },
+}
 
 /**
  * With your microphone: it asks for permission, then the bars follow your voice. Nothing is recorded or sent; the
