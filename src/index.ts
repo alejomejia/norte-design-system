@@ -10,6 +10,7 @@ export {
 export { Avatar, type AvatarProps, type AvatarSize, type AvatarStatus } from './components/avatar'
 export { AvatarGroup, type AvatarGroupItem, type AvatarGroupProps } from './components/avatar-group'
 export { Badge, type BadgeProps } from './components/badge'
+export { Breadcrumb, type BreadcrumbItemProps, type BreadcrumbProps } from './components/breadcrumb'
 export { Button, type ButtonProps } from './components/button'
 export {
   Card,

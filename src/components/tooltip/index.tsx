@@ -24,6 +24,8 @@ export type TooltipProps = {
   align?: (typeof TOOLTIP_ALIGNS)[number]
   /** How long the pointer rests on the trigger before it opens, in ms. Focus opens it at once. */
   delay?: number
+  /** Keeps it closed, for when it would only repeat what's on screen: a label's full text while it isn't truncated. */
+  disabled?: boolean
   className?: string
 }
 
@@ -46,11 +48,12 @@ export function Tooltip({
   side = 'top',
   align = 'center',
   delay = TOOLTIP_DELAY,
+  disabled,
   className,
 }: TooltipProps) {
   const styles = tooltipStyles()
   return (
-    <BaseTooltip.Root>
+    <BaseTooltip.Root disabled={disabled}>
       {/* The delay is set here, not only on the provider, so a tooltip outside one opens as quickly. */}
       <BaseTooltip.Trigger render={children} delay={delay} />
       <BaseTooltip.Portal>

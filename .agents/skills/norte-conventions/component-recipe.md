@@ -111,6 +111,12 @@ Play tests to cover, as `step`s:
 - **Biome's class sort is an unsafe fix:** `pnpm biome check --write --unsafe <folder>`.
 - **First story run after adding a Base UI import** fails while Vite re-optimizes: run it again.
 - Specificity: `rtl:` adds none, `group-data-*:` adds some, so a group state beats `rtl:` without ordering tricks.
+- **Flexbox shrinks in proportion to width,** so the shortest labels in a row vanish first. To share a row fairly,
+  grow instead: `grow basis-0 max-w-max min-w-0` on each item (equal shares, each stopping at its own width).
+- **A root that counts or slices its children** sees a fragment as one child: use `flattenChildren` from
+  `@/lib/utils`.
+- **ResizeObserver's first report waits for a rendered frame,** which test runs can hold back for over a second:
+  measure once on mount too (`useOverflows` does).
 
 ## Checks, in order
 
