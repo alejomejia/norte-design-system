@@ -99,9 +99,12 @@ export const Playground: Story = {
       })
     })
 
-    await step('Tab moves from the tab into its panel', async () => {
+    await step('Tab moves from the tab into its panel, which draws the focus ring', async () => {
       await userEvent.tab()
-      await expect(canvas.getByRole('tabpanel', { name: 'Details' })).toHaveFocus()
+      const panel = canvas.getByRole('tabpanel', { name: 'Details' })
+      await expect(panel).toHaveFocus()
+      // The ring really draws: `outline-none` beside `focus-visible:outline-2` would leave its style at `none`.
+      await expect(getComputedStyle(panel).outlineStyle).toBe('solid')
     })
   },
 }
@@ -118,6 +121,7 @@ export const Keyboard: Story = {
       results.focus()
       await userEvent.keyboard('{ArrowRight}')
       await expect(details).toHaveFocus()
+      await expect(getComputedStyle(details).outlineStyle).toBe('solid')
       await expect(results).toHaveAttribute('aria-selected', 'true')
     })
 

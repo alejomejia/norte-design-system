@@ -51,7 +51,7 @@ export const tabsStyles = tv({
       'relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-s text-body-s font-medium whitespace-nowrap text-ink-muted select-none',
       'transition-colors duration-(--duration-fast) not-data-disabled:hover:text-ink data-active:text-ink',
       // Inset: the scroller would clip an outline drawn outside the tab.
-      'outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
+      'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
       'data-disabled:cursor-not-allowed data-disabled:opacity-50',
     ],
     count: 'h-4 min-w-4 justify-center px-1 tabular-nums',
@@ -64,7 +64,7 @@ export const tabsStyles = tv({
       'transition-[translate,width] duration-(--duration-base) ease-standard',
     ],
     panel: [
-      'rounded-s outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+      'rounded-s focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
       // The panel being replaced hides at once: Base UI keeps it mounted for a frame while it looks for an exit transition.
       'transition-opacity duration-(--duration-fast) ease-standard data-ending-style:hidden data-starting-style:opacity-0',
     ],
