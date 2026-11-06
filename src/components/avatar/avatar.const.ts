@@ -1,4 +1,4 @@
-/** An avatar's sizes: `s` (24px) in dense rows, `m` (32px) in messages and cards, `l` (40px) in the sidebar's footer. */
+/** An avatar's sizes: `s` (24px) in dense rows and the sidebar, `m` (32px) in messages and cards, `l` (40px) in profiles and dialogs. */
 export const AVATAR_SIZES = ['s', 'm', 'l'] as const
 
 /** Who an avatar shows: a person (a photo or initials) or an agent (its colors in motion). */

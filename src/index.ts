@@ -77,6 +77,18 @@ export { Reasoning, type ReasoningProps, type ReasoningStatus } from './componen
 export { RunStatus, type RunStatusProps, type RunStatusValue } from './components/run-status'
 export { Select, type SelectItem, type SelectProps } from './components/select'
 export {
+  Sidebar,
+  type SidebarButtonProps,
+  type SidebarFooterProps,
+  type SidebarHeaderProps,
+  type SidebarItemProps,
+  type SidebarNavProps,
+  type SidebarProps,
+  type SidebarSectionProps,
+  type SidebarToggleProps,
+  useSidebar,
+} from './components/sidebar'
+export {
   Skeleton,
   type SkeletonBoxProps,
   type SkeletonCircleProps,

@@ -129,6 +129,9 @@ Play tests to cover, as `step`s:
 
 - **Tailwind's reset gives every element `border-style: solid`** (with no width): test a border's presence with
   `borderTopWidth`, not `borderStyle`.
+- **`sr-only` text counts as a block in testing-library's names** (it's absolutely positioned), so a label plus
+  `<span className="sr-only">, 3 waiting</span>` is named "Approvals , 3 waiting" there. Screen readers don't mind;
+  match it with `/^Approvals\s?, 3 waiting$/` instead of moving the text around.
 - **Biome flags `render={<h2 />}` as an empty heading:** in stories, pass a function, `(props) => <h2 {...props} />`.
 
 - **An exit that starts before Motion's lazy features load never runs,** and `AnimatePresence` keeps the element for

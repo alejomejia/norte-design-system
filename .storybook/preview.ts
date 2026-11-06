@@ -102,7 +102,7 @@ const preview: Preview = {
             'Feedback',
             ['Toast', 'Undo action', 'Alert', 'Empty state'],
             'Navigation',
-            ['Tabs', 'Breadcrumb', 'Command menu'],
+            ['Sidebar', 'Tabs', 'Breadcrumb', 'Command menu'],
             'Content',
             ['Card', 'Avatar group', 'Accordion'],
           ],

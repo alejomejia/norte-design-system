@@ -19,7 +19,7 @@ export const menuStyles = tv({
       'data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0',
     ],
     item: [
-      'flex h-8 cursor-default items-center gap-2 rounded-s px-2 text-body-s text-ink outline-none select-none',
+      'flex h-8 cursor-pointer items-center gap-2 rounded-s px-2 text-body-s text-ink outline-none select-none',
       'group-has-data-menu-icon/popup:not-has-data-menu-icon:pl-8',
       'data-highlighted:[anchor-name:--nt-menu-highlight] data-popup-open:[anchor-name:--nt-menu-highlight]',
       'not-supports-[anchor-name:--nt]:data-highlighted:bg-surface-muted',

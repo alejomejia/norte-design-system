@@ -15,6 +15,9 @@ const HANDLER = /\s+on[A-Z]\w*=\{(?:function\s*\w*\(\)\s*\{\}|\(\)\s*=>\s*\{\})\
 /** An element that carries only story helper classes (`preview.css`), opening on a line of its own. */
 const HELPER_OPEN = /^(\s*)<(\w+) className="sb-[\w-]+(?: sb-[\w-]+)*">$/
 
+/** An empty one, like the page beside a sidebar: it goes whole. */
+const HELPER_EMPTY = /^\s*<\w+ className="sb-[\w-]+(?: sb-[\w-]+)*" \/>$/
+
 /** A fragment, which Storybook prints when a story's helper returns several elements: an app writes none. */
 const FRAGMENT_OPEN = /^(\s*)<(React\.Fragment)(?: key="[^"]*")?>$/
 
@@ -76,6 +79,7 @@ function withoutHelpers(code: string) {
   for (const line of code.split('\n')) {
     const helper = HELPER_OPEN.exec(line) ?? FRAGMENT_OPEN.exec(line)
     const last = open.at(-1)
+    if (HELPER_EMPTY.test(line)) continue
     if (helper) {
       open.push({ indent: helper[1] ?? '', tag: helper[2] ?? '' })
     } else if (last && line === `${last.indent}</${last.tag}>`) {
