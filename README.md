@@ -37,6 +37,7 @@ pnpm dev                                # Storybook on http://localhost:6006
 | `pnpm dev`             | Storybook dev server on port **6006**                                           |
 | `pnpm build`           | Type-checks, then builds the package into `dist/` (JS, `theme.css`, `.d.ts`)    |
 | `pnpm build:storybook` | Static Storybook in `storybook-static/`, ready to host                          |
+| `pnpm clean:storybook` | Deletes Storybook's cache (`dev` and `build:storybook` prune it on their own)   |
 | `pnpm typecheck`       | TypeScript over the library, the stories, the scripts and the config files      |
 | `pnpm lint`            | Biome: lint, format and import order (`pnpm lint:fix` to fix what it can)       |
 | `pnpm test`            | Tests for the commit rules and the color contrast                               |

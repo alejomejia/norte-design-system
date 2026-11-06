@@ -53,7 +53,7 @@ src/
   styles/           theme.css (the tokens) and the Storybook stylesheet
   handbook/         Storybook only: pages (MDX), doc blocks, token parser, statuses
 .storybook/         Storybook config, UI theme (manager) and docs styles
-scripts/            Node scripts (git hooks)
+scripts/            Node scripts (git hooks, Storybook cache pruning)
 docs/decisions/     one record per decision
 ```
 
