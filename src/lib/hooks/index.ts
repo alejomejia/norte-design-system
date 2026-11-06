@@ -2,6 +2,8 @@
 export { useAnimationFrame } from './use-animation-frame'
 export { useElapsed } from './use-elapsed'
 export { useInViewport } from './use-in-viewport'
+export { useIsApplePlatform } from './use-is-apple-platform'
+export { useModShortcut } from './use-mod-shortcut'
 export { useOverflows } from './use-overflows'
 export { useReducedMotion } from './use-reduced-motion'
 export { useScrollEdges } from './use-scroll-edges'

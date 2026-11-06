@@ -27,6 +27,14 @@ export {
 export { Checkbox, type CheckboxProps } from './components/checkbox'
 export { CodeField, type CodeFieldProps } from './components/code-field'
 export {
+  CommandMenu,
+  type CommandMenuGroup,
+  type CommandMenuItem,
+  type CommandMenuLabels,
+  type CommandMenuProps,
+  type CommandMenuTriggerProps,
+} from './components/command-menu'
+export {
   AlertDialog,
   type AlertDialogProps,
   type AlertDialogTriggerProps,
