@@ -138,6 +138,12 @@ Play tests to cover, as `step`s:
   good. Whatever removes itself through an exit (a dismissed alert) also leaves on a timer a little longer than its exit
   (Alert's `ALERT_EXIT_TIMEOUT`), and a play test dismisses it right after render, by keyboard.
 
+- **An anchored highlight slides to the top as it hides:** with no anchor, `anchor(…, 0)` falls back to 0 and a
+  transitioned `top` goes there while it fades. Hold it while hidden with `[transition-delay:999s,999s,0s,0s]` (top and
+  height first in the transition list) and `delay-0` while a row is highlighted (Menu, Select, Command menu).
+- **Base UI ignores simulated pointer moves** (no movement), so `userEvent.hover` never puts a list in pointer mode
+  and leaving a row doesn't clear it: dispatch a `pointermove` with `movementY: 1`, then a `pointerout` (Menu's play test).
+
 ## Checks, in order
 
 1. While iterating: `pnpm vitest run --project=storybook src/components/<name>`.

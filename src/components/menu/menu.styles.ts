@@ -43,6 +43,9 @@ export const menuStyles = tv({
       'group-has-[[data-highlighted][data-tone=danger]]/popup:bg-danger-subtle',
       'top-[anchor(--nt-menu-highlight_top,0)] h-[anchor-size(--nt-menu-highlight_height,0)]',
       'transition-[top,height,opacity,background-color] duration-(--duration-base) ease-standard',
+      // Hidden, it fades where it is: without a highlighted row the anchor falls back to 0, and `top` would slide there.
+      // The delay keeps that slide from ever starting; the next row it glides to starts from here.
+      '[transition-delay:999s,999s,0s,0s] group-has-data-highlighted/popup:delay-0 group-has-data-popup-open/popup:delay-0',
       'not-supports-[anchor-name:--nt]:hidden',
     ],
   },
