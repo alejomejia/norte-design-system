@@ -161,6 +161,8 @@ ships in the same change with:
   helpers are left out of the code, anything else lands in it. They keep only the controls that still apply
   (`parameters.controls.exclude`: the props each item sets itself), and stories that show a behavior keep none
   (`controls: { disable: true }`).
+- **Play functions run only when asked** (`.storybook/manual-play.ts`): a story opens at rest, and its interactions run
+  from the Interactions panel ("Run interactions", Rerun) or the test runner. A play still ends where it started.
 - **Number props are sliders** (`control: { type: 'range', min, max }`); the step follows from the span.
 - Props group under Props and `on…` handlers under Events on their own (`.storybook/arg-categories.ts`).
 

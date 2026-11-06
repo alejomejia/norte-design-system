@@ -9,6 +9,7 @@ import { addArgCategories } from './arg-categories'
 import { watchCodeBlocks } from './code-blocks'
 import { addDefaultArgs } from './default-args'
 import { watchTableOfContents } from './docs-toc'
+import { listenForPlayRequests, playOnlyWhenAsked } from './manual-play'
 import { focusMeasureOnStory, hideMeasureContentBox, ignoreMeasureInAccessibilityChecks } from './measure'
 import { addRangeSteps, watchRangeLabels } from './range-controls'
 import { transformSource } from './story-source'
@@ -36,6 +37,8 @@ const preview: Preview = {
   // Number props are sliders, with a step that fits their span (`range-controls.ts`), and the props table has sections
   // (`arg-categories.ts`).
   argTypesEnhancers: [addRangeSteps, addArgCategories],
+  // Stories open at rest: their interactions run from the Interactions panel or the test runner (`manual-play.ts`).
+  beforeEach: playOnlyWhenAsked,
   parameters: {
     // The component tests (`vitest.config.ts`) fail a story with an accessibility violation, like a failing `play`.
     a11y: { test: 'error' },
@@ -127,6 +130,7 @@ const preview: Preview = {
 
 watchCodeBlocks('#storybook-docs')
 watchTableOfContents()
+listenForPlayRequests()
 hideMeasureContentBox()
 focusMeasureOnStory()
 ignoreMeasureInAccessibilityChecks()

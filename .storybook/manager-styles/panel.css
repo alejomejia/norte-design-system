@@ -151,6 +151,34 @@
   color: var(--sb-color-text-muted);
 }
 
+/* Its action: a small outlined button, like Clear in Actions. */
+.nt-empty__action {
+  height: 1.5rem; /* 24px */
+  margin-top: var(--sb-gap);
+  padding-inline: var(--sb-gap);
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-s);
+  background-color: var(--sb-color-surface);
+  box-shadow: var(--sb-shadow-input);
+  font-family: var(--sb-font-family);
+  font-size: var(--sb-font-size-s);
+  font-weight: var(--sb-font-weight-medium);
+  color: var(--sb-color-text);
+  cursor: pointer;
+  transition: var(--sb-transition);
+}
+
+.nt-empty__action:focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .nt-empty__action:hover {
+    background-color: var(--sb-color-accent);
+  }
+}
+
 /* Accessibility's sits under the 48px header of its lists (`accessibility.css`): as much room below centers it on the
  * whole tab, where the others are. */
 #storybook-panel-root [role="tabpanel"] [role="tabpanel"] > .nt-empty {

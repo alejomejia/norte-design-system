@@ -49,7 +49,8 @@ addons.setConfig({
 watchCopy()
 // The Code panel under a story.
 watchCodeBlocks('#storybook-panel-root')
-watchEmptyStates()
+// The addon panel's empty states, and the Interactions tab's button that runs a story's play (`manual-play.ts`).
+addons.register('norte/empty-states', (api) => watchEmptyStates(api))
 watchSearchResults()
 watchSidebarGroups()
 watchRangeLabels()

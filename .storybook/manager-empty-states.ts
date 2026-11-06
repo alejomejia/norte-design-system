@@ -4,16 +4,28 @@
  * other tabs differ from tab to tab and carry no hooks to restyle them, so a watcher puts this one in their place and
  * hides Storybook's.
  */
+import { FORCE_REMOUNT } from 'storybook/internal/core-events'
+
 type EmptyState = {
   /** A Lucide icon, named in `manager-styles/icons.css`. */
   icon: string
   title: string
   description: string
+  /** A button under the description. */
+  action?: { label: string; onClick: () => void }
+}
+
+/** What the empty states need from the manager: the open story, and a way to tell the preview to run its play. */
+type Manager = {
+  getCurrentStoryData(): { id: string; tags?: string[] } | undefined
+  emit(event: string, data: unknown): void
 }
 
 type Target = { host: Element; replaced?: Element }
 
 type EmptyStateRule = EmptyState & {
+  /** Another state for the open story, when it calls for one. */
+  stateFor?(manager: Manager): EmptyState | undefined
   /**
    * The element the empty state goes in while the tab is empty, and Storybook's own message to hide, if any. `null`
    * while the tab has something to show.
@@ -47,11 +59,23 @@ const RULES: Readonly<Record<string, EmptyStateRule>> = {
     find: (panel) =>
       panel.querySelector('[data-radix-scroll-area-content]')?.childElementCount ? null : { host: panel },
   },
-  // A story without a play function. Storybook's message is the tab's only link, to its docs.
+  // A story without a play function, or one whose play hasn't run: plays run only when asked (`manual-play.ts`).
+  // Storybook's message is the tab's only link, to its docs.
   'storybook/interactions/panel': {
     icon: 'circle-play',
     title: 'No interactions',
     description: 'Stories with a play function show each step it takes here, with its result.',
+    stateFor(manager) {
+      const story = manager.getCurrentStoryData()
+      if (!story?.tags?.includes('play-fn')) return undefined
+      return {
+        icon: 'circle-play',
+        title: 'Interactions ready',
+        description: "This story's interactions run when you ask: each step shows here, with its result.",
+        // The event the panel's own Rerun sends.
+        action: { label: 'Run interactions', onClick: () => manager.emit(FORCE_REMOUNT, { storyId: story.id }) },
+      }
+    },
     find(panel) {
       const replaced = panel.querySelector("a[target='_blank']")?.closest('div:has(> div > div > a)')
       return replaced ? { host: panel, replaced } : null
@@ -81,7 +105,7 @@ const ACCESSIBILITY_STATES: readonly (EmptyState & { message: string })[] = [
   },
 ]
 
-function createEmptyState({ icon, title, description }: EmptyState) {
+function createEmptyState({ icon, title, description, action }: EmptyState) {
   const media = document.createElement('span')
   media.className = 'nt-empty__icon'
   media.dataset.icon = icon
@@ -96,7 +120,17 @@ function createEmptyState({ icon, title, description }: EmptyState) {
 
   const empty = document.createElement('div')
   empty.className = 'nt-empty'
+  empty.dataset.title = title
   empty.append(media, heading, text)
+
+  if (action) {
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'nt-empty__action'
+    button.textContent = action.label
+    button.addEventListener('click', action.onClick)
+    empty.append(button)
+  }
   return empty
 }
 
@@ -105,8 +139,9 @@ function createEmptyState({ icon, title, description }: EmptyState) {
  * panel goes: React may keep the element an old one was added to while the tab fills up.
  */
 function render(panel: Element, state?: EmptyState, target?: Target | null) {
-  for (const empty of panel.querySelectorAll('.nt-empty')) {
-    if (empty.parentElement !== target?.host) empty.remove()
+  for (const empty of panel.querySelectorAll<HTMLElement>('.nt-empty')) {
+    // Another host, or another state for the same one (the next story has a play function, this one didn't).
+    if (empty.parentElement !== target?.host || empty.dataset.title !== state?.title) empty.remove()
   }
   if (!state || !target) return
 
@@ -114,10 +149,10 @@ function render(panel: Element, state?: EmptyState, target?: Target | null) {
   if (!target.host.querySelector(':scope > .nt-empty')) target.host.append(createEmptyState(state))
 }
 
-function applyEmptyStates() {
+function applyEmptyStates(manager: Manager) {
   for (const [key, rule] of Object.entries(RULES)) {
     const panel = getPanel(key)
-    if (panel) render(panel, rule, rule.find(panel))
+    if (panel) render(panel, rule.stateFor?.(manager) ?? rule, rule.find(panel))
   }
 
   const accessibility = getPanel('storybook/a11y/panel')
@@ -127,10 +162,10 @@ function applyEmptyStates() {
 }
 
 /** Applies the empty states now and after every change Storybook makes to the UI, like opening another tab. */
-export function watchEmptyStates() {
-  applyEmptyStates()
+export function watchEmptyStates(manager: Manager) {
+  applyEmptyStates(manager)
   // Adding an empty state triggers the observer again, but finds it already there, so it stops there.
-  new MutationObserver(applyEmptyStates).observe(document.body, {
+  new MutationObserver(() => applyEmptyStates(manager)).observe(document.body, {
     subtree: true,
     childList: true,
     attributeFilter: ['id'],
