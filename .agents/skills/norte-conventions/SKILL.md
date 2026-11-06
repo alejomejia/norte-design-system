@@ -72,6 +72,10 @@ says less than a short list where every item works.
   scale the class number is px ÷ 4: allowed numbers are `0.25`, `0.5`, `1`, `3` and every even number. Round design
   values to the nearest allowed one. Font sizes are the exception: off the grid, but only through `text-*` tokens.
   Hairlines (`border`, `ring-1`, `outline-1`, `*-px`) stay in px.
+- **Space between siblings comes from the parent's `gap`** (`gap`, `gap-x`, `gap-y`), never from margins or padding on
+  the children (`mt-2`, `-mt-1`, `pb-1`). Padding is a box's own inside; a margin only pushes (`ml-auto`). When rows
+  need different spacing, nest a flex or grid with its own gap; when an item must line up with another, align it
+  (`items-center`, `items-baseline-last`, a fixed row height like `min-h-8`) instead of nudging it.
 - **Square brackets are a last resort.** Use the token, a bare value (`z-60`, `aspect-2/3`, `duration-350`) or the
   `(--var)` shorthand first. Brackets only when none exists, and the value inside still follows the grid.
 - **No raw inline CSS.** Static values are classes; runtime values go through `toCSSVars` and are read with the
@@ -140,7 +144,8 @@ pages and stories are English.
 ships in the same change with:
 
 1. a story file with a `Playground` story, one story per variant or state, and the status tag (`ready`, `beta`…);
-2. a component description (the meta's `parameters.docs.description.component`) and a JSDoc line per non-obvious prop;
+2. a component description (the meta's `parameters.docs.description.component`), two or three sentences that don't
+   repeat what the props table and stories show (the recipe has the rule), and a JSDoc line per non-obvious prop;
 3. its place in the sidebar (`storySort` in `.storybook/preview.ts`);
 4. its export in `src/index.ts`, and a changeset.
 

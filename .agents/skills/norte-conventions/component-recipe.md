@@ -75,7 +75,7 @@ const meta = {
   tags: ['beta'],
   argTypes: { variant: { control: 'inline-radio', options: X_VARIANTS }, children: { table: { disable: true } } },
   args: { onValueChange: fn() },
-  parameters: { docs: { description: { component: 'What, when, looks, motion, keyboard, what Base UI brings.' } } },
+  parameters: { docs: { description: { component: 'What it is, the one or two things worth knowing, its base.' } } },
   render: (args) => <div className="sb-box-m"><X {...args}>{sections()}</X></div>,
 } satisfies Meta<typeof X>
 
@@ -83,6 +83,13 @@ export const Playground: Story = { parameters: { docs: { canvas: { sourceState: 
 /** One JSDoc line per story: it's the description on the docs page. */
 export const Outline: Story = { args: { variant: 'outline' } }
 ```
+
+**Descriptions stay short.** The component's: two or three sentences, what it is and when to use it, the one or two
+capabilities a reader wouldn't guess, and "Built on Base UI's X" or the idea's credit. Leave out the look, the motion,
+the anatomy, every prop and the ARIA details: the props table, the stories and the examples show those. A story's:
+one line, saying what that story shows that the others don't. Tone it like Accordion's: "Sections that open and close
+under their headings, one at a time or several with `multiple`. Closed panels stay in the page, so the browser's find
+can open them. Built on Base UI's Accordion."
 
 Shared markup is a plain function (`sections()`), not a component, so "Show code" shows the markup. Content follows
 `docs/plan.md` → Example content (Lumen, run #128, `@norte.com`).
@@ -117,6 +124,10 @@ Play tests to cover, as `step`s:
   `@/lib/utils`.
 - **ResizeObserver's first report waits for a rendered frame,** which test runs can hold back for over a second:
   measure once on mount too (`useOverflows` does).
+
+- **An exit that starts before Motion's lazy features load never runs,** and `AnimatePresence` keeps the element for
+  good. Whatever removes itself through an exit (a dismissed alert) also leaves on a timer a little longer than its exit
+  (Alert's `ALERT_EXIT_TIMEOUT`), and a play test dismisses it right after render, by keyboard.
 
 ## Checks, in order
 
