@@ -1,7 +1,6 @@
-// The `pre-commit` hook: commits never go straight to main, which only moves when a release is merged from dev
-// (CONTRIBUTING.md → Branches).
+// The `pre-commit` hook: commits never go straight to main, which only moves on a release, through
+// `pnpm release:main` (CONTRIBUTING.md → Branches). That script writes main's commit without a checkout, so no hook runs.
 import { execFileSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
 
 import { fail } from './report.ts'
 
@@ -18,15 +17,10 @@ function currentBranch(): string | null {
   }
 }
 
-/** Whether git is finishing a merge, the one way main moves. */
-function isMerging(): boolean {
-  return existsSync(git('rev-parse', '--git-path', 'MERGE_HEAD'))
-}
-
-if (currentBranch() === 'main' && !isMerging()) {
+if (currentBranch() === 'main') {
   fail(
     'Commits never go straight to main.',
-    ['main only moves when a release is merged from dev.'],
+    ['main only moves on a release, through pnpm release:main.'],
     'Move your work to dev (your changes come with you): git switch dev',
   )
 }

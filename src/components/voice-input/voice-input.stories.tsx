@@ -43,7 +43,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Dictation for a prompt: a mic button that grows into a recording pill, with level bars that follow the voice and a timer. It draws the recording; the app owns the microphone and the transcription. Idea from React Bits' Voice Pill.",
+          "Dictation for a prompt: a mic button that grows into a recording pill. It draws the recording; the app owns the microphone and the transcription. Idea from React Bits' Voice Pill.",
       },
     },
   },

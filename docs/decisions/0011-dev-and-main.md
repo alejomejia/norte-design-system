@@ -1,6 +1,6 @@
 # 0011. Work on dev, release on main
 
-**Status:** Accepted · 2026-11-04 · Replaces [0009](0009-git-workflow.md)
+**Status:** Superseded by [0014](0014-main-holds-releases.md) · 2026-11-04 · Replaces [0009](0009-git-workflow.md)
 
 ## Context
 

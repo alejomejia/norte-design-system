@@ -17,8 +17,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component:
-          "Turns a setting on or off, right away. For a choice a form saves later, use a checkbox. The thumb springs across, and stretches toward where it's going while pressed.",
+        component: 'Turns a setting on or off, right away. For a choice a form saves later, use a checkbox.',
       },
     },
   },

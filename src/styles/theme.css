@@ -58,7 +58,8 @@
   --color-canvas: var(--color-white); /* The page */
   --color-surface: var(--color-white); /* Cards, inputs, panels */
   --color-surface-muted: var(--color-neutral-100); /* Hovered rows, code, quiet fills */
-  --color-surface-strong: var(--color-neutral-200); /* Hovered fills of quiet controls, like a ghost button */
+  --color-surface-strong: var(--color-neutral-200); /* A step above muted: hovered muted cards */
+  --color-overlay: color-mix(in oklab, var(--color-neutral-900) 10%, transparent); /* Ghost hovers, on any surface */
   --color-inverse: var(--color-neutral-900); /* Dark surfaces on a light page: tooltips */
   --color-on-inverse: var(--color-white); /* Text on an inverse surface */
   --color-ink: var(--color-neutral-900); /* Text */
@@ -90,6 +91,8 @@
 
   /* The type scale: each size brings its line height (a multiple of 4px) and, for the large ones, tighter tracking. */
   --text-*: initial;
+  --text-caption-s: 0.625rem; /* 10px: the smallest text, only for a few characters, like a small avatar's initials */
+  --text-caption-s--line-height: 0.75rem; /* 12px */
   --text-caption: 0.75rem; /* 12px */
   --text-caption--line-height: 1rem; /* 16px */
   --text-body-s: 0.875rem; /* 14px: the interface's default */
@@ -163,6 +166,42 @@
   --animate-drain: drain 5s linear forwards;
   /* `settle`: something arriving drops the last few pixels into place, once, like a digit into its slot. */
   --animate-settle: settle var(--duration-base) var(--ease-enter);
+  /* `spinner`: a full turn, again and again. `spinner-arc`: an arc (`pathLength="100"`) that grows to two thirds of its
+   * ring and shrinks back as it goes. Their lengths differ, so the two never line up the same way twice. */
+  --animate-spinner: spinner 2s linear infinite;
+  --animate-spinner-arc: spinner-arc 1.5s var(--ease-standard) infinite;
+  /* `breathe`: something that's still loading dims and brightens, again and again, like a skeleton's shapes. */
+  --animate-breathe: breathe 2s ease-in-out infinite;
+  /* `swing`: a compass needle finding north, once: it swings past, back, and settles, each swing smaller. */
+  --animate-swing: swing 1.2s ease-in-out;
+
+  @keyframes breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes swing {
+    from {
+      rotate: -40deg;
+    }
+    35% {
+      rotate: 14deg;
+    }
+    60% {
+      rotate: -6deg;
+    }
+    80% {
+      rotate: 2deg;
+    }
+    to {
+      rotate: 0deg;
+    }
+  }
 
   @keyframes nudge {
     20% {
@@ -176,6 +215,27 @@
     }
     80% {
       translate: 0.125rem; /* 2px */
+    }
+  }
+
+  @keyframes spinner {
+    to {
+      rotate: 1turn;
+    }
+  }
+
+  @keyframes spinner-arc {
+    from {
+      stroke-dasharray: 1 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 65 200;
+      stroke-dashoffset: -15;
+    }
+    to {
+      stroke-dasharray: 65 200;
+      stroke-dashoffset: -99;
     }
   }
 
@@ -218,10 +278,12 @@
   :root {
     color-scheme: light;
 
-    /* Durations, read with `duration-(--duration-base)`. Tailwind has no theme namespace for them. */
-    --duration-fast: 120ms; /* Hovers, presses */
-    --duration-base: 200ms; /* Most transitions */
-    --duration-slow: 320ms; /* Panels and dialogs entering */
+    /* Durations, read with `duration-(--duration-base)`. Tailwind has no theme namespace for them. The easings front-load
+     * their change (`standard` is 90% done at half its time, `enter` at a third), so each duration looks about half
+     * as long as it is: these are long enough that a change is still seen. */
+    --duration-fast: 150ms; /* Hovers, presses */
+    --duration-base: 240ms; /* Most transitions */
+    --duration-slow: 400ms; /* Panels and dialogs entering */
     --duration-slower: 500ms; /* Fills that sweep across a control, like a button's hover */
     --duration-spring: 500ms; /* The whole spring curve, settling included */
   }
@@ -234,6 +296,9 @@
       --duration-slow: 0ms;
       --duration-slower: 0ms;
       --duration-spring: 0ms;
+      /* A spinner keeps turning, slowly, since one that stops looks broken; its arc holds its length. */
+      --animate-spinner: spinner 3s linear infinite;
+      --animate-spinner-arc: none;
     }
   }
 }

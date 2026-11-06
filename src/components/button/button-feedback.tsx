@@ -2,11 +2,9 @@
 
 import { AnimatePresence, LazyMotion, MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
-
+import { Spinner } from '@/components/spinner'
 import { loadMotionFeatures, MOTION_DURATION, MOTION_EASE, MOTION_SPRING } from '@/lib/motion'
-
 import { BUTTON_CHECK_PATH } from './button.const'
-import { ButtonSpinner } from './button-spinner'
 
 /** Where the spinner and the check sit: stacked over the hidden label, at its center. */
 const LAYER = 'absolute inset-0 grid place-items-center'
@@ -36,7 +34,7 @@ export function ButtonFeedback({ state, animateIn }: { state?: 'loading' | 'succ
               exit={EXIT}
               transition={MOTION_SPRING}
             >
-              <ButtonSpinner />
+              <Spinner decorative />
             </m.span>
           )}
           {state === 'success' && (

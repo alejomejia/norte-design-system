@@ -1,5 +1,41 @@
 # norte-design-system
 
+## 0.3.0
+
+### Minor Changes
+
+- 8325fbf: Add `Accordion`: sections that open one or several at a time under their headings, with icons, descriptions, two looks and calm height motion.
+- d325c12: Add `Alert`: an inline message in four tones with a title, a description, an action and an optional dismiss, rising in as it appears and closing its height when dismissed.
+- 239903c: Add `Avatar`: a person's photo or initials, or an agent's colors in one of two effects that move while it works, in three sizes with an optional status dot.
+- be09b3c: Add `AvatarGroup`: overlapping avatars of people and agents, capped at `max` with a "+N" whose tooltip names the rest.
+- ae624e7: Add `Breadcrumb`: where the page sits in the app, each step a link back up, the current page marked, and a long path's middle folded into a menu.
+- 9c76eef: Add the `caption-s` type size (10px) for a few characters in a tight space, and use it for the initials of small `Avatar`s.
+- 12bb560: Add `Card`: a surface with optional header, body and footer parts, `outline` or `muted`, in three paddings, that becomes one link with `Card.Link`.
+- 80962db: Add the `chevron-left` icon to `Icon`.
+- 4014fe0: Add `Dialog` and `AlertDialog`: a window over a dimmed page with a header, a body, a footer and a close, in three sizes, and a confirmation for what can't be undone.
+- 980832d: Add `focusableWhenDisabled` to `Button` and `IconButton`, so a disabled button can still open its tooltip, and use it on `PromptInput`'s send button, whose tooltip didn't open on an empty prompt.
+- 49d112d: Add `Link`: inline and standalone links with an underline that reacts to hover, that open other sites in a new tab and take a router's link through `render`.
+- acb1ee5: Add `Logo`: Norte's needle and outlined wordmark, whole, as the mark or on a tile, in three sizes for light or dark backgrounds, with an optional settle as it appears.
+- a7d2d2b: Add `Menu`: items with icons and shortcuts, groups, checkbox and radio items, link items, submenus and a danger tone, with a gliding highlight.
+- 8a5f35e: Add the `overlay` color role, ink at 10%: ghost buttons and icon buttons now fill with it on hover, so they darken whatever surface they sit on instead of laying gray over it.
+- 5659d7b: Add `Popover`: a small panel that opens from a trigger, with a header, any content and an optional close, in three widths.
+- a7d2d2b: Add the `share` and `download` icons to `Icon`.
+- 50ba504: Add `Skeleton`: placeholder lines of text, boxes and circles that breathe while content loads, with a label for screen readers.
+- 3a65a72: Add `Spinner`: an arc that turns around a faint ring, in Icon's three sizes, named for screen readers or decorative, that draws itself in as it appears. Button and Toast now use it, and under reduced motion their spinners keep turning slowly instead of stopping.
+- 80962db: Add `Tabs`: a row of tabs with icons and counts and the active one's panel, in `line` and `segmented` looks and two sizes, with an indicator that glides between tabs.
+- 7fed530: Add `TextField`: a labelled input with a description, an error, an optional leading icon and a clear button, in sizes `s` and `m`.
+- 6af1d3b: Add `Textarea`: a labelled field that grows with its text up to `maxRows`, with a description, an error and an optional character count.
+- 1988e53: Open `Tooltip` after 100ms of rest (was 500ms), also outside a `TooltipProvider`, sliding out from its trigger, with new `delay` and `align` props. `TooltipProvider` no longer takes `delay`: set it on each `Tooltip` instead.
+- ae624e7: `Tooltip` takes `disabled`, to stay closed when it would only repeat what's on screen, like a label that isn't truncated.
+
+### Patch Changes
+
+- 8f38b28: Fix `Dialog`: a scrolling body shows its focus ring again when reached by keyboard.
+- 0377fb6: Lengthen the duration tokens (`fast` 150ms, `base` 240ms, `slow` 400ms) so transitions on Norte's front-loaded easings are still seen.
+- 8a01975: Fix `Tabs`: tabs and panels show their focus ring again when reached by keyboard.
+- c9c40a4: Fix `Tooltip` showing behind a dialog, menu or popover it opens from: it now sits a layer above them.
+- 9173ef4: `UndoAction` grows in, fades away before `onUndo` is called when it's undone, and once committed dissolves its box and button around the outcome instead of cutting them, so nothing moves.
+
 ## 0.2.0
 
 ### Minor Changes

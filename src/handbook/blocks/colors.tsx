@@ -13,6 +13,7 @@ const ROLE_GROUPS = {
     { name: 'surface' },
     { name: 'surface-muted' },
     { name: 'surface-strong' },
+    { name: 'overlay' },
     { name: 'inverse' },
   ],
   text: [
@@ -35,6 +36,16 @@ const ROLE_GROUPS = {
   ],
 } satisfies Record<string, Role[]>
 
+/** The surfaces a translucent role is shown over, so its card shows the shade it gives each one. */
+const UNDER_TRANSLUCENT = [
+  'bg-surface',
+  'bg-surface-muted',
+  'bg-accent-subtle',
+  'bg-success-subtle',
+  'bg-warning-subtle',
+  'bg-danger-subtle',
+]
+
 function rgb(name: string) {
   return oklchToLinearRgb(parseOklch(token(name).value))
 }
@@ -56,7 +67,7 @@ function toLabel(name: string) {
  */
 function RoleCard({ role }: { role: Role }) {
   const name = `color-${role.name}`
-  const { reference, note } = token(name)
+  const { reference, note, alpha } = token(name)
   // `on-accent` is read on the accent and `on-inverse` on the inverse surface, every other text role on the page.
   const ratio = role.text
     ? contrastRatio(rgb(name), rgb(role.name.startsWith('on-') ? `color-${role.name.slice(3)}` : 'color-canvas'))
@@ -64,21 +75,34 @@ function RoleCard({ role }: { role: Role }) {
 
   return (
     <li className="flex flex-col overflow-hidden rounded-l border border-line bg-surface">
-      <div
-        className={cn(
-          'flex h-24 items-end justify-between gap-2 bg-(--swatch) p-3 font-mono text-caption',
-          isDark(name) ? 'text-white' : 'text-neutral-900',
-        )}
-        style={toCSSVars({ swatch: `var(--${name})` })}
-      >
-        <span>{toHex(rgb(name))}</span>
-        {ratio !== null && <span title="Contrast where it's read">{ratio.toFixed(1)}:1</span>}
-      </div>
+      {alpha === undefined ? (
+        <div
+          className={cn(
+            'flex h-24 items-end justify-between gap-2 bg-(--swatch) p-3 font-mono text-caption',
+            isDark(name) ? 'text-white' : 'text-neutral-900',
+          )}
+          style={toCSSVars({ swatch: `var(--${name})` })}
+        >
+          <span>{toHex(rgb(name))}</span>
+          {ratio !== null && <span title="Contrast where it's read">{ratio.toFixed(1)}:1</span>}
+        </div>
+      ) : (
+        // Translucent: each surface on top, and the same surface under the role below it.
+        <div className="flex h-24" style={toCSSVars({ swatch: `var(--${name})` })}>
+          {UNDER_TRANSLUCENT.map((surface) => (
+            <div key={surface} className={cn('flex flex-1 flex-col justify-end', surface)}>
+              <div className="h-1/2 bg-(--swatch)" />
+            </div>
+          ))}
+        </div>
+      )}
       <div className="flex flex-1 flex-col gap-1 border-t border-line p-3">
         <span className="text-body-s font-medium text-ink">{toLabel(role.name)}</span>
         <CopyToken name={name} />
         {note && <span className="text-caption text-ink-muted">{note}</span>}
-        {reference && <Meta>{reference.replace('color-', '')}</Meta>}
+        {reference && (
+          <Meta>{`${reference.replace('color-', '')}${alpha === undefined ? '' : ` at ${alpha * 100}%`}`}</Meta>
+        )}
       </div>
     </li>
   )

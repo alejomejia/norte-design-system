@@ -4,10 +4,11 @@ import { type KeyboardEvent, useState } from 'react'
 
 import { IconButton } from '@/components/icon-button'
 import { Select, type SelectItem } from '@/components/select'
+import { Textarea } from '@/components/textarea'
 import { Tooltip } from '@/components/tooltip'
 import { VoiceInput } from '@/components/voice-input'
 
-import { PROMPT_INPUT_LABELS } from './prompt-input.const'
+import { PROMPT_INPUT_LABELS, PROMPT_INPUT_MAX_ROWS, PROMPT_INPUT_MIN_ROWS } from './prompt-input.const'
 import { promptInputStyles } from './prompt-input.styles'
 
 export type PromptInputProps = {
@@ -95,14 +96,15 @@ export function PromptInput({
         submit()
       }}
     >
-      <textarea
+      <Textarea
+        variant="ghost"
         aria-label={labels.prompt}
-        rows={1}
+        minRows={PROMPT_INPUT_MIN_ROWS}
+        maxRows={PROMPT_INPUT_MAX_ROWS}
         value={text}
         placeholder={labels.placeholder}
-        onChange={(event) => change(event.currentTarget.value)}
+        onValueChange={change}
         onKeyDown={handleKeyDown}
-        className={styles.textarea()}
       />
       <div className={styles.toolbar()}>
         <div className={styles.group()}>
@@ -129,7 +131,15 @@ export function PromptInput({
             <IconButton variant="secondary" icon="stop" label={labels.stop} onClick={onStop} />
           ) : (
             <Tooltip content={labels.send} shortcut={['↵']}>
-              <IconButton type="submit" variant="primary" icon="send" label={labels.send} disabled={!canSend} />
+              {/* Focusable while disabled, so its tooltip still opens on an empty prompt. */}
+              <IconButton
+                type="submit"
+                variant="primary"
+                icon="send"
+                label={labels.send}
+                disabled={!canSend}
+                focusableWhenDisabled
+              />
             </Tooltip>
           )}
         </div>

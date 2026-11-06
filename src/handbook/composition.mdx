@@ -60,13 +60,14 @@ Ask these in order. The first question that sends the piece somewhere decides it
 2. **Does it arrange other pieces?** Groups, lists, stacks, and anything with room for other pieces inside it, are
    components.
 3. **Does it open, close or control something else?** A tab and its panel, a trigger and its menu: components.
-4. **Is it made of pieces that each keep a job of their own?** Then it's a component. A search field is a text field
-   that takes the query and an icon button that clears it: two jobs.
+4. **Is it made of pieces that each keep a job of their own?** Then it's a component. A search that suggests results
+   as you type is a text field that takes the query and a list that offers matches: two jobs.
 5. **None of the above?** It does one job and would work the same in any product: it's an element.
 
 Holding another element doesn't make a piece a component on its own. An icon button has an icon inside, but the icon
-has no job there: it's the button's label, so the icon button is an element. A toolbar of icon buttons arranges them and
-moves focus between them: a component.
+has no job there: it's the button's label, so the icon button is an element. A text field's clear button only empties
+the field, which is still the field's one job, editing its text: the text field stays an element. A toolbar of icon
+buttons arranges them and moves focus between them: a component.
 
 > **Not sure?** Build it as a component. A piece that turns out to have one job moves down to Elements easily; an
 > element that grew a layout is harder to take apart, because everything that uses it depends on that layout.

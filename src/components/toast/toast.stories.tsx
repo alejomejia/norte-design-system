@@ -76,7 +76,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Brief messages about something that just happened, stacked in the bottom-right corner like Sonner's: each new toast in front, the older ones peeking out behind, fanning out on hover or focus. They leave on their own, swipe away, and pause while the stack is hovered. Wrap the app in `ToastProvider` once, then add toasts with `useToast()`.",
+          "Brief messages about something that just happened, stacked in a corner like Sonner's and leaving on their own. Wrap the app in `ToastProvider` once, then add toasts with `useToast()`.",
       },
     },
   },

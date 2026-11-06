@@ -4,7 +4,7 @@ import { spring } from 'motion'
 import { describe, expect, it } from 'vitest'
 
 import { parseTokens } from '@/handbook/tokens/tokens'
-import { contrastRatio, isInSrgbGamut, oklchToLinearRgb, parseOklch } from '@/lib/utils'
+import { blend, contrastRatio, isInSrgbGamut, oklchToLinearRgb, parseOklch } from '@/lib/utils'
 
 // Read from disk: Vitest doesn't load CSS files, so a `?raw` import would come back empty.
 const tokens = parseTokens(readFileSync(new URL('./theme.css', import.meta.url), 'utf8'))
@@ -21,8 +21,13 @@ const PAIRS: [string, string, number][] = [
   ['ink', 'surface-muted', TEXT],
   ['ink-muted', 'surface-muted', TEXT],
   ['ink-subtle', 'surface-muted', TEXT],
-  ['ink', 'accent-subtle', TEXT],
   ['accent-ink', 'accent-subtle', TEXT],
+  // An alert's title and description, on its tone's tint.
+  ...['ink', 'ink-muted'].flatMap((text) =>
+    ['accent-subtle', 'success-subtle', 'warning-subtle', 'danger-subtle'].map(
+      (background): [string, string, number] => [text, background, TEXT],
+    ),
+  ),
   ['on-accent', 'accent', TEXT],
   ['on-accent', 'accent-hover', TEXT],
   ['on-inverse', 'inverse', TEXT],
@@ -46,6 +51,22 @@ describe('color roles', () => {
   it.each(PAIRS)('%s on %s reaches %d:1', (foreground, background, minimum) => {
     expect(contrastRatio(rgb(foreground), rgb(background))).toBeGreaterThanOrEqual(minimum)
   })
+})
+
+/** The surfaces a ghost button sits on: its hovered fill, the overlay, darkens each one. */
+const UNDER_OVERLAY = ['surface', 'surface-muted', 'accent-subtle', 'success-subtle', 'warning-subtle', 'danger-subtle']
+
+describe('the overlay', () => {
+  const overlay = tokens.get('color-overlay')
+
+  it.each(['ink', 'ink-muted'].flatMap((text) => UNDER_OVERLAY.map((background) => [text, background])))(
+    '%s on the overlay over %s reaches 4.5:1',
+    (text, background) => {
+      if (overlay?.alpha === undefined) throw new Error('--color-overlay should be a color mixed with transparent')
+      const filled = blend(oklchToLinearRgb(parseOklch(overlay.value)), rgb(background), overlay.alpha)
+      expect(contrastRatio(rgb(text), filled)).toBeGreaterThanOrEqual(TEXT)
+    },
+  )
 })
 
 describe('primitives', () => {

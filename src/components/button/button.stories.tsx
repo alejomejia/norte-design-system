@@ -23,7 +23,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Starts an action. `primary` for the main one on a screen, `secondary` beside it, `ghost` for quiet ones in toolbars and lists, and `danger` for what can't be undone. While its action runs, it keeps its width and shows a spinner, and when the action succeeds the spinner can turn into a check.",
+          "Starts an action. `primary` for the main one on a screen, `secondary` beside it, `ghost` for quiet ones and `danger` for what can't be undone. It can show that its action is running, and that it succeeded.",
       },
     },
   },
@@ -126,10 +126,7 @@ export const Loading: Story = {
 /** How long the example action takes, in ms. */
 const RUN_DURATION = 1500
 
-/**
- * When the action succeeds, the spinner turns into a check that draws itself, and the label comes back a moment later.
- * Set `success` as `loading` turns off; the next click clears it. Screen readers hear "Done" (`successLabel`). Click it.
- */
+/** When the action succeeds, the spinner turns into a check. Set `success` as `loading` turns off. Click it. */
 export const Success: Story = {
   name: 'Loading, then success',
   parameters: { controls: { exclude: ['loading', 'success'] } },

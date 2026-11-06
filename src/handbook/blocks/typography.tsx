@@ -14,6 +14,7 @@ const SCALE = [
   { name: 'body', className: 'text-body' },
   { name: 'body-s', className: 'text-body-s' },
   { name: 'caption', className: 'text-caption' },
+  { name: 'caption-s', className: 'text-caption-s' },
 ]
 
 const WEIGHTS = [

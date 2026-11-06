@@ -15,6 +15,9 @@ const HANDLER = /\s+on[A-Z]\w*=\{(?:function\s*\w*\(\)\s*\{\}|\(\)\s*=>\s*\{\})\
 /** An element that carries only story helper classes (`preview.css`), opening on a line of its own. */
 const HELPER_OPEN = /^(\s*)<(\w+) className="sb-[\w-]+(?: sb-[\w-]+)*">$/
 
+/** A fragment, which Storybook prints when a story's helper returns several elements: an app writes none. */
+const FRAGMENT_OPEN = /^(\s*)<(React\.Fragment)(?: key="[^"]*")?>$/
+
 /** A tag longer than this keeps one prop per line. */
 const MAX_TAG_LENGTH = 80
 
@@ -62,8 +65,8 @@ function withShortTags(code: string) {
 }
 
 /**
- * Leaves out the elements that only lay out the canvas (`sb-row`, `sb-stack`…): an app has none of them. Their content
- * stays, one level less indented. Storybook writes an element with children over several lines, its closing tag at its
+ * Leaves out the elements that only lay out the canvas (`sb-row`, `sb-stack`…), and fragments: an app has none of
+ * them. Their content stays, one level less indented. Storybook writes an element with children over several lines, its closing tag at its
  * opening tag's indent, which tells where each one ends.
  */
 function withoutHelpers(code: string) {
@@ -71,7 +74,7 @@ function withoutHelpers(code: string) {
   const lines: string[] = []
 
   for (const line of code.split('\n')) {
-    const helper = HELPER_OPEN.exec(line)
+    const helper = HELPER_OPEN.exec(line) ?? FRAGMENT_OPEN.exec(line)
     const last = open.at(-1)
     if (helper) {
       open.push({ indent: helper[1] ?? '', tag: helper[2] ?? '' })

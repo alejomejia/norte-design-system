@@ -25,7 +25,8 @@ export const button = tv({
       // The outline darkens with the fill, so the quieter fill still reads.
       secondary:
         'border border-line-strong bg-surface text-ink before:bg-surface-muted not-data-disabled:hover:border-ink',
-      ghost: 'text-ink before:bg-surface-strong',
+      // A shade, not a gray: it darkens whatever it sits on, a white page or an alert's tint.
+      ghost: 'text-ink before:bg-overlay',
       // A tint, not solid red: the red label stays readable over the part the wipe hasn't reached yet.
       danger: 'border border-danger bg-surface text-danger before:bg-danger-muted',
     } satisfies Record<(typeof BUTTON_VARIANTS)[number], string>,

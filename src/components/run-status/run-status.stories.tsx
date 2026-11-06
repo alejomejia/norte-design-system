@@ -33,7 +33,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "What an agent is doing, in one row: a lattice that ripples while it works, its name, its current step and a stopwatch. It's a live region: screen readers hear the step and the status change, never the stopwatch. Idea from React Bits' Lattice Loader.",
+          "What an agent is doing, in one row: its name, its current step and a stopwatch. Screen readers hear the step and the status change, never the stopwatch. Idea from React Bits' Lattice Loader.",
       },
     },
   },

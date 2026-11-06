@@ -39,7 +39,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The plan an agent follows, as a checklist it ticks off: each finished step fills its box, draws its check and is struck through, and the one in progress glows. A record, not a form. Idea from React Bits' Spring Check, made calmer.",
+          "The plan an agent follows, as a checklist it ticks off as it goes. A record, not a form. Idea from React Bits' Spring Check, made calmer.",
       },
     },
   },

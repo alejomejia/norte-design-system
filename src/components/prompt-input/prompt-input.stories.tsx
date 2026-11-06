@@ -1,6 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
-import { expect, fn, userEvent } from 'storybook/test'
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test'
 
 import { PromptInput } from '.'
 
@@ -58,7 +58,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Where a person asks an agent for something: a text area that grows as they write, a toolbar with attachments, the model and dictation, and a send button that becomes a stop button while the agent runs. Enter sends, Shift + Enter adds a line. Idea from React Bits' Prompt Bar.",
+          "Where a person asks an agent for something: a text area that grows as they write, a toolbar for attachments, the model and dictation, and a send button that turns into stop while the agent runs. Enter sends, Shift + Enter adds a line. Idea from React Bits' Prompt Bar.",
       },
     },
   },
@@ -93,7 +93,7 @@ export const Keyboard: Story = {
     const prompt = canvas.getByRole('textbox', { name: 'Prompt' })
 
     await step('An empty prompt can’t be sent', async () => {
-      await expect(canvas.getByRole('button', { name: 'Send' })).toBeDisabled()
+      await expect(canvas.getByRole('button', { name: 'Send' })).toHaveAttribute('aria-disabled', 'true')
     })
     await step('Shift + Enter adds a line', async () => {
       await userEvent.type(prompt, 'Compare pricing{Shift>}{Enter}{/Shift}for teams')
@@ -103,6 +103,28 @@ export const Keyboard: Story = {
       await userEvent.keyboard('{Enter}')
       await expect(args.onSubmit).toHaveBeenCalledWith('Compare pricing\nfor teams')
       await expect(prompt).toHaveValue('')
+    })
+  },
+}
+
+/**
+ * On an empty prompt the send button is off but still says what it does: hovering or tabbing to it opens its tooltip,
+ * and clicking it sends nothing.
+ */
+export const SendTooltip: Story = {
+  name: 'Send tooltip',
+  parameters: { controls: { disable: true } },
+  play: async ({ args, canvas, canvasElement, step }) => {
+    const send = canvas.getByRole('button', { name: 'Send' })
+    const page = within(canvasElement.ownerDocument.body)
+
+    await step('Hovering the off button opens its tooltip', async () => {
+      await userEvent.hover(send)
+      await waitFor(() => expect(page.getByText('Send')).toBeVisible())
+    })
+    await step('Clicking it sends nothing', async () => {
+      await userEvent.click(send)
+      await expect(args.onSubmit).not.toHaveBeenCalled()
     })
   },
 }

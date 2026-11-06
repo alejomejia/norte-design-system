@@ -104,7 +104,7 @@ const preview: Preview = {
             'Navigation',
             ['Tabs', 'Breadcrumb', 'Command menu'],
             'Content',
-            ['Card', 'Accordion'],
+            ['Card', 'Avatar group', 'Accordion'],
           ],
           'AI',
           [

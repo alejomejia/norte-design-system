@@ -1,10 +1,9 @@
 'use client'
 
 import { Toast as BaseToast } from '@base-ui/react/toast'
-
-import { ButtonSpinner } from '@/components/button/button-spinner'
 import { Icon, type IconName } from '@/components/icon'
 import { IconButton } from '@/components/icon-button'
+import { Spinner } from '@/components/spinner'
 
 import { type TOAST_TYPES } from './toast.const'
 import { TOAST_ICON_COLORS, toastStyles } from './toast.styles'
@@ -28,7 +27,7 @@ export function ToastItem({ toast, closeLabel }: { toast: BaseToast.Root.ToastOb
       <BaseToast.Content className={styles.content()}>
         {type && (
           <span className={styles.icon({ className: TOAST_ICON_COLORS[type] })}>
-            {type === 'loading' ? <ButtonSpinner /> : <Icon name={TYPE_ICONS[type]} />}
+            {type === 'loading' ? <Spinner decorative /> : <Icon name={TYPE_ICONS[type]} />}
           </span>
         )}
         <div className={styles.text()}>

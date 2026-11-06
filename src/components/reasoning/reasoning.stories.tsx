@@ -35,7 +35,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "How an agent reasoned its way to an answer. While it thinks, the header shimmers with a live clock and the steps appear as they come; when it's done, it becomes one line with the time it took, and the steps fold away a click from coming back. Idea from React Bits' Thought Line.",
+          "How an agent reasoned its way to an answer: live while it thinks, then folded into one line with the time it took. Idea from React Bits' Thought Line.",
       },
     },
   },

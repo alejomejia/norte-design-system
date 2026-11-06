@@ -18,7 +18,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Picks an option, or several, that a form saves later. For a setting that applies right away, use a switch. When checked, the box fills and draws its check.',
+          'Picks an option, or several, that a form saves later. For a setting that applies right away, use a switch.',
       },
     },
   },
