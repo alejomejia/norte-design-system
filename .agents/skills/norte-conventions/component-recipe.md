@@ -92,7 +92,7 @@ under their headings, one at a time or several with `multiple`. Closed panels st
 can open them. Built on Base UI's Accordion."
 
 Shared markup is a plain function (`sections()`), not a component, so "Show code" shows the markup. Content follows
-`docs/plan.md` → Example content (Lumen, run #128, `@norte.com`).
+`docs/plan.md` → Example content (Norte, run #128, `@norte.com`).
 
 Play tests to cover, as `step`s:
 

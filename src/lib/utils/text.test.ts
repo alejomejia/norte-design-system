@@ -9,7 +9,7 @@ describe('initials', () => {
     ['Amara  Diallo ', 'AD'],
     ['Lucas Moreau Vidal', 'LV'],
     ['Jean-Luc Moreau', 'JM'],
-    ['Lumen', 'L'],
+    ['Daniel', 'D'],
     ['Ñandú', 'Ñ'],
     ['😀 Jonas', '😀J'],
     ['', ''],
