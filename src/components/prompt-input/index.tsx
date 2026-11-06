@@ -1,6 +1,6 @@
 'use client'
 
-import { type KeyboardEvent, useState } from 'react'
+import { type KeyboardEvent, type Ref, useState } from 'react'
 
 import { IconButton } from '@/components/icon-button'
 import { Select, type SelectItem } from '@/components/select'
@@ -36,6 +36,8 @@ export type PromptInputProps = {
   stream?: MediaStream | null
   /** The prompt's words: its name, its placeholder and its buttons'. */
   labels?: typeof PROMPT_INPUT_LABELS
+  /** The text area, to focus it from outside: after a suggestion fills the prompt, say. */
+  ref?: Ref<HTMLTextAreaElement>
   className?: string
 }
 
@@ -63,6 +65,7 @@ export function PromptInput({
   onRecordingChange,
   stream,
   labels = PROMPT_INPUT_LABELS,
+  ref,
   className,
 }: PromptInputProps) {
   const [ownValue, setOwnValue] = useState(defaultValue)
@@ -97,6 +100,7 @@ export function PromptInput({
       }}
     >
       <Textarea
+        ref={ref}
         variant="ghost"
         aria-label={labels.prompt}
         minRows={PROMPT_INPUT_MIN_ROWS}

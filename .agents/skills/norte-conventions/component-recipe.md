@@ -152,6 +152,10 @@ Play tests to cover, as `step`s:
   skeletons); a container whose content speaks as it changes (a message streaming its answer) names its state another
   way, like Message's status word.
 
+- **`getComputedStyle` returns a custom property as written,** with `var()` filled in but `calc()` left alone
+  (`calc(4rem * -1)`): test the property that uses it (`mask-position`), and wait for every layer that transitions,
+  not just the first to arrive (Suggestions' Overflow test).
+
 ## Checks, in order
 
 1. While iterating: `pnpm vitest run --project=storybook src/components/<name>`.

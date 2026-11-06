@@ -10,28 +10,15 @@ import { type TABS_SIZES, type TABS_VARIANTS } from './tabs.const'
  * hairline; a `segmented` one is a raised tile behind the tab, on a muted track. A panel fades in; the one it replaces
  * leaves at once, so the two never stack.
  *
- * A row that doesn't fit scrolls sideways, its scrollbar hidden. On each side that hides tabs, a chevron sits on a
- * clear 32px strip and the tabs fade in over the next 32px, so the chevron never overlaps a tab. The fade is a mask,
- * so it works on any background: two gradient layers, one per side, each 64px wider than the row. Shifting a layer by
- * 64px slides its fade in or out of view, and `mask-position` transitions where a gradient can't. Focus scrolls a tab
- * clear of the fade (`scroll-padding`).
+ * A row that doesn't fit scrolls sideways, its scrollbar hidden, and fades out on each side that hides tabs, with a
+ * chevron there: the shared `scroll-fade-x` utility (`theme.css`), which Suggestions uses too.
  */
 export const tabsStyles = tv({
   slots: {
     root: 'flex flex-col gap-4',
-    // The fades start hidden; a side that hides tabs shifts its layer into view.
-    bar: [
-      'group/bar relative [--nt-tabs-fade-end:0rem] [--nt-tabs-fade-start:-4rem]',
-      'data-overflow-end:[--nt-tabs-fade-end:-4rem] data-overflow-start:[--nt-tabs-fade-start:0rem]',
-    ],
-    scroller: [
-      // No scrollbar utility exists in Tailwind: the bracket hides it, and the row still scrolls by touch, wheel and keys.
-      'scroll-px-16 [scrollbar-width:none] overflow-x-auto scroll-smooth motion-reduce:scroll-auto',
-      '[mask-image:linear-gradient(to_right,transparent_2rem,black_4rem),linear-gradient(to_left,transparent_2rem,black_4rem)]',
-      'mask-intersect [mask-size:calc(100%+4rem)_100%] mask-no-repeat',
-      '[mask-position:var(--nt-tabs-fade-start)_0,var(--nt-tabs-fade-end)_0]',
-      'transition-[mask-position] duration-(--duration-base) ease-standard',
-    ],
+    // Its `data-overflow-*` attributes tell the scroller which sides fade, and show the chevrons there.
+    bar: 'group/bar relative',
+    scroller: 'scroll-fade-x',
     /*
      * On the fade, shown while its side hides tabs. Mirrored in right-to-left rows. Hidden, it's `invisible` too, not
      * just transparent: otherwise it still covers the edge tab, and contrast checkers can't tell that tab's background.

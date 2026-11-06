@@ -114,6 +114,7 @@ export {
 } from './components/skeleton'
 export { Spinner, type SpinnerProps } from './components/spinner'
 export { StreamingText, type StreamingTextProps } from './components/streaming-text'
+export { Suggestions, type SuggestionsItemProps, type SuggestionsProps } from './components/suggestions'
 export { Switch, type SwitchProps } from './components/switch'
 export {
   Tabs,
