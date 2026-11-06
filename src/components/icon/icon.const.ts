@@ -61,6 +61,7 @@ export const ICONS = {
   code: Code,
   copy: Copy,
   delete: Trash2,
+  done: Check,
   download: Download,
   edit: Pencil,
   error: CircleX,

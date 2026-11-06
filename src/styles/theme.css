@@ -157,7 +157,7 @@
   ); /* Motion's spring(0.3, 0.3): a short overshoot, then it settles */
 
   /* Animations, read with `animate-*`. `nudge`: one small shake, for something that failed. `shimmer`: a light that
-   * crosses a text again and again, for something that's still working (with a gradient text, `bg-size-[200%_100%]`). */
+   * crosses a text again and again, for something that's still working (the `shimmer-text` utility, at the end). */
   --animate-nudge: nudge 320ms var(--ease-standard);
   --animate-shimmer: shimmer 2.4s linear infinite;
   /* `glimmer`: a cell that brightens and dims, again and again; offset cells make a wave. */
@@ -303,4 +303,10 @@
       --animate-spinner-arc: none;
     }
   }
+}
+
+/* A word that shimmers while something works ("Thinking"): a light crosses it again and again, on a gradient clipped to
+ * the text. It holds still under reduced motion. Shared by Reasoning's header and Message's status, so they match. */
+@utility shimmer-text {
+  @apply animate-shimmer bg-linear-to-r from-ink-subtle via-ink to-ink-subtle bg-size-[200%_100%] bg-clip-text text-transparent motion-reduce:animate-none;
 }

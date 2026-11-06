@@ -27,8 +27,7 @@ export const reasoningStyles = tv({
     thinking: {
       true: {
         icon: 'text-accent-ink',
-        label:
-          'animate-shimmer bg-linear-to-r from-ink-subtle via-ink to-ink-subtle bg-size-[200%_100%] bg-clip-text text-transparent motion-reduce:animate-none',
+        label: 'shimmer-text',
         // The newest step is the one being worked on.
         step: 'last:text-ink',
       },

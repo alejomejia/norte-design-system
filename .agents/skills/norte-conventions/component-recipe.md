@@ -117,6 +117,9 @@ Play tests to cover, as `step`s:
 - **`userEvent.hover` doesn't trigger CSS `:hover`** in story tests: test hover looks by eye, not in play tests.
 - **Tailwind's `translate-*` sets `translate`, applied outside `rotate`:** to move along a rotated element's own axis,
   use `[transform:…]`.
+- **A custom utility named `text-…` is merged away:** tailwind-merge reads any `text-x` it doesn't know as a text
+  color, so `text-caption text-shimmer` loses one. Name shared utilities so they start with their own word
+  (`shimmer-text` in `theme.css`).
 - **Biome's class sort is an unsafe fix:** `pnpm biome check --write --unsafe <folder>`.
 - **First story run after adding a Base UI import** fails while Vite re-optimizes: run it again.
 - Specificity: `rtl:` adds none, `group-data-*:` adds some, so a group state beats `rtl:` without ordering tricks.

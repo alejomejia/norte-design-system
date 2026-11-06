@@ -69,6 +69,15 @@ export {
   type MenuSubmenuProps,
   type MenuTriggerProps,
 } from './components/menu'
+export {
+  Message,
+  type MessageActionProps,
+  type MessageActionsProps,
+  type MessageAuthor,
+  type MessageContentProps,
+  type MessageCopyProps,
+  type MessageProps,
+} from './components/message'
 export { Plan, type PlanProps, type PlanStep, type PlanStepStatus } from './components/plan'
 export {
   Popover,

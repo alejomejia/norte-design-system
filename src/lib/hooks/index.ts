@@ -1,5 +1,6 @@
 // Shared client hooks. Client only.
 export { useAnimationFrame } from './use-animation-frame'
+export { useCopy } from './use-copy'
 export { useElapsed } from './use-elapsed'
 export { useInViewport } from './use-in-viewport'
 export { useIsApplePlatform } from './use-is-apple-platform'
