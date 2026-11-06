@@ -5,10 +5,16 @@ import { type ComponentProps, type ReactNode, useId, useMemo } from 'react'
 import { Avatar, type AvatarProps } from '@/components/avatar'
 import { type DistributiveOmit, flattenChildren, nameParts } from '@/lib/utils'
 
-import { MESSAGE_STATUS_LABELS, type MESSAGE_STATUSES, MESSAGE_TIME_FORMAT } from './message.const'
+import {
+  MESSAGE_STATUS_LABELS,
+  type MESSAGE_STATUSES,
+  type MESSAGE_THINKING_EFFECTS,
+  MESSAGE_TIME_FORMAT,
+} from './message.const'
 import { MessageContext } from './message.hooks'
 import { messageStyles } from './message.styles'
 import { MessageAction, MessageActions, MessageContent, MessageCopy } from './message-parts'
+import { MessageStatus } from './message-status'
 
 export type {
   MessageActionProps,
@@ -40,19 +46,34 @@ type PersonMessageProps = {
   author: Exclude<MessageAuthor, { kind: 'agent' }>
   status?: never
   statusLabels?: never
+  thinkingEffect?: never
+  thinkingTimer?: never
+  thinkingSince?: never
 }
 
 type AgentMessageProps = {
   author: Extract<MessageAuthor, { kind: 'agent' }>
   /**
    * Where an agent's message is: `thinking` before it writes, `streaming` while the words arrive, then `done`. Until
-   * it's done, the avatar moves, the message is busy for screen readers and the actions wait. The header says what it's
+   * it's done, the avatar moves and the actions wait. The header says what it's
    * doing in place of the time, only while there's no content yet: once a plan or the first words show, they say it.
    * Agents only.
    */
   status?: (typeof MESSAGE_STATUSES)[number]
   /** What the header says while the agent thinks and writes, to translate them. */
   statusLabels?: Partial<Record<keyof typeof MESSAGE_STATUS_LABELS, string>>
+  /**
+   * How the status word shows the agent is working: `breathe` dims and brightens it, `shimmer` sends a light across
+   * it, `none` holds it still. Agents only.
+   */
+  thinkingEffect?: (typeof MESSAGE_THINKING_EFFECTS)[number]
+  /** Shows how long the agent has been thinking after "Thinking", in seconds with tenths (`2.4s`). Agents only. */
+  thinkingTimer?: boolean
+  /**
+   * When the agent started thinking (`Date.now()`), so the clock survives a remount. Without it, the clock counts from
+   * when the message started thinking. Agents only.
+   */
+  thinkingSince?: number
 }
 
 export type MessageProps = MessageBaseProps & (PersonMessageProps | AgentMessageProps)
@@ -76,6 +97,9 @@ function MessageRoot({
   time,
   status: statusProp = 'done',
   statusLabels,
+  thinkingEffect = 'breathe',
+  thinkingTimer = true,
+  thinkingSince,
   actionsVisible = false,
   appear = false,
   children,
@@ -96,8 +120,9 @@ function MessageRoot({
     <MessageContext value={state}>
       <article
         {...props}
+        // Never `aria-busy`: some screen readers hold back live regions inside a busy element, and a streaming answer
+        // announces its paragraphs as they complete. The status word in the header names the state instead.
         aria-labelledby={headerId}
-        aria-busy={busy || undefined}
         data-kind={kind}
         data-actions-visible={actionsVisible || undefined}
         className={styles.root({ className })}
@@ -109,7 +134,14 @@ function MessageRoot({
             <span className={styles.author()}>{author.name}</span>
             {status !== 'done'
               ? !hasContent && (
-                  <span className={styles.status()}>{{ ...MESSAGE_STATUS_LABELS, ...statusLabels }[status]}</span>
+                  // Keyed by status, so "Writing" starts fresh after "Thinking".
+                  <MessageStatus
+                    key={status}
+                    label={{ ...MESSAGE_STATUS_LABELS, ...statusLabels }[status]}
+                    effect={thinkingEffect}
+                    timer={thinkingTimer && status === 'thinking'}
+                    since={thinkingSince}
+                  />
                 )
               : time && (
                   // The server's locale and time zone may differ from the reader's: the client's reading wins.

@@ -113,6 +113,7 @@ export {
   type SkeletonTextProps,
 } from './components/skeleton'
 export { Spinner, type SpinnerProps } from './components/spinner'
+export { StreamingText, type StreamingTextProps } from './components/streaming-text'
 export { Switch, type SwitchProps } from './components/switch'
 export {
   Tabs,

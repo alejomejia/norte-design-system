@@ -12,4 +12,15 @@ describe('formatElapsed', () => {
   ])('shows %dms as %s', (ms, text) => {
     expect(formatElapsed(ms)).toBe(text)
   })
+
+  it.each([
+    [400, '0.4s'],
+    [9990, '9.9s'],
+    [12_340, '12.3s'],
+    [59_990, '59.9s'],
+    [64_200, '1m 04.2s'],
+    [671_050, '11m 11.0s'],
+  ])('shows %dms precisely as %s', (ms, text) => {
+    expect(formatElapsed(ms, { precise: true })).toBe(text)
+  })
 })

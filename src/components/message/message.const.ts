@@ -4,6 +4,9 @@ export const MESSAGE_KINDS = ['person', 'agent'] as const
 /** Where an agent's message is: `thinking` before it writes, `streaming` while the words arrive, then `done`. */
 export const MESSAGE_STATUSES = ['thinking', 'streaming', 'done'] as const
 
+/** How the header's status word shows the agent is working: it breathes, a light crosses it, or it holds still. */
+export const MESSAGE_THINKING_EFFECTS = ['breathe', 'shimmer', 'none'] as const
+
 /** What the header says while the agent works, in place of the time. */
 export const MESSAGE_STATUS_LABELS = {
   thinking: 'Thinking',

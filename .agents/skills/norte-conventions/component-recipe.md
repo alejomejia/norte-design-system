@@ -147,6 +147,11 @@ Play tests to cover, as `step`s:
 - **Base UI ignores simulated pointer moves** (no movement), so `userEvent.hover` never puts a list in pointer mode
   and leaving a row doesn't clear it: dispatch a `pointermove` with `movementY: 1`, then a `pointerout` (Menu's play test).
 
+- **`aria-busy` on a container can mute the live regions inside it:** some screen readers hold their announcements
+  until it's no longer busy. Keep it for things with nothing to announce inside (a loading button, a table of
+  skeletons); a container whose content speaks as it changes (a message streaming its answer) names its state another
+  way, like Message's status word.
+
 ## Checks, in order
 
 1. While iterating: `pnpm vitest run --project=storybook src/components/<name>`.

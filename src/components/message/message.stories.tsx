@@ -4,10 +4,11 @@ import { expect, fn, spyOn, userEvent, waitFor, within } from 'storybook/test'
 
 import { Button } from '@/components/button'
 import { Reasoning } from '@/components/reasoning'
+import { StreamingText } from '@/components/streaming-text'
 import { ToolCall } from '@/components/tool-call'
 
 import { Message } from '.'
-import { MESSAGE_STATUSES } from './message.const'
+import { MESSAGE_STATUSES, MESSAGE_THINKING_EFFECTS } from './message.const'
 
 const ASK =
   "Compare our five main competitors' pricing for teams of 10 to 50 seats, and email a summary of what changed to the leadership team."
@@ -45,6 +46,8 @@ const meta = {
     author: { control: 'object' },
     time: { control: false },
     status: { control: 'inline-radio', options: MESSAGE_STATUSES },
+    thinkingEffect: { control: 'inline-radio', options: MESSAGE_THINKING_EFFECTS },
+    thinkingSince: { control: false },
     children: { table: { disable: true } },
   },
   args: { author: AGENT, time: ANSWERED_AT, children: null },
@@ -153,7 +156,7 @@ export const WithToolCalls: Story = {
   ),
 }
 
-/** Before it writes: the avatar moves, and "Thinking" shimmers where the time will be. */
+/** Before it writes: the avatar moves, and "Thinking" breathes where the time will be, with a clock in tenths. */
 export const Thinking: Story = {
   args: { status: 'thinking' },
   render: (args) => (
@@ -162,12 +165,40 @@ export const Thinking: Story = {
     </div>
   ),
   play: async ({ canvas, step }) => {
-    await step('It is busy, says "Thinking" in place of the time, and has nothing to act on yet', async () => {
-      const message = canvas.getByRole('article')
-      await expect(message).toHaveAttribute('aria-busy', 'true')
+    const message = canvas.getByRole('article')
+
+    await step('It says "Thinking" in place of the time, and has nothing to act on yet', async () => {
       await expect(message).toHaveAccessibleName(/^Research agent\s?Thinking$/)
       await expect(message.querySelector('time')).toBeNull()
       await expect(canvas.queryAllByRole('button')).toHaveLength(0)
+    })
+
+    await step('"Thinking" breathes', async () => {
+      await expect(getComputedStyle(canvas.getByText('Thinking')).animationName).toBe('breathe')
+    })
+
+    await step('A clock in tenths counts up beside it, silent for screen readers', async () => {
+      const clock = canvas.getByText(/^\d+\.\ds$/)
+      await expect(clock).toHaveAttribute('aria-hidden', 'true')
+      const first = clock.textContent
+      await waitFor(() => expect(clock.textContent).not.toBe(first))
+    })
+  },
+}
+
+/** Thinking with Reasoning's shimmer, a light crossing the word, and no clock. */
+export const ThinkingShimmer: Story = {
+  name: 'Thinking, shimmer',
+  args: { status: 'thinking', thinkingEffect: 'shimmer', thinkingTimer: false },
+  render: (args) => (
+    <div className="sb-box-l">
+      <Message {...args} />
+    </div>
+  ),
+  play: async ({ canvas, step }) => {
+    await step('The word shimmers, and no clock shows', async () => {
+      await expect(getComputedStyle(canvas.getByText('Thinking')).animationName).toBe('shimmer')
+      await expect(canvas.queryByText(/^\d+\.\ds$/)).toBeNull()
     })
   },
 }
@@ -200,7 +231,7 @@ export const ThinkingWithReasoning: Story = {
   },
 }
 
-/** The words arriving, the avatar moving, and no actions until the last word; then the time and the actions. */
+/** The words arriving through `StreamingText`, the avatar moving, and no actions until the last word; then the time and the actions. */
 export const Streaming: Story = {
   parameters: { controls: { disable: true } },
   render: function Render() {
@@ -220,18 +251,27 @@ export const Streaming: Story = {
     const message = canvas.getByRole('article')
 
     await step('While the words arrive, they speak for it: no status word, no time, no actions', async () => {
-      await expect(message).toHaveAttribute('aria-busy', 'true')
       await expect(message).toHaveAccessibleName('Research agent')
       await expect(message.querySelector('time')).toBeNull()
       await expect(canvas.queryByRole('button', { name: 'Copy' })).toBeNull()
     })
 
-    await step('Once the last word is in, the time and the actions arrive', async () => {
-      await waitFor(() => expect(message).not.toHaveAttribute('aria-busy'), { timeout: 8000 })
-      await expect(message).toHaveTextContent(SUMMARY)
-      await expect(message.querySelector('time')).not.toBeNull()
-      await expect(canvas.getByRole('button', { name: 'Copy' })).toBeInTheDocument()
-    })
+    await step(
+      'Nothing around the answer is busy, so screen readers hear its paragraphs as they complete',
+      async () => {
+        await expect(canvas.getByRole('status').closest('[aria-busy]')).toBeNull()
+      },
+    )
+
+    await step(
+      'Once the last word is in, the time and the actions arrive, and the paragraph is announced',
+      async () => {
+        await waitFor(() => expect(message.querySelector('time')).not.toBeNull(), { timeout: 8000 })
+        // The answer's status comes before the copy action's.
+        await expect(canvas.getAllByRole('status')[0]).toHaveTextContent(SUMMARY)
+        await expect(canvas.getByRole('button', { name: 'Copy' })).toBeInTheDocument()
+      },
+    )
   },
 }
 
@@ -321,7 +361,9 @@ function PretendReply({ delay = 0, thinkFor = THINKING_TIME }: { delay?: number;
     <Message author={AGENT} time={ANSWERED_AT} status={status} appear actionsVisible>
       {status !== 'thinking' && (
         <>
-          <Message.Content>{WORDS.slice(0, words).join(' ')}</Message.Content>
+          <Message.Content>
+            <StreamingText text={WORDS.slice(0, words).join(' ')} streaming={status === 'streaming'} />
+          </Message.Content>
           <Message.Actions>
             <Message.Copy text={SUMMARY} />
             <Message.Action icon="retry" label="Retry" onClick={retry} />
