@@ -7,6 +7,7 @@ export {
   type AccordionProps,
   type AccordionTriggerProps,
 } from './components/accordion'
+export { Alert, type AlertProps } from './components/alert'
 export { Avatar, type AvatarProps, type AvatarSize, type AvatarStatus } from './components/avatar'
 export { AvatarGroup, type AvatarGroupItem, type AvatarGroupProps } from './components/avatar-group'
 export { Badge, type BadgeProps } from './components/badge'
