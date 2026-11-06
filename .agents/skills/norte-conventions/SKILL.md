@@ -12,6 +12,9 @@ lives in [`docs/decisions/`](../../../docs/decisions/README.md); how changes rea
 
 Before finishing a change, run the [review checklist](#review-checklist) and `pnpm check`, and fix what they print.
 
+**Building a new component?** Start from the [component recipe](component-recipe.md): the files, the root, the
+stories and play tests every component has, and the pitfalls already hit. It replaces reading whole components.
+
 ## Naming and files
 
 - **Everything is kebab-case,** folders and files, components included: `prompt-input/`, `use-in-viewport.ts`. The
