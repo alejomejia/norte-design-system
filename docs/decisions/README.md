@@ -16,8 +16,9 @@ old one says so.
 | [0008](0008-changesets-and-semver.md)            | Changesets and semantic versioning        | Accepted           |
 | [0009](0009-git-workflow.md)                     | One main branch, checked by git hooks     | Superseded by 0011 |
 | [0010](0010-theme-replaces-tailwind-defaults.md) | The theme replaces Tailwind's defaults    | Accepted           |
-| [0011](0011-dev-and-main.md)                     | Work on dev, release on main              | Accepted           |
+| [0011](0011-dev-and-main.md)                     | Work on dev, release on main              | Superseded by 0014 |
 | [0012](0012-motion.md)                           | CSS first, Motion for the rest            | Accepted           |
 | [0013](0013-lucide-icons.md)                     | A curated set of Lucide icons             | Accepted           |
+| [0014](0014-main-holds-releases.md)              | main holds one commit per release         | Accepted           |
 
 New record: copy the shape of an existing one, take the next number, and add it to this table.

@@ -35,11 +35,12 @@
     "lint:fix": "biome check --write .",
     "test": "vitest run --project=unit",
     "test:stories": "vitest run --project=storybook",
-    "check": "pnpm typecheck && biome ci . && pnpm test && changeset status",
+    "check": "pnpm typecheck && biome ci . && pnpm test && changeset status --since=$(git describe --tags --abbrev=0)",
     "changeset": "changeset",
-    "release:status": "changeset status --verbose",
+    "release:status": "changeset status --verbose --since=$(git describe --tags --abbrev=0)",
     "release:version": "changeset version",
-    "release:tag": "changeset tag"
+    "release:tag": "changeset tag",
+    "release:main": "node scripts/release-main.ts"
   },
   "peerDependencies": {
     "react": "^19.0.0",

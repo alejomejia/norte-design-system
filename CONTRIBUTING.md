@@ -8,8 +8,9 @@ How a change gets into Norte: branches, commits, changesets and releases. Why it
 Two long-lived branches:
 
 - **`dev`:** where work happens. Every change is committed here.
-- **`main`:** the latest release. It only moves when a release is merged from `dev`, so every commit on it is a version
-  with a tag.
+- **`main`:** the latest release. It only moves on a release, by one commit holding `dev`'s files at that version, so
+  its history is the first setup commits, then one commit per version. It never merges `dev`: the full history stays
+  there, with the tags.
 
 ```
 dev  ──●──●──●──●──●──●──●──●──●──●──
@@ -59,7 +60,7 @@ When a check fails, git stops and says what's wrong and how to fix it. Nothing i
 ## Changesets
 
 A changeset is a note you leave with your change: one or two sentences saying what changed for the people who install
-the package, and how big the change is. At the next release, the notes waiting on `main` become the new entry in
+the package, and how big the change is. At the next release, the notes waiting on `dev` become the new entry in
 [`CHANGELOG.md`](CHANGELOG.md), decide the new version number, and are deleted.
 
 ```bash
@@ -75,7 +76,7 @@ change. `pnpm release:status` shows the notes waiting and the version they add u
 - **No:** docs, handbook pages, stories, the Storybook setup, tests, refactors with no visible effect, and dev tools.
   They don't create a version. They go live when they're merged.
 
-**You can't forget it.** `pnpm check` runs `changeset status`, which compares `dev` with `main` (the last release). If
+**You can't forget it.** `pnpm check` runs `changeset status`, which compares `dev` with the latest release tag. If
 you changed files that ship (anything in `src/` except stories, tests and handbook pages) and there's no changeset, it fails. Which
 files count is set by `changedFilePatterns` in `.changeset/config.json`. The one case it can't spot is a change to the
 dependencies apps install (they live in `package.json`, next to the dev tools): add the note yourself.
@@ -110,29 +111,28 @@ waiting. Five `minor` notes take `0.1.0` to `0.2.0`, not `0.6.0`. Only `patch` n
 
 ## Releasing
 
-A release turns the waiting changesets into a version: it bumps `package.json`, writes `CHANGELOG.md`, and tags the
-release on `main` as `vX.Y.Z`. It happens when `dev` has something worth shipping.
+A release turns the waiting changesets into a version: it bumps `package.json`, writes `CHANGELOG.md`, tags the
+release commit on `dev` as `vX.Y.Z`, and adds it to `main`. It happens when `dev` has something worth shipping.
 
 ```bash
-# 1. On dev: preview the version, then write it
+# 1. On dev: preview the version, write it and tag it
 git switch dev
 pnpm release:status               # the next version and the notes it includes
 pnpm release:version              # bumps package.json, writes CHANGELOG.md, deletes the used changesets
 pnpm typecheck && pnpm lint && pnpm test && pnpm build   # and read CHANGELOG.md
-git commit -am "chore(release): v0.2.0"
+git commit -am "chore(release): v0.3.0"
+pnpm release:tag                  # the annotated tag v0.3.0, from package.json, on this commit
 
-# 2. Move main to it and tag it
-git switch main
-git merge --ff-only dev
-pnpm release:tag                  # the annotated tag v0.2.0, from package.json
-git push origin main dev v0.2.0
-git switch dev
+# 2. Add it to main, then push
+pnpm release:main                 # one commit on main with dev's files, without a checkout or a merge
+git push origin main dev v0.3.0
 ```
 
-- **Not `pnpm check` in step 1:** its `changeset status` compares `dev` with `main`, and once `release:version` has used
-  the changesets, it sees changed files with no note until `main` moves. Run the other checks on their own.
-- **`main` only fast-forwards to `dev`.** If `--ff-only` refuses, `main` has a commit that `dev` doesn't: find out why
-  before going further.
+- **Not `pnpm check` in step 1:** its `changeset status` compares `dev` with the latest tag, and once `release:version`
+  has used the changesets, it sees changed files with no note until the new tag exists. Run the other checks on their
+  own.
+- **`main` never merges `dev`.** `release:main` checks that the tag sits on `dev`'s last commit, then writes one
+  commit on top of `main` with exactly `dev`'s files. A merge or a fast-forward would bring every commit of `dev` along.
 - **A pushed tag never moves and is never deleted.** If a release has a bug, fix it on `dev` and release a patch.
 
 ## Versions
