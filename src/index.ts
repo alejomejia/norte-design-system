@@ -41,6 +41,7 @@ export {
   type DialogTitleProps,
   type DialogTriggerProps,
 } from './components/dialog'
+export { EmptyState, type EmptyStateProps } from './components/empty-state'
 export { Icon, type IconName, type IconProps } from './components/icon'
 export { IconButton, type IconButtonProps } from './components/icon-button'
 export { KeyboardKey, type KeyboardKeyProps } from './components/keyboard-key'

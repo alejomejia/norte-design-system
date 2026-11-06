@@ -127,6 +127,10 @@ Play tests to cover, as `step`s:
 - **ResizeObserver's first report waits for a rendered frame,** which test runs can hold back for over a second:
   measure once on mount too (`useOverflows` does).
 
+- **Tailwind's reset gives every element `border-style: solid`** (with no width): test a border's presence with
+  `borderTopWidth`, not `borderStyle`.
+- **Biome flags `render={<h2 />}` as an empty heading:** in stories, pass a function, `(props) => <h2 {...props} />`.
+
 - **An exit that starts before Motion's lazy features load never runs,** and `AnimatePresence` keeps the element for
   good. Whatever removes itself through an exit (a dismissed alert) also leaves on a timer a little longer than its exit
   (Alert's `ALERT_EXIT_TIMEOUT`), and a play test dismisses it right after render, by keyboard.
