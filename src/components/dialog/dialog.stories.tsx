@@ -248,6 +248,14 @@ export const LongContent: Story = {
       await expect(body.scrollHeight).toBeGreaterThan(body.clientHeight)
       await waitFor(() => expect(body).toHaveAttribute('tabindex', '0'))
     })
+
+    await step('Reached by keyboard, the body draws its focus ring', async () => {
+      const body = dialog.querySelector<HTMLElement>('section')?.parentElement as HTMLElement
+      body.focus({ focusVisible: true })
+      await expect(body).toHaveFocus()
+      // The ring really draws: `outline-none` beside `focus-visible:outline-2` would leave its style at `none`.
+      await expect(getComputedStyle(body).outlineStyle).toBe('solid')
+    })
   },
 }
 

@@ -31,7 +31,7 @@ export const dialogStyles = tv({
     // 4px above and below too: it scrolls, so it would clip the focus ring of a control at its edge. While it scrolls it
     // takes focus itself, with its ring inside, where the panel's rounded corners don't clip it.
     body: [
-      '-my-1 min-h-0 flex-1 overflow-y-auto px-6 py-1 outline-none',
+      '-my-1 min-h-0 flex-1 overflow-y-auto px-6 py-1',
       'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
     ],
     footer: 'flex flex-col-reverse gap-2 px-6 *:w-full sm:flex-row sm:justify-end sm:*:w-auto',
