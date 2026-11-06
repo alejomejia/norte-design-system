@@ -22,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A button with an icon and no visible label, for actions that repeat in toolbars, rows and cards. Everything `Button` does, in a square: press, loading and success. Its hover is quieter: the fill fades in rather than wiping across, so a row of them doesn't flash as the pointer runs along it. Its `label` is required: it's the button's name for screen readers.",
+          "A button with an icon and no visible label, for actions that repeat in toolbars, rows and cards. Everything `Button` does, in a square. Its `label` is required: it's what screen readers announce.",
       },
     },
   },

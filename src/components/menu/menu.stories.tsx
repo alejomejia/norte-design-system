@@ -51,7 +51,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A list of actions that opens from a trigger, Norte's `Button` or `IconButton` through `render`. Items take an icon, a shortcut (shown, not wired) and a `danger` tone; groups take a heading; checkbox and radio items toggle settings and keep the menu open, with their check or dot in the icon column; submenus open beside their row; link items navigate. Every label lines up in one column once any row has an icon. The popup grows out of its trigger, and its highlight glides from row to row, like Select's. Built on Base UI's Menu: arrows, typeahead, Escape and focus come with it.",
+          "A list of actions that opens from a `Button` or `IconButton` through `render`: items with icons and shortcuts, groups, toggles, submenus and links. Built on Base UI's Menu, which brings the keyboard, typeahead and focus.",
       },
     },
   },

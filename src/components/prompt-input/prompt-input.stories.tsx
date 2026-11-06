@@ -58,7 +58,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Where a person asks an agent for something: a text area that grows as they write, a toolbar with attachments, the model and dictation, and a send button that becomes a stop button while the agent runs. Enter sends, Shift + Enter adds a line. Idea from React Bits' Prompt Bar.",
+          "Where a person asks an agent for something: a text area that grows as they write, a toolbar for attachments, the model and dictation, and a send button that turns into stop while the agent runs. Enter sends, Shift + Enter adds a line. Idea from React Bits' Prompt Bar.",
       },
     },
   },

@@ -22,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Norte\'s logo: a needle pointing north, split down its middle with the left half a step darker, and the wordmark. Both are SVG, the wordmark outlined from Inter, so it looks the same whatever font the app loads. It comes whole, as the mark alone, or as a tile like an app\'s icon, in three sizes, for light backgrounds or dark ones. `animated` swings the needle until it settles on north, once, as it appears. Screen readers hear one image, "Norte".',
+          "Norte's logo: the needle and the wordmark, whole, as the mark alone or as a tile, for light or dark backgrounds. Both are SVG, so it looks the same whatever font the app loads.",
       },
     },
   },

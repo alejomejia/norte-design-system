@@ -15,8 +15,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component:
-          "A short label for a status or a count. Its color repeats what the label says, never replaces it. A `live` dot pulses for a state that's still changing.",
+        component: 'A short label for a status or a count. Its color repeats what the label says, never replaces it.',
       },
     },
   },

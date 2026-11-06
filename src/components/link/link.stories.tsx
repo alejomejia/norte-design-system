@@ -35,10 +35,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: [
-          'Takes the reader to another page. `inline` sits inside a sentence and keeps its underline, which turns solid on hover while the text darkens; `standalone` stands on its own, in a menu or a list, and draws its underline in on hover. Links to other sites open in a new tab, with an arrow and the same in words for screen readers.',
-          "It's a native `<a>`, so it works in any React app. In an app with a router, pass the router's link to `render` and keep its options: with Next.js, `render={<NextLink href=\"/runs\" prefetch={false} />}` loads the page only when it's clicked, instead of every link on screen prefetching its own.",
-        ].join('\n\n'),
+        component:
+          "Takes the reader to another page: `inline` inside a sentence, `standalone` on its own. Links to other sites open in a new tab and say so. In an app with a router, pass the router's link to `render`.",
       },
     },
   },
@@ -51,10 +49,7 @@ export const Playground: Story = {
   parameters: { docs: { canvas: { sourceState: 'shown' } } },
 }
 
-/**
- * Links inside a block of text, the way they appear in a run's summary. The underline marks them apart from the words
- * around them, and a long one wraps like any other phrase, its line following each row. Hovering turns the line solid.
- */
+/** Links inside a block of text, the way they appear in a run's summary. A long one wraps like any other phrase. */
 export const InText: Story = {
   name: 'In text',
   parameters: { controls: { disable: true } },
@@ -150,9 +145,8 @@ export const NewTabs: Story = {
 }
 
 /**
- * Your router's link through `render`: Norte's look, the router's navigation. Its options stay yours, like Next.js's
- * `prefetch={false}`, so a page full of links doesn't fetch every page they lead to. Click it: the router navigates,
- * the page doesn't reload.
+ * Your router's link through `render`: Norte's look, the router's navigation and options. Click it: the page doesn't
+ * reload.
  */
 export const WithARouter: Story = {
   name: 'With a router',

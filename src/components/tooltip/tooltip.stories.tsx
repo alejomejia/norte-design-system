@@ -42,7 +42,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A short label that appears when a control is hovered or focused, for what an icon alone can't say, with its shortcut if it has one. It opens on any side of its trigger and slides out from it. Inside `TooltipProvider`, tooltips warm up: the first one waits a moment, and its neighbors then open at once. Idea from React Bits' Warm Tooltip.",
+          "A short label for what an icon alone can't say, with its shortcut if it has one, shown on hover and focus. Inside `TooltipProvider`, neighbors open at once after the first. Idea from React Bits' Warm Tooltip.",
       },
     },
   },
@@ -123,10 +123,7 @@ export const Warm: Story = {
   ),
 }
 
-/**
- * On a button that's off. A natively disabled button gets no hover or focus, so its tooltip could never open: set
- * `focusableWhenDisabled` on it, and it keeps ignoring clicks while its tooltip can still say what it does.
- */
+/** A disabled button gets no hover or focus, so set `focusableWhenDisabled` on it to keep its tooltip. */
 export const OnADisabledButton: Story = {
   name: 'On a disabled button',
   args: {

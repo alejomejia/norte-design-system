@@ -28,7 +28,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Who someone is, at a glance. A person is a circle with their photo, or their initials while it's missing or loading. An agent is a circle of its own colors, which move while it works (`live`) in one of four effects and hold one still frame otherwise, so it never looks like a person. A dot on the corner can show whether they're around. Screen readers hear one image named after the person and their status; set `decorative` when the name is already written next to it.",
+          'Who someone is, at a glance: a person by their photo or initials, an agent by its own moving colors, with an optional status dot. Set `decorative` when the name is already written next to it.',
       },
     },
   },

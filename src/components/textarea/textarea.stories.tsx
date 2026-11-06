@@ -37,7 +37,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Several lines of text with a label, a description and an error, the same field as Text field. It grows with its text up to `maxRows`, then scrolls, and can count characters against `maxLength`, telling screen readers only when the limit is near.',
+          'Several lines of text, the same field as Text field. It grows with its text up to `maxRows`, then scrolls, and can count characters against `maxLength`.',
       },
     },
   },

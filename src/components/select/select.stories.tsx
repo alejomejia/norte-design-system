@@ -23,8 +23,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component:
-          "Picks one option from a short list. The list grows out of the trigger, and its highlight glides from row to row as the pointer or the arrow keys move. Idea from React Bits' Glide Select.",
+        component: "Picks one option from a short list. Idea from React Bits' Glide Select.",
       },
     },
   },

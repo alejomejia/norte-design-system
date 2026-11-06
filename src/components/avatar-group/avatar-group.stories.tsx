@@ -33,7 +33,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A few people at a glance, like the six who get an email: their avatars overlap in a row, and past `max` the last circle counts the rest. Hovering an avatar shows its name, and the "+N" is a button whose tooltip names everyone it stands for. Screen readers hear one group, "6 people", with each visible name and the "+N"\'s list.',
+          'A few people at a glance: overlapping avatars, with a "+N" past `max` whose tooltip names the rest. Screen readers hear one group with every name.',
       },
     },
   },

@@ -60,7 +60,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Sections that open and close under their headings: one at a time, or several with `multiple`. Each trigger takes an icon and a description. `line` draws hairlines between sections, flush with a panel's edges; `outline` puts them on one bordered surface. A panel grows open, its content fading in, and the chevron turns down. Closed panels stay in the page (`hiddenUntilFound`), so the browser's find opens the section that holds a match, and fields inside keep what was typed. Built on Base UI's Accordion: each trigger is a button in a heading (`headingLevel`), with `aria-expanded`, and each panel is a region named by its trigger.",
+          "Sections that open and close under their headings, one at a time or several with `multiple`. Closed panels stay in the page, so the browser's find can open them. Built on Base UI's Accordion.",
       },
     },
   },

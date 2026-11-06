@@ -19,7 +19,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A finished action that can still be taken back, for a moment: its outcome, an Undo button, and a bar that drains until it commits. Hovering or focusing it pauses the countdown. Kinder than a confirmation dialog for actions that are easy to reverse. Idea from React Bits' Fuse Button.",
+          "A finished action that can still be taken back, for a moment, before it commits. Kinder than a confirmation dialog for actions that are easy to reverse. Idea from React Bits' Fuse Button.",
       },
     },
   },

@@ -40,7 +40,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A small panel that opens from a trigger, Norte's `Button` or `IconButton` through `render`, for something worth a click but not a dialog: a breakdown, a short explanation. A header with a title (the popover's name for screen readers) and a description, any content, and an optional close in the corner; Escape and a click outside close it too. Three widths, narrowing on small screens. It grows out of its trigger like Menu, and focus moves into it and back.",
+          'A small panel that opens from a `Button` or `IconButton` through `render`, for something worth a click but not a dialog: a breakdown, a short explanation. Escape and a click outside close it.',
       },
     },
   },

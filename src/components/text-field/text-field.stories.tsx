@@ -32,7 +32,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A single line of text with its label, a description and an error. Optionally an icon at the start and a clear button at the end. The label, the description and the error are tied to the input for screen readers, and the checks the browser runs (`required`, `type="email"`) show their message when they fail. An invalid field turns red and its error rises into place.',
+          'A single line of text with its label, a description and an error, all tied to the input for screen readers. The browser\'s own checks (`required`, `type="email"`) show their message when they fail.',
       },
     },
   },

@@ -22,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Something is loading and nobody knows for how long: an arc that turns around a faint ring, growing and shrinking as it goes, in the color of its text. Screen readers hear its label. Inside something that already says it's busy, like a busy button, it's `decorative`. It draws itself in as it appears. Under reduced motion it keeps turning, slowly.",
+          "Something is loading, for a time nobody knows. When the shape of what's coming is known, use a skeleton. Screen readers hear its label; inside something that already says it's busy, like a busy button, make it `decorative`.",
       },
     },
   },

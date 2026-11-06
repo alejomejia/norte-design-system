@@ -50,7 +50,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Content that's still loading, drawn as quiet shapes in its place: lines of text (`Skeleton.Text`), blocks (`Skeleton.Box`) and circles (`Skeleton.Circle`), laid out like what they stand for. Text lines take the line height of the text they stand for, so the page keeps its layout and nothing jumps when it arrives. The shapes breathe together, dimming and brightening; they pause off-screen and hold still under reduced motion. It fades in after a short wait, so a quick load never flashes it. Screen readers hear its label once, not every shape; inside something that already says it's busy, it's `decorative`.",
+          "Placeholder shapes for content that's still loading, laid out like what they stand for, so nothing jumps when it arrives. Screen readers hear its label once; inside something that already says it's busy, make it `decorative`.",
       },
     },
   },

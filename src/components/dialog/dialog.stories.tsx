@@ -60,7 +60,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A window over a dimmed page for a task that needs full attention, opened by Norte's `Button` or `IconButton` through `render`. A soft gray header with a title (the dialog's name for screen readers) and a description, a body, a footer with its actions, and an ✕ in the corner. A dialog with nothing else in its body, like a confirmation, puts the description there instead, so the body isn't left empty; `Dialog.Close` also turns any button into a close, like a footer's Cancel. Three sizes, narrowing on small screens, where the footer's buttons stack. When the content runs long, only the body scrolls. It rises into place and leaves faster, with a fade. `AlertDialog` takes the same parts for questions about what can't be undone: no ✕, and a click outside doesn't close it. Built on Base UI's Dialog and Alert Dialog, which trap focus, lock the page's scroll and give focus back.",
+          "A window over a dimmed page for a task that needs full attention, opened by a `Button` or `IconButton` through `render`. `AlertDialog` takes the same parts to confirm what can't be undone. Built on Base UI's Dialog, which traps focus, locks the page's scroll and gives focus back.",
       },
     },
   },
@@ -170,10 +170,7 @@ export const Dismissing: Story = {
   },
 }
 
-/**
- * 400, 512 and 640px: `s` for a confirmation, `m` for a short form, `l` for more. On a small screen it narrows to fit.
- * With nothing else to say, the description moves from the header to the body, so the body isn't left empty.
- */
+/** `s` for a confirmation, `m` for a short form, `l` for more. On a small screen it narrows to fit. */
 export const Sizes: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
@@ -259,11 +256,7 @@ export const LongContent: Story = {
   },
 }
 
-/**
- * Asks before what can't be undone, and waits: a click outside doesn't close it, and Cancel takes focus first. Its
- * header holds the question, and its body what the answer means: the description, which has no other content to sit
- * with.
- */
+/** Asks before what can't be undone, and waits: a click outside doesn't close it, and Cancel takes focus first. */
 export const Alert: Story = {
   name: 'Alert dialog',
   parameters: { controls: { disable: true } },

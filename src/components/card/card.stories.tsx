@@ -42,7 +42,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A surface that groups content: a header with a title (`Card.Title`, an `h3` unless `render` says otherwise), a description and an action at the end (`Card.Action`), a body and a footer whose actions sit at the end. Every part is optional, and the card's `padding` spaces them. A border only: shadows are for what floats above the page. `muted` is a quiet fill, for cards inside a panel. A card that opens a page has a `Card.Link` in its title: a real link stretched over the card, so a click anywhere opens it, while its action and footer stay clickable. Never a clickable `div`.",
+          'A surface that groups related content, with optional header, body and footer parts. A card that opens a page puts a `Card.Link` in its title, so the whole card is clickable while its actions stay their own. Never a clickable `div`.',
       },
     },
   },
@@ -136,8 +136,8 @@ export const Parts: Story = {
 }
 
 /**
- * A card that opens a page: a `Card.Link` in the title, stretched over the card. Hovering darkens its border, and the
- * focus ring goes around the whole card. The footer's buttons still work on their own.
+ * A card that opens a page: a `Card.Link` in the title, stretched over the card, while the footer's buttons still work
+ * on their own.
  */
 export const AsALink: Story = {
   name: 'As a link',

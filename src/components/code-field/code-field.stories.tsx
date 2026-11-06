@@ -17,7 +17,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A one-time code, one slot per character. Typing moves to the next slot, paste fills them all, and phones offer the code from a text message. Each character settles into its slot as it arrives. Idea from React Bits' Code Slots.",
+          "A one-time code, one slot per character. Typing moves to the next slot, paste fills them all, and phones offer the code from a text message. Idea from React Bits' Code Slots.",
       },
     },
   },

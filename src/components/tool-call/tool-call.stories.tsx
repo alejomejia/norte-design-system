@@ -30,7 +30,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "One tool call of an agent: the tool, what it was called with, and how long it has taken. While it runs, a light fill creeps across with the time, slowing down as it goes, since nobody knows when a call ends; when it ends, the fill completes in the color of the outcome. Idea from React Bits' Call Chip.",
+          "One tool call of an agent: the tool, what it was called with, how long it took and how it ended. Idea from React Bits' Call Chip.",
       },
     },
   },

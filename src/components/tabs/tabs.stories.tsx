@@ -43,7 +43,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Sections of one view, one shown at a time: a row of tabs and the panel of the active one. Tabs take an icon and a count. `line` draws a bar under the active tab, for a panel's sections; `segmented` raises a tile on a track, for a small switch. Either way one indicator glides from tab to tab, and the new panel fades in. When the tabs don't fit, the row scrolls sideways; `fill` stretches them across a narrow panel. Built on Base UI's Tabs: arrow keys, Home and End move between tabs, Enter or Space picks one, and each panel is named by its tab. Give the list an `aria-label` when nothing on screen names it.",
+          "Sections of one view, one shown at a time: `line` for a panel's sections, `segmented` for a small switch. Built on Base UI's Tabs, which brings the arrow keys. Give the list an `aria-label` when nothing on screen names it.",
       },
     },
   },
@@ -279,10 +279,7 @@ export const Fill: Story = {
   ),
 }
 
-/**
- * When the tabs don't fit, the row scrolls sideways. Each side that hides tabs fades them out, with a chevron that
- * scrolls a page: wheel, trackpad, touch and the arrow keys scroll too, and the indicator scrolls with the row.
- */
+/** When the tabs don't fit, the row scrolls sideways, and each side that hides tabs fades out with a chevron. */
 export const Overflow: Story = {
   argTypes: { defaultValue: { control: false } },
   render: (args) => (

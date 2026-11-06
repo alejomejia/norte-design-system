@@ -63,11 +63,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: [
-          "Where the page sits in the app, from the top down to the page itself, each step a link back up. It's quiet so the page's title stays the loudest thing in the top bar: ancestors rest in muted ink and come up to ink on hover, their underline drawing in, and the current page sits in ink as plain text. When the row runs out of room, labels share it and truncate, the current page last, and a truncated label shows its full name in a tooltip. `truncate` picks which labels may give way (all, only the ancestors, or only the current page), and `maxLabelLength` caps them at a number of characters even when there's room.",
-          'A long path folds its middle into a "…" button (`maxItems`, `itemsBefore`, `itemsAfter`) that opens the hidden pages in a Menu. Each item is a `Link`, so `render` takes your router\'s link, in the row and in the menu alike.',
-          'It\'s a `nav` named "Breadcrumb" around an ordered list, so a screen reader finds it among the landmarks and says how many steps the path has. The current page carries `aria-current="page"`, and the separators are hidden from screen readers.',
-        ].join('\n\n'),
+        component:
+          "Where the page sits in the app, each step a link back up and the current page as plain text. A long path folds its middle into a menu, and labels that don't fit truncate, with their full name in a tooltip. Pass your router's link through `render`.",
       },
     },
   },
@@ -119,10 +116,7 @@ export const Playground: Story = {
   },
 }
 
-/**
- * A long path folds its middle into a "…" button. The workspace stays first, and the agent and the run stay last, so
- * the row still says where you are; the hidden steps open in a menu.
- */
+/** A long path folds its middle into a "…" button that opens the hidden steps in a menu. */
 export const Collapsed: Story = {
   parameters: { controls: { include: ['maxItems', 'itemsBefore', 'itemsAfter', 'moreLabel'] } },
   args: { children: longPath() },
@@ -191,10 +185,8 @@ export const WithARouterLink: Story = {
 }
 
 /**
- * When the row runs out of room, each label takes an equal share of it and stops at its own width, so a short one like
- * "Agents" stays whole and long ones split what's left and truncate. The current page takes a double share, so it
- * stays readable longest. A truncated label shows its full name in a tooltip, on hover and on focus; one that fits
- * shows none. Screen readers always hear the full names.
+ * When the row runs out of room, short labels stay whole and long ones truncate, the current page last. A truncated
+ * label shows its full name in a tooltip.
  */
 export const LongLabels: Story = {
   name: 'Long labels',
@@ -309,10 +301,7 @@ export const TruncateCurrent: Story = {
   },
 }
 
-/**
- * Labels capped at 16 characters: long ones truncate even with room to spare, so a path of long names stays compact,
- * and their tooltip still shows them whole. Short ones are untouched.
- */
+/** Labels capped at 16 characters truncate even with room to spare, and their tooltip shows them whole. */
 export const MaxLabelLength: Story = {
   name: 'Max label length',
   parameters: { controls: { include: ['maxLabelLength', 'truncate'] } },
