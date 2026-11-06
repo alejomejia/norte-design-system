@@ -11,6 +11,7 @@ const DURATIONS = [
   { name: 'base', className: 'duration-(--duration-base)' },
   { name: 'slow', className: 'duration-(--duration-slow)' },
   { name: 'slower', className: 'duration-(--duration-slower)' },
+  { name: 'appear', className: 'duration-(--duration-appear)' },
   { name: 'spring', className: 'duration-(--duration-spring) ease-spring' },
 ]
 

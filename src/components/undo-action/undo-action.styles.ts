@@ -11,7 +11,7 @@ export const undoActionStyles = tv({
   slots: {
     root: [
       'group relative inline-flex h-10 items-center gap-2 overflow-hidden rounded-m border border-line bg-surface pr-1 pl-3 text-body-s text-ink',
-      'transition-[opacity,scale,background-color,border-color] duration-(--duration-base) ease-enter starting:scale-96 starting:opacity-0',
+      'transition-[opacity,scale,background-color,border-color] duration-(--duration-appear) ease-enter starting:scale-96 starting:opacity-0',
     ],
     icon: 'text-success',
     label: 'pr-1',

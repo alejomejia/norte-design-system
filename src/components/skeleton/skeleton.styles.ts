@@ -24,7 +24,7 @@ export const skeletonStyles = tv({
   },
   variants: {
     immediate: {
-      false: { root: 'transition-opacity delay-150 duration-(--duration-base) ease-standard starting:opacity-0' },
+      false: { root: 'transition-opacity delay-150 duration-(--duration-appear) ease-standard starting:opacity-0' },
     },
     size: {
       s: { circle: 'size-6' },

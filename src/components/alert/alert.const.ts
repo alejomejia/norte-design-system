@@ -27,7 +27,7 @@ export const ALERT_ROLES = {
 export const ALERT_DISMISS_LABEL = 'Dismiss'
 
 /** How long the icon waits after the alert starts to appear, in seconds: it lands just after. */
-export const ALERT_ICON_DELAY = 0.06
+export const ALERT_ICON_DELAY = 0.12
 
 /**
  * How long a dismissed alert waits for its exit to finish before it leaves anyway, in ms: the fade and the closing

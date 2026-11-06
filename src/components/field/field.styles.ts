@@ -14,9 +14,9 @@ export const fieldStyles = tv({
     aside: 'ms-auto shrink-0 text-caption text-ink-subtle',
     error: [
       'flex items-start gap-1 text-caption text-danger empty:hidden',
-      'transition-[opacity,translate] duration-(--duration-base) ease-enter',
+      'transition-[opacity,translate] duration-(--duration-appear) ease-enter',
       'data-starting-style:translate-y-1 data-starting-style:opacity-0',
-      'data-ending-style:opacity-0 data-ending-style:ease-exit',
+      'data-ending-style:opacity-0 data-ending-style:duration-(--duration-fast) data-ending-style:ease-exit',
     ],
   },
 })

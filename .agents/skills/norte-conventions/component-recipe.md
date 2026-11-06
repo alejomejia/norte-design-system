@@ -63,8 +63,10 @@ Then: export it and its prop types from `src/index.ts` (alphabetical), add it to
   the part's `*DataAttributes.d.ts` in `node_modules/@base-ui/react/<component>/`.
 - Children react to the trigger with `group` / `group-data-*:` / `group-enabled:group-hover:`; name groups when
   nested (`group/panel`).
-- Durations from tokens: `duration-(--duration-fast|base|slow)`, easings `ease-standard|enter|exit`. Hovers `base`,
-  things that open `slow`. They look about half as long as they are (front-loaded curves), so don't go shorter.
+- Durations from tokens: `duration-(--duration-fast|base|slow|appear)`, easings `ease-standard|enter|exit`. Hovers
+  `base`, popups that open `slow`, and **content that appears in the page `appear`** (700ms: an alert, an empty state,
+  a new step, an error under a field), with an 8px rise for big blocks. They look about half as long as they are
+  (front-loaded curves): an entrance on `base` reads as a flicker, and one too quick to see isn't worth adding.
 
 ## Stories (`<name>.stories.tsx`)
 
