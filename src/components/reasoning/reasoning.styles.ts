@@ -21,7 +21,7 @@ export const reasoningStyles = tv({
     panel:
       'transition-opacity duration-(--duration-base) ease-standard data-ending-style:opacity-0 data-starting-style:opacity-0',
     steps: 'ml-2 flex flex-col gap-2 border-l border-line pl-4',
-    step: 'text-ink-muted transition-[opacity,translate] duration-(--duration-slow) ease-enter starting:-translate-y-1 starting:opacity-0',
+    step: 'text-ink-muted transition-[opacity,translate] duration-(--duration-appear) ease-enter starting:-translate-y-1 starting:opacity-0',
   },
   variants: {
     thinking: {

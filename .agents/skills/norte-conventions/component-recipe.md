@@ -63,8 +63,10 @@ Then: export it and its prop types from `src/index.ts` (alphabetical), add it to
   the part's `*DataAttributes.d.ts` in `node_modules/@base-ui/react/<component>/`.
 - Children react to the trigger with `group` / `group-data-*:` / `group-enabled:group-hover:`; name groups when
   nested (`group/panel`).
-- Durations from tokens: `duration-(--duration-fast|base|slow)`, easings `ease-standard|enter|exit`. Hovers `base`,
-  things that open `slow`. They look about half as long as they are (front-loaded curves), so don't go shorter.
+- Durations from tokens: `duration-(--duration-fast|base|slow|appear)`, easings `ease-standard|enter|exit`. Hovers
+  `base`, popups that open `slow`, and **content that appears in the page `appear`** (700ms: an alert, an empty state,
+  a new step, an error under a field), with an 8px rise for big blocks. They look about half as long as they are
+  (front-loaded curves): an entrance on `base` reads as a flicker, and one too quick to see isn't worth adding.
 
 ## Stories (`<name>.stories.tsx`)
 
@@ -92,7 +94,7 @@ under their headings, one at a time or several with `multiple`. Closed panels st
 can open them. Built on Base UI's Accordion."
 
 Shared markup is a plain function (`sections()`), not a component, so "Show code" shows the markup. Content follows
-`docs/plan.md` → Example content (Lumen, run #128, `@norte.com`).
+`docs/plan.md` → Example content (Norte, run #128, `@norte.com`).
 
 Play tests to cover, as `step`s:
 
@@ -125,9 +127,22 @@ Play tests to cover, as `step`s:
 - **ResizeObserver's first report waits for a rendered frame,** which test runs can hold back for over a second:
   measure once on mount too (`useOverflows` does).
 
+- **Tailwind's reset gives every element `border-style: solid`** (with no width): test a border's presence with
+  `borderTopWidth`, not `borderStyle`.
+- **`sr-only` text counts as a block in testing-library's names** (it's absolutely positioned), so a label plus
+  `<span className="sr-only">, 3 waiting</span>` is named "Approvals , 3 waiting" there. Screen readers don't mind;
+  match it with `/^Approvals\s?, 3 waiting$/` instead of moving the text around.
+- **Biome flags `render={<h2 />}` as an empty heading:** in stories, pass a function, `(props) => <h2 {...props} />`.
+
 - **An exit that starts before Motion's lazy features load never runs,** and `AnimatePresence` keeps the element for
   good. Whatever removes itself through an exit (a dismissed alert) also leaves on a timer a little longer than its exit
   (Alert's `ALERT_EXIT_TIMEOUT`), and a play test dismisses it right after render, by keyboard.
+
+- **An anchored highlight slides to the top as it hides:** with no anchor, `anchor(…, 0)` falls back to 0 and a
+  transitioned `top` goes there while it fades. Hold it while hidden with `[transition-delay:999s,999s,0s,0s]` (top and
+  height first in the transition list) and `delay-0` while a row is highlighted (Menu, Select, Command menu).
+- **Base UI ignores simulated pointer moves** (no movement), so `userEvent.hover` never puts a list in pointer mode
+  and leaving a row doesn't clear it: dispatch a `pointermove` with `movementY: 1`, then a `pointerout` (Menu's play test).
 
 ## Checks, in order
 

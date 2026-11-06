@@ -3,6 +3,7 @@ export { blend, contrastRatio, isInSrgbGamut, type LinearRgb, oklchToLinearRgb, 
 export { flattenChildren, nameParts } from './components'
 export { mergeRefs } from './refs'
 export { getScrollEdges, type ScrollEdges } from './scroll'
+export { matchScore } from './search'
 export { drawShader, type ShaderUniforms } from './shader'
 export { cn, type Rgb, readCssColor, toCSSVars, tv, type VariantProps } from './styles'
 export { initials } from './text'

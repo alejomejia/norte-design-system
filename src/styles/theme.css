@@ -285,6 +285,7 @@
     --duration-base: 240ms; /* Most transitions */
     --duration-slow: 400ms; /* Panels and dialogs entering */
     --duration-slower: 500ms; /* Fills that sweep across a control, like a button's hover */
+    --duration-appear: 700ms; /* Content that appears in the page: an alert, an empty state, a new step */
     --duration-spring: 500ms; /* The whole spring curve, settling included */
   }
 
@@ -295,6 +296,7 @@
       --duration-base: 0ms;
       --duration-slow: 0ms;
       --duration-slower: 0ms;
+      --duration-appear: 0ms;
       --duration-spring: 0ms;
       /* A spinner keeps turning, slowly, since one that stops looks broken; its arc holds its length. */
       --animate-spinner: spinner 3s linear infinite;

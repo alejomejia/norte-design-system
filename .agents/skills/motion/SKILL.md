@@ -70,5 +70,8 @@ import { loadMotionFeatures } from '@/lib/motion'
 ## Timing
 
 Durations in Motion transitions are seconds, from `src/lib/motion` (`MOTION_DURATION`), which mirrors the CSS tokens.
+Content that appears in the page (an alert, an empty state, a new step) uses `appear` (700ms), never `base`: with
+`ease-enter`'s front-loaded curve, a 240ms entrance is over in about 80ms and reads as a flicker. Hovers, presses and
+popups stay on `fast`, `base` and `slow`, so the interface still answers at once.
 Entrances use `ease-enter`'s curve or a spring with no visible bounce; a spring with bounce is for small, playful
 confirmations (a check), never for large surfaces.

@@ -1,5 +1,19 @@
 # norte-design-system
 
+## 0.4.0
+
+### Minor Changes
+
+- 044d395: Add the `--duration-appear` token (700ms) for content that appears in the page: Alert, Reasoning's steps, a field's error, Undo action and Skeleton now enter on it, slow enough to be seen.
+- 5aa65a2: Add `CommandMenu`: ⌘K opens a search over grouped commands, with recent items, ranked results, shortcuts, a danger tone and an empty result, built on Base UI's Dialog and Autocomplete.
+- 8a39e55: Add `EmptyState`: an icon or an image, a title, a description and actions, as a card on a faint topographic map, a dashed space or plain, in sizes `s` and `m`.
+- 4ec577b: Add `Sidebar`: the workspace's navigation, with a header, sections of pages with icons, counts and the current page, and a footer, collapsing to its icons with each name in a tooltip; `useSidebar` reads and sets its state. Add the `home` and `sidebar` icons.
+
+### Patch Changes
+
+- 8a98568: Fix the gliding highlight in `Menu` and `Select`: when the pointer leaves the rows (onto a separator, a group label or the popup's edge), it now fades where it is instead of sliding up to the top.
+- 4ec577b: Show a pointer over Menu's items, as over Select's options.
+
 ## 0.3.0
 
 ### Minor Changes

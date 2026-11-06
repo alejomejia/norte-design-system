@@ -78,6 +78,23 @@ export const Playground: Story = {
       await expect(page.getByRole('menuitem', { name: /Delete run/ })).toBeInTheDocument()
     })
 
+    await step('Leaving the rows for the separator fades the highlight where it is, not up to the top', async () => {
+      const highlight = page.getByRole('menu').lastElementChild as HTMLElement
+      const row = page.getByRole('menuitem', { name: 'Delete run' })
+      await userEvent.hover(row)
+      // A pointer that really moves and then leaves: Base UI ignores simulated moves (they report no movement), so
+      // user-event's alone never clear the row.
+      row.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, pointerType: 'mouse', movementY: 1 }))
+      await waitFor(() => expect(getComputedStyle(highlight).opacity).toBe('1'))
+      const top = highlight.getBoundingClientRect().top
+      const separator = page.getByRole('separator')
+      row.dispatchEvent(
+        new PointerEvent('pointerout', { bubbles: true, pointerType: 'mouse', relatedTarget: separator }),
+      )
+      await waitFor(() => expect(getComputedStyle(highlight).opacity).toBe('0'))
+      await expect(highlight.getBoundingClientRect().top).toBe(top)
+    })
+
     await step('Escape closes it and gives focus back to the trigger', async () => {
       await userEvent.keyboard('{Escape}')
       await waitFor(() => expect(page.queryByRole('menu')).not.toBeInTheDocument())

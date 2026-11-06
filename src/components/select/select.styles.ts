@@ -36,6 +36,9 @@ export const selectStyles = tv({
       'pointer-events-none absolute inset-x-0 -z-10 rounded-s bg-surface-muted opacity-0 group-has-data-highlighted/list:opacity-100',
       'top-[anchor(--nt-select-highlight_top,0)] h-[anchor-size(--nt-select-highlight_height,0)]',
       'transition-[top,height,opacity] duration-(--duration-base) ease-standard not-supports-[anchor-name:--nt]:hidden',
+      // Hidden, it fades where it is: without a highlighted row the anchor falls back to 0, and `top` would slide there.
+      // The delay keeps that slide from ever starting; the next row it glides to starts from here.
+      '[transition-delay:999s,999s,0s] group-has-data-highlighted/list:delay-0',
     ],
   },
   variants: {

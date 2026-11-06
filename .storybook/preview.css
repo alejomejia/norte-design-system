@@ -80,6 +80,21 @@
   background-color: var(--color-surface);
 }
 
+/* A page's frame, for what lays out the page itself: the sidebar, beside a quiet page that its width pushes. */
+.sb-shell {
+  display: flex;
+  height: 36rem; /* 576px */
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem; /* 12px */
+  background-color: var(--color-canvas);
+}
+
+.sb-shell-page {
+  flex: 1;
+  background-color: var(--color-surface-muted);
+}
+
 /* A dark surface, for components shown on one (inverse variants, the page header's badges). */
 .sb-surface-inverse {
   padding: 1.5rem; /* 24px */

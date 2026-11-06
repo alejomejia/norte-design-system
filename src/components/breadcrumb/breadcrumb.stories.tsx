@@ -38,7 +38,7 @@ function runPath() {
 function longPath() {
   return (
     <>
-      <Breadcrumb.Item href="#lumen">Lumen</Breadcrumb.Item>
+      <Breadcrumb.Item href="#norte">Norte</Breadcrumb.Item>
       <Breadcrumb.Item href="#growth">Growth</Breadcrumb.Item>
       <Breadcrumb.Item href="#agents">Agents</Breadcrumb.Item>
       <Breadcrumb.Item href="#research-agent">Research agent</Breadcrumb.Item>
@@ -126,7 +126,7 @@ export const Collapsed: Story = {
 
     await step('the middle is folded into one item', async () => {
       await expect(canvas.getAllByRole('listitem')).toHaveLength(4)
-      await expect(canvas.getByRole('link', { name: 'Lumen' })).toBeInTheDocument()
+      await expect(canvas.getByRole('link', { name: 'Norte' })).toBeInTheDocument()
       await expect(canvas.queryByRole('link', { name: 'Growth' })).not.toBeInTheDocument()
       await expect(canvas.queryByRole('link', { name: 'Agents' })).not.toBeInTheDocument()
       await expect(canvas.getByRole('link', { name: 'Research agent' })).toBeInTheDocument()
@@ -160,7 +160,7 @@ export const WithARouterLink: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <Breadcrumb {...args}>
-      <Breadcrumb.Item render={<RouterLink href="/" />}>Lumen</Breadcrumb.Item>
+      <Breadcrumb.Item render={<RouterLink href="/" />}>Norte</Breadcrumb.Item>
       <Breadcrumb.Item render={<RouterLink href="/growth" />}>Growth</Breadcrumb.Item>
       <Breadcrumb.Item render={<RouterLink href="/agents" />}>Agents</Breadcrumb.Item>
       <Breadcrumb.Item render={<RouterLink href="/agents/research" />}>Research agent</Breadcrumb.Item>

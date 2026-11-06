@@ -27,6 +27,14 @@ export {
 export { Checkbox, type CheckboxProps } from './components/checkbox'
 export { CodeField, type CodeFieldProps } from './components/code-field'
 export {
+  CommandMenu,
+  type CommandMenuGroup,
+  type CommandMenuItem,
+  type CommandMenuLabels,
+  type CommandMenuProps,
+  type CommandMenuTriggerProps,
+} from './components/command-menu'
+export {
   AlertDialog,
   type AlertDialogProps,
   type AlertDialogTriggerProps,
@@ -41,6 +49,7 @@ export {
   type DialogTitleProps,
   type DialogTriggerProps,
 } from './components/dialog'
+export { EmptyState, type EmptyStateProps } from './components/empty-state'
 export { Icon, type IconName, type IconProps } from './components/icon'
 export { IconButton, type IconButtonProps } from './components/icon-button'
 export { KeyboardKey, type KeyboardKeyProps } from './components/keyboard-key'
@@ -75,6 +84,18 @@ export { PromptInput, type PromptInputProps } from './components/prompt-input'
 export { Reasoning, type ReasoningProps, type ReasoningStatus } from './components/reasoning'
 export { RunStatus, type RunStatusProps, type RunStatusValue } from './components/run-status'
 export { Select, type SelectItem, type SelectProps } from './components/select'
+export {
+  Sidebar,
+  type SidebarButtonProps,
+  type SidebarFooterProps,
+  type SidebarHeaderProps,
+  type SidebarItemProps,
+  type SidebarNavProps,
+  type SidebarProps,
+  type SidebarSectionProps,
+  type SidebarToggleProps,
+  useSidebar,
+} from './components/sidebar'
 export {
   Skeleton,
   type SkeletonBoxProps,

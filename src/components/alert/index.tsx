@@ -91,9 +91,9 @@ export function Alert({
             <m.div
               key="alert"
               className={styles.frame({ className })}
-              initial={{ opacity: 0, y: 4 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: MOTION_DURATION.base, ease: MOTION_EASE.enter }}
+              transition={{ duration: MOTION_DURATION.appear, ease: MOTION_EASE.enter }}
               exit={{
                 opacity: 0,
                 height: 0,
@@ -113,7 +113,7 @@ export function Alert({
                     className={styles.icon()}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: MOTION_DURATION.base, ease: MOTION_EASE.enter, delay: ALERT_ICON_DELAY }}
+                    transition={{ duration: MOTION_DURATION.appear, ease: MOTION_EASE.enter, delay: ALERT_ICON_DELAY }}
                   >
                     <Icon name={icon} />
                   </m.span>
