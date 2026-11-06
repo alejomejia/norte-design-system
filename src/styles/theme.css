@@ -277,10 +277,12 @@
   :root {
     color-scheme: light;
 
-    /* Durations, read with `duration-(--duration-base)`. Tailwind has no theme namespace for them. */
-    --duration-fast: 120ms; /* Hovers, presses */
-    --duration-base: 200ms; /* Most transitions */
-    --duration-slow: 320ms; /* Panels and dialogs entering */
+    /* Durations, read with `duration-(--duration-base)`. Tailwind has no theme namespace for them. The easings front-load
+     * their change (`standard` is 90% done at half its time, `enter` at a third), so each duration looks about half
+     * as long as it is: these are long enough that a change is still seen. */
+    --duration-fast: 150ms; /* Hovers, presses */
+    --duration-base: 240ms; /* Most transitions */
+    --duration-slow: 400ms; /* Panels and dialogs entering */
     --duration-slower: 500ms; /* Fills that sweep across a control, like a button's hover */
     --duration-spring: 500ms; /* The whole spring curve, settling included */
   }
