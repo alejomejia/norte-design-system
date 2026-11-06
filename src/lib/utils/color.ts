@@ -47,15 +47,35 @@ export function contrastRatio(a: LinearRgb, b: LinearRgb): number {
   return (lighter + 0.05) / (darker + 0.05)
 }
 
+/** A linear channel, clamped and gamma-encoded, from 0 to 1. */
+function encode(channel: number): number {
+  const clamped = Math.min(Math.max(channel, 0), 1)
+  return clamped <= 0.0031308 ? 12.92 * clamped : 1.055 * clamped ** (1 / 2.4) - 0.055
+}
+
+/** A gamma-encoded channel back to linear. */
+function decode(channel: number): number {
+  return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+}
+
+/**
+ * A translucent color laid over an opaque one, as the browser paints it: mixed in gamma-encoded sRGB.
+ * @example
+ * blend(ink, white, 0.1) // ink at 10% over white
+ */
+export function blend(top: LinearRgb, bottom: LinearRgb, alpha: number): LinearRgb {
+  return top.map((channel, index) =>
+    decode(alpha * encode(channel) + (1 - alpha) * encode(bottom[index] ?? 0)),
+  ) as LinearRgb
+}
+
 /** A linear sRGB color as `#rrggbb`, gamma-encoded and clamped to the gamut. */
 export function toHex(rgb: LinearRgb): string {
   return `#${rgb
-    .map((channel) => {
-      const clamped = Math.min(Math.max(channel, 0), 1)
-      const encoded = clamped <= 0.0031308 ? 12.92 * clamped : 1.055 * clamped ** (1 / 2.4) - 0.055
-      return Math.round(encoded * 255)
+    .map((channel) =>
+      Math.round(encode(channel) * 255)
         .toString(16)
-        .padStart(2, '0')
-    })
+        .padStart(2, '0'),
+    )
     .join('')}`
 }

@@ -1,5 +1,5 @@
 // The public surface of the utils domain: everything outside this folder imports from `@/lib/utils`.
-export { contrastRatio, isInSrgbGamut, type LinearRgb, oklchToLinearRgb, parseOklch, toHex } from './color'
+export { blend, contrastRatio, isInSrgbGamut, type LinearRgb, oklchToLinearRgb, parseOklch, toHex } from './color'
 export { flattenChildren, nameParts } from './components'
 export { mergeRefs } from './refs'
 export { getScrollEdges, type ScrollEdges } from './scroll'
