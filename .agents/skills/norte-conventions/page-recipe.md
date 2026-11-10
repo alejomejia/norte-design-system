@@ -57,6 +57,9 @@ Its other states are reached by using it, not by more stories:
 - **Bento grids:** rows that share the height are `minmax(0,1fr)` (`grid-rows-1` for one), every cell `min-h-0`; a
   cell that should be as tall as its content in a taller row is `self-start max-h-full`. Cells of different sizes
   (small stats across the top, one big cell, a tall one beside it) read as a bento; equal cells read as a table.
+- **What CSS can't switch goes through `useMediaQuery`** (`@/lib/hooks`): a sidebar that starts collapsed below 1280px,
+  a breadcrumb that folds below 640px. Two triggers for one dialog, one per width, hide with `max-sm:hidden` and
+  `sm:hidden` instead (the run view's Share).
 - **Overlaps use `translate`,** never negative margins, so the layout still makes room for the moved piece.
 
 ## Motion

@@ -39,6 +39,9 @@ export default mergeConfig(
           plugins: [storybookTest({ configDir: fileURLToPath(new URL('./.storybook', import.meta.url)) })],
           test: {
             name: 'storybook',
+            // A page walks all its states in one play test, waiting on its pretend server, streamed answers and Undo
+            // action's five seconds: more than the 15 seconds a story gets by default.
+            testTimeout: 30_000,
             browser: {
               enabled: true,
               headless: true,

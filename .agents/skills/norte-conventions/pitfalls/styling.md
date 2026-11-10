@@ -33,3 +33,7 @@ Each was hit once while building a component. Add a new one at the end of the fi
 - **A folder created while Storybook runs isn't scanned by Tailwind:** its classes are missing from the page (no grid,
   no padding) until the server rescans, though story tests, which start fresh, pass. Touch `src/styles/index.css` to
   make the running server rescan, or restart it (the sign-in page, `src/handbook/pages/`).
+- **`sr-only` text escapes a scroller that isn't positioned:** it's `position: absolute`, so its containing block is the
+  nearest positioned ancestor, and `overflow` on anything between doesn't clip it. In an app-shell column that scrolls
+  on its own, the labels deep in its content land below the window and make the page scroll too. Make every scroller
+  `relative` (the run view's conversation and panel).

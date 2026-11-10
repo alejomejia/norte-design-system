@@ -121,7 +121,7 @@ const preview: Preview = {
           'Data',
           ['Charts', ['Line chart', 'Bar chart'], 'Tables', ['Data table', 'Stat']],
           'Pages',
-          ['Workspace', ['Run view', 'Agents', 'Sign in']],
+          ['Workspace', ['Sign in', 'Run view', 'Agents']],
         ],
       },
     },
