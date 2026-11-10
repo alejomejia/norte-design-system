@@ -47,6 +47,14 @@ export {
   type CommandMenuTriggerProps,
 } from './components/command-menu'
 export {
+  DataTable,
+  type DataTableColumn,
+  type DataTableProps,
+  type DataTableSort,
+  type DataTableSortDirection,
+  type DataTableSortValue,
+} from './components/data-table'
+export {
   AlertDialog,
   type AlertDialogProps,
   type AlertDialogTriggerProps,

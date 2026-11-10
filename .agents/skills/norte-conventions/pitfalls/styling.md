@@ -27,3 +27,6 @@ Each was hit once while building a component. Add a new one at the end of the fi
   loaded height (Stat's loading).
 - **A line that wraps mid-phrase** ("No change vs run" / "#127"): make it `flex-wrap`, with what must stay together
   in a `whitespace-nowrap` group, so the rest moves to the next line whole (Stat's change line).
+- **A sticky table header loses its bottom border** with `border-collapse`: collapsed borders belong to the table, so
+  they scroll away under the header. Use `border-separate border-spacing-0` and give each header cell its own
+  `border-b` (Data table).

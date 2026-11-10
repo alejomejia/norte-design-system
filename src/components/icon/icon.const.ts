@@ -86,6 +86,7 @@ export const ICONS = {
   settings: Settings,
   share: Share,
   sidebar: PanelLeft,
+  sort: ArrowUp,
   stop: Square,
   success: CircleCheck,
   team: Users,
