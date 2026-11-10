@@ -5,7 +5,7 @@ import { scaleLinear } from '@visx/scale'
 import { AreaClosed, LinePath } from '@visx/shape'
 import { type FocusEvent, type KeyboardEvent, type PointerEvent, useId, useMemo, useRef, useState } from 'react'
 
-import { nearestIndex, toCSSVars } from '@/lib/utils'
+import { fitTicks, nearestIndex, tickCount, toCSSVars } from '@/lib/utils'
 
 import {
   LINE_CHART_AREA_OPACITY,
@@ -17,7 +17,7 @@ import {
 import { useUpdateGlide } from './line-chart.hooks'
 import { lineChartStyles } from './line-chart.styles'
 import { type LineChartPoint } from './line-chart.types'
-import { fitTicks, spanOf, tickCount } from './line-chart.utils'
+import { spanOf } from './line-chart.utils'
 
 export type LineChartPlotProps = {
   /** The points in view, one at least. */

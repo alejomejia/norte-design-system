@@ -13,3 +13,6 @@ Each was hit once while building a component. Add a new one at the end of the fi
   height first in the transition list) and `delay-0` while a row is highlighted (Menu, Select, Command menu).
 - **A moved box changes a measured height:** a `translate` on the box Base UI measures counts toward its scroll
   height, so the panel overshoots and snaps. Move an inner box that sits inside the padding.
+- **A readout sized to `w-max` beside a point spills out of its chart** when its text is long (a plan step's name).
+  Open it on the side with more room and cap it there (`max-w-(--room)`), so it wraps. `clientWidth` rounds, so a
+  room worked out from two measured widths can be a fraction too big: leave it a pixel short (Bar chart's readout).

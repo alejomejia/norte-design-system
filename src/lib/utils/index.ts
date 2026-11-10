@@ -1,4 +1,6 @@
 // The public surface of the utils domain: everything outside this folder imports from `@/lib/utils`.
+
+export { fitTicks, tickCount } from './chart'
 export { blend, contrastRatio, isInSrgbGamut, type LinearRgb, oklchToLinearRgb, parseOklch, toHex } from './color'
 export { flattenChildren, nameParts } from './components'
 export { formatCompact, nearestIndex } from './number'
