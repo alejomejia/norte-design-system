@@ -41,7 +41,8 @@ export function PageHeader({ section, title, status, cover, children }: PageHead
           <h1 className="text-display font-semibold text-white">{title}</h1>
         </div>
       </div>
-      {children && <div className="mt-8 max-w-2xl text-heading-s text-ink-muted">{children}</div>}
+      {/* `sb-lead`: its paragraphs, written in markdown, are spaced in `docs-styles/typography.css`. */}
+      {children && <div className="sb-lead mt-8 max-w-2xl text-heading-s text-ink-muted">{children}</div>}
     </header>
   )
 }

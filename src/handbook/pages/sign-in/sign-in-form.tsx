@@ -147,7 +147,7 @@ export function SignInForm({
     setEmail('')
     setCode('')
     setVerified(false)
-    setMode('sign-in')
+    setMode(defaultMode)
     go('details', -1)
   }
 
