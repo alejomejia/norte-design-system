@@ -1,5 +1,21 @@
 # norte-design-system
 
+## 0.5.0
+
+### Minor Changes
+
+- f78a9a2: Add `ApprovalRequest`: an agent asking before it acts, with who asks, what for, a preview that folds when it's long, and what happens next, answered with Reject or Approve, which can be undone for a moment before they run. `UndoAction` now fills its row, with Undo at the end, and takes `afterCommit` (`settle`, or `leave` to fade and close its height), an `icon` and a `tone`.
+- 0d73fa7: Add `BarChart`: several things compared, one horizontal bar each, on visx, with Line chart's readout following the pointer and the arrow keys, a summary and the data as a table for screen readers, rows that set its height, and bars that glide to their new lengths and places as the data changes.
+- 921144d: Add `Citation`: a numbered marker in an agent's answer that links to its source and previews it on hover or focus (the site, its title and the quoted passage), with a `CitationSource` type to share with a list of sources; plus a `domainOf` URL helper.
+- 844133b: Add `DataTable`: rows of records under headers that sort them, with an optional checkbox per row and a select-all, a header that stays put while the rows scroll, placeholder rows while they load and an empty state, on a native table. Rows glide to their new places as they sort. `Icon` gets a `sort` arrow.
+- 1071d8b: Add `LineChart`: one number over time on visx, with a crosshair readout that follows the pointer and the arrow keys, a summary and the data as a table for screen readers, a size that follows its box, updates that glide in, and `maxPoints` for a live chart that scrolls.
+- 650b246: Add `Message`: one turn of a conversation, with its author's avatar, name and time, a content slot, copy and retry actions that show on hover or focus, and, for agents, a `status` (thinking, streaming, done) that moves the avatar and says what it's doing until there's content; plus a `done` icon, `Tooltip`'s `closeOnClick` and a `shimmer-text` utility in `theme.css`, now shared with `Reasoning`.
+- 1d572b7: Add `Message`'s `thinkingEffect` (`breathe` by default, `shimmer` or `none`), `thinkingTimer`, a clock in tenths of a second after "Thinking", and `thinkingSince`. A message is no longer `aria-busy` while an agent writes, so live regions inside it (a streaming answer's paragraphs) are heard.
+- 35f7a8e: Add `SourceList`: the sources an agent's run read, folded to a count with their favicons ("5 sources · 1 failed") and opening to rows that link to each source, numbered like the answer's citations, with a failed source saying why.
+- 2e9f71a: Add `Stat`: a label, a value and how it moved since a run before (an arrow, colored by whether that's good news, as `better` decides), with an optional help popover and a loading skeleton; `Stat.Group` lays several out as one description list. Adds the `trend-up`, `trend-down` and `trend-flat` icons.
+- 1d572b7: Add `StreamingText`: text an agent writes as it arrives, with paragraphs, lists, bold and citation markers (`renderCitation`), revealed word by word at a steady pace behind a breathing caret in one of four `reveal`s (rise, fade, blur, ink), holding back syntax cut off mid-stream, and announced to screen readers a paragraph at a time.
+- 9a5e29d: Add `Suggestions`: follow-up prompts as chips that fill the prompt when picked, rising in one after another, in a row that scrolls sideways with fades and chevrons where it hides chips; plus a `ref` on `PromptInput` to focus its text area, and a `rise` animation and a `scroll-fade-x` utility in `theme.css`, now shared with `Tabs`.
+
 ## 0.4.0
 
 ### Minor Changes
