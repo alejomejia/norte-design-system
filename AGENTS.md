@@ -6,7 +6,7 @@ public showcase of how Alejandro Mejía builds a design system.
 Before working, read:
 
 - **`.agents/skills/norte-conventions/`** (linked from `.claude/skills/`): how code is organized and written. Apply it
-  to every change and run its review checklist.
+  to every change and run its review checklist (`review-checklist.md`).
 - **`CONTRIBUTING.md`:** branches (`dev` for work, `main` for releases), Conventional Commits checked by hooks,
   changesets and releases.
 - **`docs/decisions/`:** why the stack is what it is. A changed decision gets a new record.
