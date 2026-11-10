@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { useInViewport, useReducedMotion } from '@/lib/hooks'
+import { cn, type Rgb, readCssColor } from '@/lib/utils'
 
 /** The device pixel ratio the map renders at, at most: its lines are antialiased, so more is GPU time no one sees. */
 const MAX_PIXEL_RATIO = 1.5
@@ -19,12 +20,17 @@ void main() {
  * like real ones; contour lines are drawn where it crosses a level, every fifth one brighter (an index line, like on a
  * survey map). One level lights up and sweeps up and down the terrain: the signal. Everything fades toward the bottom
  * left, where the page title sits, under a blue glow from the top right.
+ *
+ * The light tone (`u_light`) draws the lines alone, in `u_ink`, on a transparent canvas: no night sky, no glow and no
+ * fade, for a texture over a light surface. Its colors are premultiplied, as the canvas expects.
  */
 const FRAGMENT_SHADER = `#version 300 es
 precision highp float;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform float u_light;
+uniform vec3 u_ink;
 out vec4 fragColor;
 
 vec2 hash(vec2 p) {
@@ -76,6 +82,13 @@ void main() {
   float line = 1.0 - smoothstep(0.0, width, gap);
 
   float signal = exp(-pow((height - sin(t * 0.38) * 0.32) * 20.0, 2.0));
+
+  if (u_light > 0.5) {
+    float alpha = clamp(line * (0.5 + 0.5 * isIndex + signal * 0.5), 0.0, 1.0);
+    fragColor = vec4(u_ink * alpha, alpha);
+    return;
+  }
+
   float reveal = smoothstep(0.08, 0.95, screen.x * 0.75 + screen.y * 0.45);
   float glow = smoothstep(1.2, 0.0, length((screen - vec2(0.9, 1.0)) * vec2(aspect, 1.0)) / aspect * 1.6);
 
@@ -88,6 +101,12 @@ void main() {
   color += signalColor * line * signal * 0.9 * reveal;
   fragColor = vec4(color, 1.0);
 }`
+
+/**
+ * How the map looks: `dark`, the Introduction's night survey map, or `light`, its lines alone on a transparent canvas,
+ * in the accent color, for a texture over a light surface.
+ */
+export type TopographyTone = 'dark' | 'light'
 
 /** A shader program on a canvas: what the map needs to draw a frame and to fit its box. */
 type Renderer = {
@@ -109,8 +128,9 @@ function compile(gl: WebGL2RenderingContext, type: number, source: string) {
 }
 
 /** Sets up the map's shader on a canvas, or gives nothing where WebGL 2 isn't there (the glow behind it stays). */
-function createRenderer(canvas: HTMLCanvasElement): Renderer | null {
-  const gl = canvas.getContext('webgl2', { antialias: false, alpha: false, powerPreference: 'low-power' })
+function createRenderer(canvas: HTMLCanvasElement, tone: TopographyTone, ink: Rgb): Renderer | null {
+  const light = tone === 'light'
+  const gl = canvas.getContext('webgl2', { antialias: false, alpha: light, powerPreference: 'low-power' })
   if (!gl) return null
 
   const vertex = compile(gl, gl.VERTEX_SHADER, VERTEX_SHADER)
@@ -133,6 +153,8 @@ function createRenderer(canvas: HTMLCanvasElement): Renderer | null {
 
   const resolution = gl.getUniformLocation(program, 'u_resolution')
   const time = gl.getUniformLocation(program, 'u_time')
+  gl.uniform1f(gl.getUniformLocation(program, 'u_light'), light ? 1 : 0)
+  gl.uniform3f(gl.getUniformLocation(program, 'u_ink'), ...ink)
 
   return {
     draw(seconds) {
@@ -155,12 +177,22 @@ function createRenderer(canvas: HTMLCanvasElement): Renderer | null {
   }
 }
 
+export type TopographyProps = {
+  /** `dark` for the Introduction's cover; `light` for its lines alone, over a light surface like the sign-in panel. */
+  tone?: TopographyTone
+  /** How fast the terrain drifts, against the Introduction's: `0.5` is half as fast, for a calmer texture. */
+  speed?: number
+  /** Sets the layer's opacity, for one: `opacity-10` keeps the light lines a faint texture. */
+  className?: string
+}
+
 /**
- * The Introduction's cover: a live topographic map drifting north, Norte's name drawn as terrain. A WebGL shader, so
- * the GPU does the work and the page stays smooth. It draws only while on screen in a visible tab, and shows one still
- * map under reduced motion. Fills the page header (`PageHeader`'s `cover`).
+ * A live topographic map drifting north, Norte's name drawn as terrain: the Introduction's cover, and in its light tone
+ * a texture behind the sign-in page's panel. A WebGL shader, so the GPU does the work and the page stays smooth. It draws
+ * only while on screen in a visible tab, and shows one still map under reduced motion. Fills its nearest positioned
+ * parent, behind its content (`PageHeader`'s `cover`, or a box with `relative isolate`).
  */
-export function Topography() {
+export function Topography({ tone = 'dark', speed = 1, className }: TopographyProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rendererRef = useRef<Renderer | null>(null)
   // Seconds the map has run, kept across pauses so it picks up where it stopped.
@@ -172,7 +204,9 @@ export function Topography() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const renderer = createRenderer(canvas)
+    // The light tone's lines take the accent role, read once: a shader can't read CSS.
+    const ink = readCssColor(canvas, 'var(--color-accent)')
+    const renderer = createRenderer(canvas, tone, ink)
     if (!renderer) return
     rendererRef.current = renderer
 
@@ -188,7 +222,7 @@ export function Topography() {
       renderer.dispose()
       rendererRef.current = null
     }
-  }, [])
+  }, [tone])
 
   useEffect(() => {
     const renderer = rendererRef.current
@@ -202,19 +236,23 @@ export function Topography() {
     let frame = 0
     let last = performance.now()
     function tick(now: number) {
-      elapsedRef.current += (now - last) / 1000
+      elapsedRef.current += ((now - last) / 1000) * speed
       last = now
       renderer?.draw(elapsedRef.current)
       frame = requestAnimationFrame(tick)
     }
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
-  }, [visible, reducedMotion, ready])
+  }, [visible, reducedMotion, ready, speed])
 
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 -z-10 bg-[radial-gradient(60%_90%_at_90%_0%,oklch(0.546_0.245_262/30%),transparent)]"
+      className={cn(
+        'pointer-events-none absolute inset-0 -z-10',
+        tone === 'dark' && 'bg-[radial-gradient(60%_90%_at_90%_0%,oklch(0.546_0.245_262/30%),transparent)]',
+        className,
+      )}
     >
       {/* Fades in on its first frame, instead of flashing in over the glow. */}
       <canvas

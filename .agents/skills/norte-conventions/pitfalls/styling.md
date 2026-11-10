@@ -30,3 +30,6 @@ Each was hit once while building a component. Add a new one at the end of the fi
 - **A sticky table header loses its bottom border** with `border-collapse`: collapsed borders belong to the table, so
   they scroll away under the header. Use `border-separate border-spacing-0` and give each header cell its own
   `border-b` (Data table).
+- **A folder created while Storybook runs isn't scanned by Tailwind:** its classes are missing from the page (no grid,
+  no padding) until the server rescans, though story tests, which start fresh, pass. Touch `src/styles/index.css` to
+  make the running server rescan, or restart it (the sign-in page, `src/handbook/pages/`).

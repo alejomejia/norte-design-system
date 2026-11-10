@@ -16,3 +16,6 @@ Each was hit once while building a component. Add a new one at the end of the fi
 - **A readout sized to `w-max` beside a point spills out of its chart** when its text is long (a plan step's name).
   Open it on the side with more room and cap it there (`max-w-(--room)`), so it wraps. `clientWidth` rounds, so a
   room worked out from two measured widths can be a fraction too big: leave it a pixel short (Bar chart's readout).
+- **Base UI's OTP Field fires `onValueComplete` only when the code first fills,** not when a person edits one digit of
+  a full code (after a wrong one). To check every whole code, check in `onValueChange` once the value reaches its
+  length (the sign-in page's code step).
