@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { expect, waitFor } from 'storybook/test'
 
 import { Button } from '@/components/button'
-import { Link } from '@/components/link'
+import { Citation } from '@/components/citation'
 
 import { StreamingText, type StreamingTextProps } from '.'
 import { STREAMING_TEXT_REVEALS } from './streaming-text.const'
@@ -23,7 +23,12 @@ Next, with your approval:
 1. Save this summary to the Q3 pricing report.
 2. Email it to the leadership team.`
 
-const SOURCES = ['Fieldnote', 'Brightloop', 'Kitewise', 'Tandem']
+const SOURCES = [
+  { href: 'https://fieldnote.example/pricing', title: 'Fieldnote pricing' },
+  { href: 'https://brightloop.example/pricing', title: 'Pricing: plans for every team' },
+  { href: 'https://kitewise.example/pricing', title: 'Kitewise pricing' },
+  { href: 'https://www.tandem.example/plans', title: 'Tandem plans and pricing' },
+] as const
 
 const meta = {
   title: 'AI/Conversation/Streaming text',
@@ -174,19 +179,21 @@ export const RevealInk: Story = {
   },
 }
 
-/** Citations rendered as links to their sources, through `renderCitation`. */
+/** Citations rendered as `Citation`s, which link to their sources and preview them, through `renderCitation`. */
 export const Citations: Story = {
   args: {
-    renderCitation: (index) => (
-      <Link href={`#source-${index}`} aria-label={`Source ${index}: ${SOURCES[index - 1]}`}>
-        [{index}]
-      </Link>
-    ),
+    renderCitation: (index) => {
+      const source = SOURCES[index - 1]
+      return source ? <Citation index={index} {...source} /> : `[${index}]`
+    },
   },
   play: async ({ canvas, step }) => {
     await step('Each marker becomes a link named by its source', async () => {
       await expect(canvas.getAllByRole('link')).toHaveLength(4)
-      await expect(canvas.getByRole('link', { name: 'Source 4: Tandem' })).toHaveAttribute('href', '#source-4')
+      await expect(canvas.getByRole('link', { name: /^Source 4: Tandem plans and pricing/ })).toHaveAttribute(
+        'href',
+        'https://www.tandem.example/plans',
+      )
     })
   },
 }

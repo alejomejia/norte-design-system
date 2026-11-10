@@ -25,6 +25,7 @@ export {
   type CardTitleProps,
 } from './components/card'
 export { Checkbox, type CheckboxProps } from './components/checkbox'
+export { Citation, type CitationProps, type CitationSource } from './components/citation'
 export { CodeField, type CodeFieldProps } from './components/code-field'
 export {
   CommandMenu,

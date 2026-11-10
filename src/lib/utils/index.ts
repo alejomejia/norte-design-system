@@ -9,4 +9,4 @@ export { cn, type Rgb, readCssColor, toCSSVars, tv, type VariantProps } from './
 export { initials } from './text'
 export { formatElapsed } from './time'
 export type { DistributiveOmit } from './types'
-export { isExternalUrl } from './url'
+export { domainOf, isExternalUrl } from './url'
