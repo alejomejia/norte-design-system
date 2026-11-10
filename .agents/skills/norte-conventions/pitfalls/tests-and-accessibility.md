@@ -25,3 +25,7 @@ Each was hit once while building a component. Add a new one at the end of the fi
   Keyboard test).
 - **A popup is not `toBeVisible()` right after it opens:** it's still at its starting style's opacity. Check what
   opened by its name and description (`toHaveAccessibleDescription`), or `waitFor` it (Stat's help popover).
+- **Story tests don't run the docs' source transform** (`.storybook/story-source.ts`), so a story whose code panel
+  hangs still passes. A regex there with two quantifiers that can match the same characters (`[ \t]+[^\n<>]+`) backtracks
+  exponentially when a tag doesn't fit: Line chart's `data` prop froze the page. Make each part match one way only, and
+  give it a unit test (`story-source.test.ts`).

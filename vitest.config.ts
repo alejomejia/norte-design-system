@@ -31,7 +31,7 @@ export default mergeConfig(
           test: {
             name: 'unit',
             environment: 'node',
-            include: ['src/**/*.test.ts', 'scripts/**/*.test.ts'],
+            include: ['src/**/*.test.ts', 'scripts/**/*.test.ts', '.storybook/**/*.test.ts'],
           },
         },
         {

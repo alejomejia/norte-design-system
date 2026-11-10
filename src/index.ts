@@ -73,6 +73,7 @@ export { EmptyState, type EmptyStateProps } from './components/empty-state'
 export { Icon, type IconName, type IconProps } from './components/icon'
 export { IconButton, type IconButtonProps } from './components/icon-button'
 export { KeyboardKey, type KeyboardKeyProps } from './components/keyboard-key'
+export { LineChart, type LineChartPoint, type LineChartProps } from './components/line-chart'
 export { Link, type LinkProps } from './components/link'
 export { Logo, type LogoProps } from './components/logo'
 export {
