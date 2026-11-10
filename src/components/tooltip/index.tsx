@@ -26,6 +26,8 @@ export type TooltipProps = {
   delay?: number
   /** Keeps it closed, for when it would only repeat what's on screen: a label's full text while it isn't truncated. */
   disabled?: boolean
+  /** Closes it when the trigger is clicked. Turn it off when the click changes what it says: "Copy" becomes "Copied". */
+  closeOnClick?: boolean
   className?: string
 }
 
@@ -49,13 +51,14 @@ export function Tooltip({
   align = 'center',
   delay = TOOLTIP_DELAY,
   disabled,
+  closeOnClick = true,
   className,
 }: TooltipProps) {
   const styles = tooltipStyles()
   return (
     <BaseTooltip.Root disabled={disabled}>
       {/* The delay is set here, not only on the provider, so a tooltip outside one opens as quickly. */}
-      <BaseTooltip.Trigger render={children} delay={delay} />
+      <BaseTooltip.Trigger render={children} delay={delay} closeOnClick={closeOnClick} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner side={side} align={align} sideOffset={8} className={styles.positioner()}>
           <BaseTooltip.Popup className={styles.popup({ className })}>

@@ -47,24 +47,29 @@ function withoutDefaults(code: string, { argTypes }: StoryContext) {
 }
 
 /**
+ * A tag Storybook wrote over several lines: its name, its prop lines, and its `>` or `/>` alone on the last. A prop line
+ * starts at its first non-space character, so each line matches one way only: when a tag doesn't fit (a prop holds a
+ * `>`, like `() => {}`), the search gives up at once instead of retrying every split of every line's indent, which
+ * froze the page for a prop with a few dozen lines (a chart's `data`).
+ */
+const MULTILINE_TAG = /<([A-Z][\w.]*)((?:\n[ \t]+[^\s<>][^\n<>]*)*)\n[ \t]*(\/?)>/g
+
+/**
  * Puts a tag's props back on its line when they fit. Storybook writes one prop per line as soon as a tag has any
  * (`<Button\n  variant="ghost"\n>`), and leaves a tag whose props all went with its `>` on a line of its own.
  */
-function withShortTags(code: string) {
-  return code.replace(
-    /<([A-Z][\w.]*)((?:\n[ \t]+[^\n<>]+)*)\n[ \t]*(\/?)>/g,
-    (tag, name: string, props: string, slash: string) => {
-      const line = [
-        name,
-        ...props
-          .split('\n')
-          .map((prop) => prop.trim())
-          .filter(Boolean),
-      ].join(' ')
-      const short = `<${line}${slash ? ' /' : ''}>`
-      return short.length <= MAX_TAG_LENGTH ? short : tag
-    },
-  )
+export function withShortTags(code: string) {
+  return code.replace(MULTILINE_TAG, (tag, name: string, props: string, slash: string) => {
+    const line = [
+      name,
+      ...props
+        .split('\n')
+        .map((prop) => prop.trim())
+        .filter(Boolean),
+    ].join(' ')
+    const short = `<${line}${slash ? ' /' : ''}>`
+    return short.length <= MAX_TAG_LENGTH ? short : tag
+  })
 }
 
 /**

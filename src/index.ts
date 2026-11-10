@@ -8,9 +8,21 @@ export {
   type AccordionTriggerProps,
 } from './components/accordion'
 export { Alert, type AlertProps } from './components/alert'
+export {
+  ApprovalRequest,
+  type ApprovalRequestAgent,
+  type ApprovalRequestDecision,
+  type ApprovalRequestDetailProps,
+  type ApprovalRequestLabels,
+  type ApprovalRequestNextProps,
+  type ApprovalRequestPreviewProps,
+  type ApprovalRequestProps,
+  type ApprovalRequestTitleProps,
+} from './components/approval-request'
 export { Avatar, type AvatarProps, type AvatarSize, type AvatarStatus } from './components/avatar'
 export { AvatarGroup, type AvatarGroupItem, type AvatarGroupProps } from './components/avatar-group'
 export { Badge, type BadgeProps } from './components/badge'
+export { BarChart, type BarChartItem, type BarChartProps } from './components/bar-chart'
 export { Breadcrumb, type BreadcrumbItemProps, type BreadcrumbProps } from './components/breadcrumb'
 export { Button, type ButtonProps } from './components/button'
 export {
@@ -25,6 +37,7 @@ export {
   type CardTitleProps,
 } from './components/card'
 export { Checkbox, type CheckboxProps } from './components/checkbox'
+export { Citation, type CitationProps, type CitationSource } from './components/citation'
 export { CodeField, type CodeFieldProps } from './components/code-field'
 export {
   CommandMenu,
@@ -34,6 +47,14 @@ export {
   type CommandMenuProps,
   type CommandMenuTriggerProps,
 } from './components/command-menu'
+export {
+  DataTable,
+  type DataTableColumn,
+  type DataTableProps,
+  type DataTableSort,
+  type DataTableSortDirection,
+  type DataTableSortValue,
+} from './components/data-table'
 export {
   AlertDialog,
   type AlertDialogProps,
@@ -53,6 +74,7 @@ export { EmptyState, type EmptyStateProps } from './components/empty-state'
 export { Icon, type IconName, type IconProps } from './components/icon'
 export { IconButton, type IconButtonProps } from './components/icon-button'
 export { KeyboardKey, type KeyboardKeyProps } from './components/keyboard-key'
+export { LineChart, type LineChartPoint, type LineChartProps } from './components/line-chart'
 export { Link, type LinkProps } from './components/link'
 export { Logo, type LogoProps } from './components/logo'
 export {
@@ -69,6 +91,15 @@ export {
   type MenuSubmenuProps,
   type MenuTriggerProps,
 } from './components/menu'
+export {
+  Message,
+  type MessageActionProps,
+  type MessageActionsProps,
+  type MessageAuthor,
+  type MessageContentProps,
+  type MessageCopyProps,
+  type MessageProps,
+} from './components/message'
 export { Plan, type PlanProps, type PlanStep, type PlanStepStatus } from './components/plan'
 export {
   Popover,
@@ -103,7 +134,17 @@ export {
   type SkeletonProps,
   type SkeletonTextProps,
 } from './components/skeleton'
+export {
+  SourceList,
+  type SourceListLabels,
+  type SourceListProps,
+  type SourceListSource,
+  type SourceListStatus,
+} from './components/source-list'
 export { Spinner, type SpinnerProps } from './components/spinner'
+export { Stat, type StatGroupProps, type StatProps, type StatTrend } from './components/stat'
+export { StreamingText, type StreamingTextProps } from './components/streaming-text'
+export { Suggestions, type SuggestionsItemProps, type SuggestionsProps } from './components/suggestions'
 export { Switch, type SwitchProps } from './components/switch'
 export {
   Tabs,

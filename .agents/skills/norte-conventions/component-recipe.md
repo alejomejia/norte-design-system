@@ -108,45 +108,23 @@ Play tests to cover, as `step`s:
 - **Motion that measures:** if Base UI measures a size (`--accordion-panel-height`), check the measured value equals
   the final one.
 
-## Pitfalls already hit
+## Pitfalls
 
-- **`outline-none` + `focus-visible:outline-2` on one element draws no ring** (Tailwind v4 sets `--tw-outline-style:
-  none`). Drop `outline-none`.
-- **A moved box changes a measured height:** a `translate` on the box Base UI measures counts toward its scroll
-  height, so the panel overshoots and snaps. Move an inner box that sits inside the padding.
-- **`userEvent.hover` doesn't trigger CSS `:hover`** in story tests: test hover looks by eye, not in play tests.
-- **Tailwind's `translate-*` sets `translate`, applied outside `rotate`:** to move along a rotated element's own axis,
-  use `[transform:…]`.
-- **Biome's class sort is an unsafe fix:** `pnpm biome check --write --unsafe <folder>`.
-- **First story run after adding a Base UI import** fails while Vite re-optimizes: run it again.
-- Specificity: `rtl:` adds none, `group-data-*:` adds some, so a group state beats `rtl:` without ordering tricks.
-- **Flexbox shrinks in proportion to width,** so the shortest labels in a row vanish first. To share a row fairly,
-  grow instead: `grow basis-0 max-w-max min-w-0` on each item (equal shares, each stopping at its own width).
-- **A root that counts or slices its children** sees a fragment as one child: use `flattenChildren` from
-  `@/lib/utils`.
-- **ResizeObserver's first report waits for a rendered frame,** which test runs can hold back for over a second:
-  measure once on mount too (`useOverflows` does).
+Problems already hit once, one file per topic. Read only the files the piece touches, and add a new pitfall to its
+topic's file.
 
-- **Tailwind's reset gives every element `border-style: solid`** (with no width): test a border's presence with
-  `borderTopWidth`, not `borderStyle`.
-- **`sr-only` text counts as a block in testing-library's names** (it's absolutely positioned), so a label plus
-  `<span className="sr-only">, 3 waiting</span>` is named "Approvals , 3 waiting" there. Screen readers don't mind;
-  match it with `/^Approvals\s?, 3 waiting$/` instead of moving the text around.
-- **Biome flags `render={<h2 />}` as an empty heading:** in stories, pass a function, `(props) => <h2 {...props} />`.
-
-- **An exit that starts before Motion's lazy features load never runs,** and `AnimatePresence` keeps the element for
-  good. Whatever removes itself through an exit (a dismissed alert) also leaves on a timer a little longer than its exit
-  (Alert's `ALERT_EXIT_TIMEOUT`), and a play test dismisses it right after render, by keyboard.
-
-- **An anchored highlight slides to the top as it hides:** with no anchor, `anchor(…, 0)` falls back to 0 and a
-  transitioned `top` goes there while it fades. Hold it while hidden with `[transition-delay:999s,999s,0s,0s]` (top and
-  height first in the transition list) and `delay-0` while a row is highlighted (Menu, Select, Command menu).
-- **Base UI ignores simulated pointer moves** (no movement), so `userEvent.hover` never puts a list in pointer mode
-  and leaving a row doesn't clear it: dispatch a `pointermove` with `movementY: 1`, then a `pointerout` (Menu's play test).
+- [Styling and layout](pitfalls/styling.md): focus rings that don't draw, tailwind-merge dropping a class, Biome's
+  class sort, `rtl:` specificity, translate on rotated elements, flex rows that share space, borders, gaps that can't
+  close.
+- [Behavior and measuring](pitfalls/behavior.md): boxes Base UI measures, anchored highlights that slide, roots that
+  count their children, ResizeObserver's late first report, the first run after a new Base UI import.
+- [Motion](pitfalls/motion.md): exits that start before Motion's features load, items that `rise` in turn.
+- [Tests and accessibility](pitfalls/tests-and-accessibility.md): hover and pointer moves in play tests, `sr-only`
+  in names, `aria-busy` muting live regions, `aria-label` mismatches, computed custom properties, `inert` and Tab.
 
 ## Checks, in order
 
 1. While iterating: `pnpm vitest run --project=storybook src/components/<name>`.
-2. Before the commit: `pnpm check`, `pnpm test:stories`, the review checklist in `SKILL.md`.
+2. Before the commit: `pnpm check`, `pnpm test:stories`, the [review checklist](review-checklist.md).
 3. The browser only to measure or debug something tests can't show (a jump, a clipped ring), never for screenshots
    of the look; ask the user to look when in doubt.

@@ -7,8 +7,9 @@ import { Badge } from '@/components/badge'
 import { Icon, type IconName } from '@/components/icon'
 import { IconButton } from '@/components/icon-button'
 import { useScrollEdges } from '@/lib/hooks'
+import { scrollByPage } from '@/lib/utils'
 
-import { TABS_FADE_WIDTH, TABS_SCROLL_LABELS } from './tabs.const'
+import { TABS_SCROLL_LABELS } from './tabs.const'
 import { useTabsLook } from './tabs.hooks'
 import { tabsStyles } from './tabs.styles'
 
@@ -41,15 +42,6 @@ export function TabsList({
   const scrollerRef = useRef<HTMLDivElement>(null)
   const edges = useScrollEdges(scrollerRef)
 
-  function scrollTabs(direction: 1 | -1) {
-    const scroller = scrollerRef.current
-    if (!scroller) return
-    // A page of tabs, less the fades on both sides, so a tab half under one comes into full view.
-    const page = Math.max(scroller.clientWidth - 2 * TABS_FADE_WIDTH, TABS_FADE_WIDTH)
-    const towardEnd = getComputedStyle(scroller).direction === 'rtl' ? -1 : 1
-    scroller.scrollBy({ left: direction * towardEnd * page })
-  }
-
   return (
     <div
       data-overflow-start={edges.start || undefined}
@@ -68,7 +60,7 @@ export function TabsList({
           label={scrollLabels.start}
           size="s"
           tabIndex={-1}
-          onClick={() => scrollTabs(-1)}
+          onClick={() => scrollByPage(scrollerRef.current, -1)}
         />
       </span>
       <span aria-hidden="true" className={styles.scrollEnd()}>
@@ -77,7 +69,7 @@ export function TabsList({
           label={scrollLabels.end}
           size="s"
           tabIndex={-1}
-          onClick={() => scrollTabs(1)}
+          onClick={() => scrollByPage(scrollerRef.current, 1)}
         />
       </span>
     </div>

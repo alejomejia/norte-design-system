@@ -1,6 +1,8 @@
 // Shared client hooks. Client only.
 export { useAnimationFrame } from './use-animation-frame'
+export { useCopy } from './use-copy'
 export { useElapsed } from './use-elapsed'
+export { useElementSize } from './use-element-size'
 export { useInViewport } from './use-in-viewport'
 export { useIsApplePlatform } from './use-is-apple-platform'
 export { useModShortcut } from './use-mod-shortcut'

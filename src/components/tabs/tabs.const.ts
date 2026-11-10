@@ -4,8 +4,5 @@ export const TABS_VARIANTS = ['line', 'segmented'] as const
 /** Tabs' sizes: `s` (32px) and `m` (40px), the same heights as Select and Text field. */
 export const TABS_SIZES = ['s', 'm'] as const
 
-/** The chevron's clear strip and the fade beside it, on a side of the row that hides tabs, in px: the styles' `4rem`. */
-export const TABS_FADE_WIDTH = 64
-
 /** What the chevrons on a row that doesn't fit are called. Pointer-only: the arrow keys already move along the row. */
 export const TABS_SCROLL_LABELS = { start: 'Scroll tabs back', end: 'Scroll tabs forward' } as const

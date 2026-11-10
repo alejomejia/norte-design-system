@@ -1,29 +1,7 @@
-import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from 'react'
+import { type CSSProperties, type ReactNode } from 'react'
 
+import { useCopy } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
-
-/** How long a copy shows its check. */
-const COPIED_DURATION = 2000
-
-/**
- * Copies a text and remembers it for a moment, for a check and an announcement.
- * @returns whether the last copy is still fresh, and the function that copies.
- */
-function useCopy() {
-  const [copied, setCopied] = useState(false)
-  const timer = useRef(0)
-
-  useEffect(() => () => window.clearTimeout(timer.current), [])
-
-  async function copy(text: string) {
-    await navigator.clipboard.writeText(text)
-    setCopied(true)
-    window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => setCopied(false), COPIED_DURATION)
-  }
-
-  return [copied, copy] as const
-}
 
 /** Lucide's copy and check, drawn in the current color. */
 export function CopyIcon({ copied, className }: { copied: boolean; className?: string }) {

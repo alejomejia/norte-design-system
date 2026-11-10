@@ -1,6 +1,6 @@
 ---
 name: norte-conventions
-description: House conventions for the Norte design system (React 19 + Tailwind v4 + Storybook): file and folder naming, the component pattern, project structure, styling (tokens and roles, 8px grid in rem, brackets as a last resort, no inline CSS), imports, barrels, shared utilities, JSDoc, hooks, performance, accessibility, copy, docs, tests and dependencies, with an rg review checklist. Apply to any change in src/, .storybook/ or scripts/, including Tailwind classes and CSS.
+description: House conventions for the Norte design system (React 19 + Tailwind v4 + Storybook): file and folder naming, the component pattern, project structure, styling (tokens and roles, 8px grid in rem, brackets as a last resort, no inline CSS), imports, barrels, shared utilities, JSDoc, hooks, performance, accessibility, copy, docs, tests and dependencies, with an rg review checklist in review-checklist.md. Apply to any change in src/, .storybook/ or scripts/, including Tailwind classes and CSS.
 ---
 
 # Norte conventions
@@ -10,10 +10,11 @@ adapted where a design system package needs something different (marked **Norte:
 lives in [`docs/decisions/`](../../../docs/decisions/README.md); how changes reach `dev` and `main` lives in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md).
 
-Before finishing a change, run the [review checklist](#review-checklist) and `pnpm check`, and fix what they print.
+Before finishing a change, run the [review checklist](review-checklist.md) and `pnpm check`, and fix what they print.
 
 **Building a new component?** Start from the [component recipe](component-recipe.md): the files, the root, the
-stories and play tests every component has, and the pitfalls already hit. It replaces reading whole components.
+stories and play tests every component has, and an index of the pitfalls already hit, by topic. It replaces reading
+whole components.
 
 ## Naming and files
 
@@ -168,12 +169,7 @@ ships in the same change with:
 
 ### Handbook pages
 
-- Every page opens with `PageHeader`; sections are `##`, subsections `###` with a one-line description under them.
-- Foundation pages render **live tokens** through the blocks in `src/handbook/blocks/`, never a value typed by hand.
-- Every token is a `CopyToken` chip that copies its **variable** (`var(--color-ink)`), never the raw value. A new
-  token gets its card or row on its foundation page in the same change.
-- **Links that leave Storybook open in a new tab,** with an arrow and "(opens in a new tab)" for screen readers. MDX
-  links do it on their own (`docs-link.tsx`); a block that renders its own link uses `DocsLink` or `isExternal`.
+Pages in `src/handbook/` follow [handbook-pages.md](handbook-pages.md): read it when a change touches one.
 
 ## Tests
 
@@ -186,36 +182,3 @@ ships in the same change with:
 
 pnpm only. Before writing code against a new library, check whether a skill exists for it and add it to
 `.agents/skills/` first. Runtime dependencies (what apps install) need a changeset; dev tools don't.
-
-## Review checklist
-
-Each command should print nothing (font-size lines excepted in the off-grid check).
-
-```sh
-# Raw inline CSS: use classes, and toCSSVars for runtime values
-rg -n 'style=\{\{' src .storybook
-
-# Class strings built with template literals: use cn()
-rg -n 'className=\{`' src
-
-# Imports that go up more than one folder: use the @/ alias
-rg -n "from '(\.\./){2,}" src .storybook scripts
-
-# Off-grid spacing classes (odd from 5 up, decimals other than 0.25 and 0.5)
-rg -n --pcre2 '(?<![\w-])-?(p[xytrblse]?|m[xytrblse]?|gap(-[xy])?|space-[xy]|inset(-[xy])?|top|right|bottom|left|w|h|size|min-w|min-h|max-w|max-h|basis|translate-[xy])-(?!(1|3|0\.25|0\.5)(?![\w./]))(\d*[13579]|\d+\.\d+)(?![\w./])' src -g '*.tsx' -g '*.ts'
-
-# px in CSS outside comments and hairlines: write rem
-rg -n '\b\d+(\.\d+)?px\b' src .storybook -g '*.css' | rg -v '/\*|\b1px'
-
-# rem in CSS without its px comment
-rg -n --pcre2 '\d(\.\d+)?rem\b(?!.*/\*.*px.*\*/)' src .storybook -g '*.css'
-
-# Primitives in components (roles first): review each hit
-rg -n --pcre2 '(bg|text|border|ring|outline|fill|stroke)-(neutral|blue|green|amber|red)-\d+' src/components
-
-# Deep imports past a barrel
-rg -n "from '@/lib/(utils|hooks|motion)/" src
-
-# The full Motion component in a component: use `m` under LazyMotion
-rg -n "from 'motion/react'" src/components | rg -w 'motion'
-```

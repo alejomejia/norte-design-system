@@ -1,12 +1,15 @@
 // The public surface of the utils domain: everything outside this folder imports from `@/lib/utils`.
+
+export { fitTicks, tickCount } from './chart'
 export { blend, contrastRatio, isInSrgbGamut, type LinearRgb, oklchToLinearRgb, parseOklch, toHex } from './color'
 export { flattenChildren, nameParts } from './components'
+export { formatCompact, nearestIndex } from './number'
 export { mergeRefs } from './refs'
-export { getScrollEdges, type ScrollEdges } from './scroll'
+export { getScrollEdges, type ScrollEdges, scrollByPage, scrollPageOffset } from './scroll'
 export { matchScore } from './search'
 export { drawShader, type ShaderUniforms } from './shader'
 export { cn, type Rgb, readCssColor, toCSSVars, tv, type VariantProps } from './styles'
 export { initials } from './text'
 export { formatElapsed } from './time'
 export type { DistributiveOmit } from './types'
-export { isExternalUrl } from './url'
+export { domainOf, isExternalUrl } from './url'
