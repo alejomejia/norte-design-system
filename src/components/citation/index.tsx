@@ -1,13 +1,13 @@
 'use client'
 
 import { PreviewCard } from '@base-ui/react/preview-card'
-import { type ReactNode, useState } from 'react'
+import { type ReactNode } from 'react'
 
 import { LINK_NEW_TAB_REL } from '@/components/link/link.const'
 import { domainOf, isExternalUrl } from '@/lib/utils'
-
 import { CITATION_DELAY, CITATION_LABEL, CITATION_NEW_TAB_LABEL, CITATION_SIDE_OFFSET } from './citation.const'
 import { citationStyles } from './citation.styles'
+import { CitationFavicon } from './citation-favicon'
 
 /** A source an agent read: what a citation points to, and what a list of sources lists. */
 export type CitationSource = {
@@ -65,9 +65,6 @@ export function Citation({
 }: CitationProps) {
   const styles = citationStyles()
   const opensNewTab = isExternalUrl(href)
-  // The favicon that failed to load, so a new one gets its own try without an effect to reset it.
-  const [brokenFavicon, setBrokenFavicon] = useState<string>()
-  const showsFavicon = favicon !== undefined && favicon !== brokenFavicon
 
   return (
     <PreviewCard.Root>
@@ -87,13 +84,7 @@ export function Citation({
             <div className={styles.header()}>
               {domain && (
                 <p className={styles.site()}>
-                  {showsFavicon ? (
-                    <img src={favicon} alt="" className={styles.favicon()} onError={() => setBrokenFavicon(favicon)} />
-                  ) : (
-                    <span aria-hidden className={styles.initial()}>
-                      {domain.charAt(0)}
-                    </span>
-                  )}
+                  <CitationFavicon favicon={favicon} domain={domain} />
                   <span className={styles.domain()}>{domain}</span>
                 </p>
               )}

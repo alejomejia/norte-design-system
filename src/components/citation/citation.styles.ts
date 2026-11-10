@@ -24,12 +24,20 @@ export const citationStyles = tv({
     ],
     header: 'flex flex-col gap-1',
     site: 'flex min-w-0 items-center gap-2 text-caption text-ink-subtle',
+    domain: 'truncate',
+    title: 'line-clamp-2 font-semibold',
+    excerpt: 'line-clamp-3 border-l-2 border-line pl-3 text-ink-muted',
+  },
+})
+
+/** A source's site icon, 16px like an icon: the favicon, or the site's first letter on a quiet tile, or a file. */
+export const citationFaviconStyles = tv({
+  slots: {
     favicon: 'size-4 shrink-0 rounded-s object-contain',
     // The site's first letter, when it has no favicon or it doesn't load.
     initial:
       'grid size-4 shrink-0 place-items-center rounded-s bg-surface-muted text-caption-s font-semibold text-ink-muted uppercase',
-    domain: 'truncate',
-    title: 'line-clamp-2 font-semibold',
-    excerpt: 'line-clamp-3 border-l-2 border-line pl-3 text-ink-muted',
+    // A page in the app has no site.
+    file: 'text-ink-subtle',
   },
 })

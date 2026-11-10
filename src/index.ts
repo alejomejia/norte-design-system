@@ -113,6 +113,13 @@ export {
   type SkeletonProps,
   type SkeletonTextProps,
 } from './components/skeleton'
+export {
+  SourceList,
+  type SourceListLabels,
+  type SourceListProps,
+  type SourceListSource,
+  type SourceListStatus,
+} from './components/source-list'
 export { Spinner, type SpinnerProps } from './components/spinner'
 export { StreamingText, type StreamingTextProps } from './components/streaming-text'
 export { Suggestions, type SuggestionsItemProps, type SuggestionsProps } from './components/suggestions'
