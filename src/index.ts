@@ -132,6 +132,7 @@ export {
   type SourceListStatus,
 } from './components/source-list'
 export { Spinner, type SpinnerProps } from './components/spinner'
+export { Stat, type StatGroupProps, type StatProps, type StatTrend } from './components/stat'
 export { StreamingText, type StreamingTextProps } from './components/streaming-text'
 export { Suggestions, type SuggestionsItemProps, type SuggestionsProps } from './components/suggestions'
 export { Switch, type SwitchProps } from './components/switch'

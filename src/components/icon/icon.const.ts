@@ -1,4 +1,5 @@
 import {
+  ArrowDown,
   ArrowRight,
   ArrowUp,
   ArrowUpRight,
@@ -22,6 +23,7 @@ import {
   Link,
   type LucideIcon,
   Mic,
+  Minus,
   PanelLeft,
   Paperclip,
   Pause,
@@ -89,6 +91,9 @@ export const ICONS = {
   team: Users,
   terminal: Terminal,
   tool: Wrench,
+  'trend-down': ArrowDown,
+  'trend-flat': Minus,
+  'trend-up': ArrowUp,
   user: User,
   voice: Mic,
   warning: TriangleAlert,

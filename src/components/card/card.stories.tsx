@@ -5,6 +5,7 @@ import { expect, fn, userEvent } from 'storybook/test'
 import { Avatar } from '@/components/avatar'
 import { Badge } from '@/components/badge'
 import { Button } from '@/components/button'
+import { Stat } from '@/components/stat'
 
 import { Card } from '.'
 import { CARD_PADDINGS, CARD_VARIANTS } from './card.const'
@@ -187,27 +188,26 @@ export const AsALink: Story = {
   },
 }
 
-/** Where it shows up: the run's stats, as muted cards in a panel, and the approval request, built on a card. */
+/** Where it shows up: the run's stats, under a title, and the approval request, built on a card. */
 export const InContext: Story = {
   name: 'In context',
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="sb-stack sb-stack--stretch max-w-160">
-      <div className="sb-panel grid grid-cols-2 gap-3 md:grid-cols-4">
-        {[
-          ['Duration', '4m 12s'],
-          ['Tokens', '38.2k'],
-          ['Cost', '$0.84'],
-          ['Tool calls', '23'],
-        ].map(([label, value]) => (
-          <Card key={label} variant="muted" padding="s">
-            <Card.Header>
-              <Card.Description className="text-caption">{label}</Card.Description>
-            </Card.Header>
-            <Card.Body className="text-heading-s font-semibold tabular-nums">{value}</Card.Body>
-          </Card>
-        ))}
-      </div>
+      <Card>
+        <Card.Header>
+          <Card.Title>Usage</Card.Title>
+          <Card.Description>What run #128 took.</Card.Description>
+        </Card.Header>
+        <Card.Body>
+          <Stat.Group columns={4}>
+            <Stat label="Duration" value="4m 12s" />
+            <Stat label="Tokens" value="38.2k" />
+            <Stat label="Cost" value="$0.84" />
+            <Stat label="Tool calls" value="23" />
+          </Stat.Group>
+        </Card.Body>
+      </Card>
       <Card render={<article />}>
         <Card.Header>
           <div className="flex items-center gap-3">
