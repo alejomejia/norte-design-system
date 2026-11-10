@@ -16,6 +16,9 @@ Before finishing a change, run the [review checklist](review-checklist.md) and `
 stories and play tests every component has, and an index of the pitfalls already hit, by topic. It replaces reading
 whole components.
 
+**Building a page?** Start from the [page recipe](page-recipe.md): where a page lives, its one story and the link to
+see it in full, layouts that fit every width, its motion and when to check it.
+
 ## Naming and files
 
 - **Everything is kebab-case,** folders and files, components included: `prompt-input/`, `use-in-viewport.ts`. The
