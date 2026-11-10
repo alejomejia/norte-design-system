@@ -162,6 +162,13 @@ Play tests to cover, as `step`s:
   (`calc(4rem * -1)`): test the property that uses it (`mask-position`), and wait for every layer that transitions,
   not just the first to arrive (Suggestions' Overflow test).
 
+- **user-event's Tab doesn't skip `inert` elements,** as a browser does: it tries to focus them and focus stays put.
+  Check inertness directly (`el.focus()`, then `not.toHaveFocus()`) and move on with `.focus()` (Approval request's
+  Keyboard test).
+- **A parent's `gap` can't close:** an element that collapses its height still leaves the gap above it until it
+  unmounts, then the gap snaps shut. When a part closes in place, its space above is its own padding, inside the box
+  that closes (Approval request's footer, `pt-4` → `pt-0` in step with Undo action's height).
+
 ## Checks, in order
 
 1. While iterating: `pnpm vitest run --project=storybook src/components/<name>`.

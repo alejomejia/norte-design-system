@@ -8,6 +8,17 @@ export {
   type AccordionTriggerProps,
 } from './components/accordion'
 export { Alert, type AlertProps } from './components/alert'
+export {
+  ApprovalRequest,
+  type ApprovalRequestAgent,
+  type ApprovalRequestDecision,
+  type ApprovalRequestDetailProps,
+  type ApprovalRequestLabels,
+  type ApprovalRequestNextProps,
+  type ApprovalRequestPreviewProps,
+  type ApprovalRequestProps,
+  type ApprovalRequestTitleProps,
+} from './components/approval-request'
 export { Avatar, type AvatarProps, type AvatarSize, type AvatarStatus } from './components/avatar'
 export { AvatarGroup, type AvatarGroupItem, type AvatarGroupProps } from './components/avatar-group'
 export { Badge, type BadgeProps } from './components/badge'
