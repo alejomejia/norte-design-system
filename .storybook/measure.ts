@@ -3,6 +3,8 @@
  * grid gaps, without its content box, and out of the way of the accessibility checks. Storybook has an option for none
  * of this, and the tool draws on a canvas, so the canvas's drawing calls are patched for that canvas only.
  */
+import { INSPECT_ID, inspectedElement, isInStory } from './measure-inspect'
+
 const CANVAS_ID = 'storybook-addon-measure'
 
 /** The gap color: purple, next to Storybook's margin orange and padding green. */
@@ -52,22 +54,22 @@ export function hideMeasureContentBox() {
 }
 
 /**
- * Runs axe with the Measure canvas hidden, then shows it again. axe-core registers `window.axe` before it defines its
- * own functions, so its `run` is caught as it's assigned, too.
+ * Runs axe with the Measure canvas and the inspect mode's overlay hidden, then shows them again. axe-core registers
+ * `window.axe` before it defines its own functions, so its `run` is caught as it's assigned, too.
  */
 function hideCanvasWhileRunning(axe: Axe) {
   let { run } = axe
   async function runWithoutCanvas(this: Axe, ...args: unknown[]) {
-    const canvas = document.getElementById(CANVAS_ID)
-    if (!canvas) return Reflect.apply(run, this, args)
-
+    const layers = [CANVAS_ID, INSPECT_ID].map((id) => document.getElementById(id)).filter((layer) => layer !== null)
     // Inline, like the canvas's own size: Storybook styles it inline, which a `hidden` attribute wouldn't beat.
-    const { display } = canvas.style
-    canvas.style.display = 'none'
+    const displays = layers.map((layer) => layer.style.display)
+    for (const layer of layers) layer.style.display = 'none'
     try {
       return await Reflect.apply(run, this, args)
     } finally {
-      canvas.style.display = display
+      layers.forEach((layer, index) => {
+        layer.style.display = displays[index] ?? ''
+      })
     }
   }
   Object.defineProperty(axe, 'run', {
@@ -189,20 +191,14 @@ function drawGaps(context: CanvasRenderingContext2D, element: Element) {
 }
 
 /**
- * Whether the Measure tool should skip an element: everything around the story (the page, Storybook's root, the
- * canvas's padding). Components work in isolation, so only they and what's inside them are measured.
- */
-function isOutsideStory(element: Element | null) {
-  const root = document.getElementById('storybook-root')
-  return !element || !root || element === root || !root.contains(element)
-}
-
-/**
  * Focuses the Measure tool on the story's components. Storybook redraws by clearing its canvas, then drawing the hovered
  * element's box synchronously, so the clear tells what comes next:
  *
  * - Outside the story, Storybook's drawing is skipped: hovering the canvas around a component showed the canvas's own
- *   padding, which says nothing about the component.
+ *   padding, which says nothing about the component. Components work in isolation, so only they, what's inside them
+ *   and the popups they open are measured (`isInStory`).
+ * - With an element selected in the inspect mode, only that one is drawn: hovering another draws the redlines between
+ *   the two (`measure-inspect.ts`), which its box would bury.
  * - Inside it, the gaps of a flex or grid container are added, in purple with their size, right after Storybook's box
  *   (in a microtask): the tool draws margin, padding and border only, so the space between a button's icon and label
  *   didn't show. Hover the container, or the gap itself, which belongs to it.
@@ -228,7 +224,8 @@ export function focusMeasureOnStory() {
     if (!isMeasureCanvas(this)) return
 
     const element = document.elementFromPoint(pointer.x, pointer.y)
-    skipping = isOutsideStory(element)
+    const selected = inspectedElement()
+    skipping = !isInStory(element) || (selected !== null && element !== selected)
     queueMicrotask(() => {
       const skipped = skipping
       skipping = false

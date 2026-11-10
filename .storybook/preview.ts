@@ -11,6 +11,7 @@ import { addDefaultArgs } from './default-args'
 import { watchTableOfContents } from './docs-toc'
 import { listenForPlayRequests, playOnlyWhenAsked } from './manual-play'
 import { focusMeasureOnStory, hideMeasureContentBox, ignoreMeasureInAccessibilityChecks } from './measure'
+import { withInspect } from './measure-inspect'
 import { addRangeSteps, watchRangeLabels } from './range-controls'
 import { transformSource } from './story-source'
 import { THEME_VARS } from './theme'
@@ -28,6 +29,7 @@ import './manager-styles/controls.css'
 import './manager-styles/code-blocks.css'
 import './docs-styles/index.css'
 import './preview.css'
+import './measure-inspect.css'
 
 const preview: Preview = {
   // Every component gets a generated docs page, with the table of its props.
@@ -39,6 +41,8 @@ const preview: Preview = {
   argTypesEnhancers: [addRangeSteps, addArgCategories],
   // Stories open at rest: their interactions run from the Interactions panel or the test runner (`manual-play.ts`).
   beforeEach: playOnlyWhenAsked,
+  // With the ruler on, a click selects an element: its specs in Norte's names, and redlines to the next one hovered.
+  decorators: [withInspect],
   parameters: {
     // The component tests (`vitest.config.ts`) fail a story with an accessibility violation, like a failing `play`.
     a11y: { test: 'error' },
