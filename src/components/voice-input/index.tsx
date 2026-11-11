@@ -58,6 +58,9 @@ export function VoiceInput({
     if (recording) setStartedAt(Date.now())
   }
   const elapsed = useElapsed(rootRef, startedAt, { running: recording })
+  // Before the first recording there's no start to count from (`startedAt` is 0), and the hidden timer would count from
+  // 1970, ticking between a server's render and the browser's: React reports a hydration mismatch. It reads zero.
+  const shown = startedAt === 0 ? 0 : elapsed
   useLevelBars(rootRef, barsRef, { active: recording, stream })
 
   // The button that was pressed disappears, so focus moves to the one that takes its place. Only when `recording`
@@ -107,7 +110,7 @@ export function VoiceInput({
             <span className={styles.timer()}>
               <span aria-hidden="true" className={styles.dot()} />
               <span className="sr-only">{labels.recording}: </span>
-              {formatRecordingTime(elapsed)}
+              {formatRecordingTime(shown)}
             </span>
           </span>
         </div>
