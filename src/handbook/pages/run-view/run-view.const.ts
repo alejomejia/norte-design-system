@@ -20,11 +20,23 @@ export const RUN_VIEW_ELAPSED_AT_OPEN = 246_000
 
 /** Timings of the pretend workspace, in ms. */
 export const RUN_VIEW_TIMING = {
+  /** How long the thread stays empty as the page opens, before Sofía's ask arrives. */
+  open: 800,
+  /** Between Sofía's ask and the agent starting to think about it. */
+  reply: 600,
   /** Between two words of a streamed answer. */
   word: 60,
+  /** Between the plan's steps ticking off, as the agent works through it. */
+  tick: 1100,
+  /** Before the reasoning shows, once the plan is done. */
+  reasoning: 800,
+  /** Between one tool call showing and the next. */
+  call: 450,
+  /** Before the timeout's alert shows, and before the summary starts after it. */
+  alert: 900,
   /** How long the results take to load as the page opens: long enough to see the skeletons. */
   results: 1400,
-  /** How long the agent thinks before it answers a follow-up. */
+  /** How long the agent thinks before it answers: the ask as the page opens, and each follow-up. */
   think: 1200,
   /** How long deleting the run takes. */
   delete: 800,
@@ -213,6 +225,9 @@ export const RUN_VIEW_PLAN = [
   'Draft the summary',
   'Email the summary to the leadership team',
 ] as const
+
+/** How many plan steps are done as the summary starts: the agent is on the fourth. */
+export const RUN_VIEW_PLAN_DONE = 3
 
 /** What the agent worked through, folded under its plan. Took 18 seconds. */
 export const RUN_VIEW_REASONING = {

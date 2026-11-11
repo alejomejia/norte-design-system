@@ -4,8 +4,15 @@ import { type RefObject, useEffect, useEffectEvent, useRef, useState } from 'rea
 
 import { useReducedMotion } from '@/lib/hooks'
 
-import { RUN_VIEW_COPY, RUN_VIEW_REPLIES, RUN_VIEW_SUMMARY, RUN_VIEW_TIMING } from './run-view.const'
-import { type RunViewTurn } from './run-view.types'
+import {
+  RUN_VIEW_COPY,
+  RUN_VIEW_PLAN_DONE,
+  RUN_VIEW_REPLIES,
+  RUN_VIEW_SUMMARY,
+  RUN_VIEW_TIMING,
+  RUN_VIEW_TOOL_CALLS,
+} from './run-view.const'
+import { type RunViewOpening, type RunViewTurn } from './run-view.types'
 
 /** How close to the bottom, in px, still counts as reading the latest: the thread keeps following from there. */
 const STICK_SLACK = 32
@@ -23,28 +30,70 @@ export function useAfter(active: boolean, delay: number, onDone: () => void) {
   }, [active, delay])
 }
 
+/** The beats of the agent's work: the plan's ticks, the reasoning, each tool call, then the timeout's alert. */
+const WORK_BEATS = RUN_VIEW_PLAN_DONE + 1 + RUN_VIEW_TOOL_CALLS.length + 1
+
+/** How long to wait before beat `beat` of the work, in ms: ticks are slowest, calls quickest. */
+function beatDelay(beat: number) {
+  if (beat <= RUN_VIEW_PLAN_DONE) return RUN_VIEW_TIMING.tick
+  if (beat === RUN_VIEW_PLAN_DONE + 1) return RUN_VIEW_TIMING.reasoning
+  if (beat <= WORK_BEATS - 1) return RUN_VIEW_TIMING.call
+  return RUN_VIEW_TIMING.alert
+}
+
 /**
- * The run's summary, written a word at a time as the page opens: the last seconds of run #128. `onDone` runs once it's
- * whole. Under reduced motion it's whole from the start.
+ * The page's opening, replayed so it reads as a conversation: after a moment of empty thread, Sofía's ask arrives, the
+ * agent thinks, then does one job at a time: it ticks off its plan step by step, shows its reasoning, its tool calls
+ * one after another and the timeout, and only then writes its summary a word at a time (the last seconds of run #128).
+ * `onDone` runs once the summary is whole. Under reduced motion it's all there from the start.
  */
-export function useSummary(onDone: () => void) {
+export function useOpening(onDone: () => void) {
   const reduced = useReducedMotion()
   const words = RUN_VIEW_SUMMARY.split(' ')
+  const [stage, setStage] = useState<RunViewOpening>('quiet')
+  const [beat, setBeat] = useState(0)
   const [count, setCount] = useState(0)
-  const finished = reduced || count >= words.length
+  const written = reduced || (stage === 'streaming' && count >= words.length)
+  const current = written ? 'done' : stage
+  const worked = current === 'streaming' || current === 'done' ? WORK_BEATS : beat
   const done = useEffectEvent(onDone)
 
+  useAfter(current === 'quiet', RUN_VIEW_TIMING.open, () => setStage('asked'))
+  useAfter(current === 'asked', RUN_VIEW_TIMING.reply, () => setStage('thinking'))
+  useAfter(current === 'thinking', RUN_VIEW_TIMING.think, () => setStage('working'))
+
   useEffect(() => {
-    if (finished) return
-    const timer = window.setInterval(() => setCount((current) => current + 1), RUN_VIEW_TIMING.word)
+    if (current !== 'working') return
+    const timer = window.setTimeout(
+      () => (beat >= WORK_BEATS ? setStage('streaming') : setBeat(beat + 1)),
+      beatDelay(beat + 1),
+    )
+    return () => window.clearTimeout(timer)
+  }, [current, beat])
+
+  useEffect(() => {
+    if (current !== 'streaming') return
+    const timer = window.setInterval(() => setCount((latest) => latest + 1), RUN_VIEW_TIMING.word)
     return () => window.clearInterval(timer)
-  }, [finished])
+  }, [current])
 
   useEffect(() => {
-    if (finished) done()
-  }, [finished])
+    if (current === 'done') done()
+  }, [current])
 
-  return { text: finished ? RUN_VIEW_SUMMARY : words.slice(0, count).join(' '), streaming: !finished }
+  const afterPlan = worked - RUN_VIEW_PLAN_DONE
+  return {
+    stage: current,
+    text: written ? RUN_VIEW_SUMMARY : words.slice(0, count).join(' '),
+    /** How many plan steps are ticked off so far. */
+    ticked: Math.min(worked, RUN_VIEW_PLAN_DONE),
+    /** The reasoning shows. */
+    reasoning: afterPlan >= 1,
+    /** How many tool calls show so far. */
+    calls: Math.max(0, Math.min(afterPlan - 1, RUN_VIEW_TOOL_CALLS.length)),
+    /** The timeout's alert shows. */
+    alert: worked >= WORK_BEATS,
+  }
 }
 
 /** The turns with the latest one changed by `change`. */

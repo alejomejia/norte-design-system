@@ -73,12 +73,14 @@ export const runViewShareStyles = tv({
 /**
  * The conversation: Sofía's ask, the agent's answer (its plan, reasoning, tool calls, the timeout, the summary and its
  * sources) and the approval it waits on, then any follow-ups. Blocks inside the answer sit 16px apart; turns 32px.
+ * The answer's blocks rise one by one as the agent gets to them.
  */
 export const runViewConversationStyles = tv({
   slots: {
     thread: 'mx-auto flex w-full max-w-180 flex-col gap-8 px-4 py-6 sm:px-6 lg:py-8',
-    answer: 'flex flex-col gap-4',
-    calls: 'flex flex-wrap items-center gap-2',
+    // Each block mounts when the agent gets to it (see `useOpening`), and rises as it does.
+    answer: 'flex flex-col gap-4 *:animate-rise motion-reduce:*:animate-none',
+    calls: 'flex flex-wrap items-center gap-2 *:animate-rise motion-reduce:*:animate-none',
     more: 'text-caption text-ink-subtle',
     email: 'flex flex-col gap-3',
     emailList: 'list-disc pl-6',
