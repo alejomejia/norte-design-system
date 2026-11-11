@@ -55,7 +55,6 @@ function spoken(text: string) {
 const meta = {
   title: 'AI/Sources/Source list',
   component: SourceList,
-  tags: ['beta'],
   argTypes: { labels: { table: { disable: true } } },
   args: { sources: SOURCES, onOpenChange: fn() },
   parameters: {

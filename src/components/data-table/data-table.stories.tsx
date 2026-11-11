@@ -133,7 +133,6 @@ const ORIGINAL_ORDER = COMPETITORS.map((row) => row.name)
 const meta = {
   title: 'Data/Tables/Data table',
   component: DataTable<Competitor>,
-  tags: ['beta'],
   argTypes: {
     columns: { table: { disable: true } },
     rows: { table: { disable: true } },

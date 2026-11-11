@@ -19,7 +19,6 @@ const RECIPIENTS: AvatarGroupItem[] = [
 const meta = {
   title: 'Components/Content/Avatar group',
   component: AvatarGroup,
-  tags: ['beta'],
   argTypes: {
     max: { control: { type: 'range', min: 1, max: 8 } },
     size: { control: 'inline-radio', options: AVATAR_SIZES },

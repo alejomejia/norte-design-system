@@ -6,7 +6,6 @@ import { TextField } from '.'
 const meta = {
   title: 'Elements/Form controls/Text field',
   component: TextField,
-  tags: ['beta'],
   argTypes: {
     label: { control: 'text' },
     description: { control: 'text' },

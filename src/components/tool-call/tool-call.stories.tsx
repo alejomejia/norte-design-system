@@ -11,7 +11,6 @@ import { TOOL_CALL_STATUSES } from './tool-call.const'
 const meta = {
   title: 'AI/Agents/Tool call',
   component: ToolCall,
-  tags: ['beta'],
   argTypes: {
     status: { control: 'inline-radio', options: TOOL_CALL_STATUSES },
     icon: { control: 'select', options: ICON_NAMES },

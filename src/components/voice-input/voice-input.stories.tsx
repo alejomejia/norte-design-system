@@ -8,7 +8,6 @@ import { VOICE_INPUT_SIDES } from './voice-input.const'
 const meta = {
   title: 'AI/Conversation/Voice input',
   component: VoiceInput,
-  tags: ['beta'],
   argTypes: {
     recording: { control: 'boolean' },
     side: { control: 'inline-radio', options: VOICE_INPUT_SIDES },

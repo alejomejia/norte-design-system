@@ -9,7 +9,6 @@ import { ICON_NAMES, ICON_SIZES } from './icon.const'
 const meta = {
   title: 'Elements/Media/Icon',
   component: Icon,
-  tags: ['beta'],
   argTypes: {
     name: { control: 'select', options: ICON_NAMES },
     size: { control: 'inline-radio', options: ICON_SIZES },

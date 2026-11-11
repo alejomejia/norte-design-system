@@ -10,7 +10,6 @@ import { SPINNER_SIZES } from './spinner.const'
 const meta = {
   title: 'Elements/Indicators/Spinner',
   component: Spinner,
-  tags: ['beta'],
   argTypes: {
     size: { control: 'inline-radio', options: SPINNER_SIZES },
     label: { control: 'text' },

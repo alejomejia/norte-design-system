@@ -43,7 +43,6 @@ function tokens(value: number) {
 const meta = {
   title: 'Data/Charts/Line chart',
   component: LineChart,
-  tags: ['beta'],
   argTypes: {
     data: { control: 'object' },
     formatX: { control: false },

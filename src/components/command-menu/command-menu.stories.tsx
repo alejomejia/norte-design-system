@@ -54,7 +54,6 @@ const onSelect = fn()
 const meta = {
   title: 'Components/Navigation/Command menu',
   component: CommandMenu,
-  tags: ['beta'],
   argTypes: {
     groups: { control: false },
     recent: { control: false },

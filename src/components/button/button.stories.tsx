@@ -8,7 +8,6 @@ import { BUTTON_HOVERS, BUTTON_SIZES, BUTTON_VARIANTS } from './button.const'
 const meta = {
   title: 'Elements/Actions/Button',
   component: Button,
-  tags: ['beta'],
   argTypes: {
     variant: { control: 'inline-radio', options: BUTTON_VARIANTS },
     size: { control: 'inline-radio', options: BUTTON_SIZES },

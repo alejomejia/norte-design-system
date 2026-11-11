@@ -63,7 +63,6 @@ function changeColor(canvasElement: HTMLElement, label: string) {
 const meta = {
   title: 'Data/Tables/Stat',
   component: Stat,
-  tags: ['beta'],
   argTypes: {
     value: { control: 'text' },
     change: { control: 'text' },

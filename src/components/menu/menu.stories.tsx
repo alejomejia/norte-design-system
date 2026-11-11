@@ -42,7 +42,6 @@ function runActions(props: { onDuplicate?: () => void } = {}) {
 const meta = {
   title: 'Components/Overlays/Menu',
   component: Menu,
-  tags: ['beta'],
   argTypes: {
     children: { table: { disable: true } },
   },

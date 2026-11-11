@@ -10,7 +10,6 @@ import { LOGO_SIZES, LOGO_TONES, LOGO_VARIANTS } from './logo.const'
 const meta = {
   title: 'Elements/Media/Logo',
   component: Logo,
-  tags: ['beta'],
   argTypes: {
     variant: { control: 'inline-radio', options: LOGO_VARIANTS },
     size: { control: 'inline-radio', options: LOGO_SIZES },

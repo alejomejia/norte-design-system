@@ -116,7 +116,6 @@ function fill(element: HTMLElement) {
 const meta = {
   title: 'Components/Navigation/Sidebar',
   component: Sidebar,
-  tags: ['beta'],
   argTypes: {
     collapsed: { control: 'boolean' },
     children: { table: { disable: true } },

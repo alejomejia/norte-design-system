@@ -51,7 +51,6 @@ const onDelete = fn()
 const meta = {
   title: 'Components/Overlays/Dialog',
   component: Dialog,
-  tags: ['beta'],
   argTypes: {
     children: { table: { disable: true } },
   },

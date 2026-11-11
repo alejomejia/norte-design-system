@@ -6,7 +6,6 @@ import { BADGE_TONES } from './badge.const'
 const meta = {
   title: 'Elements/Indicators/Badge',
   component: Badge,
-  tags: ['beta'],
   argTypes: {
     tone: { control: 'inline-radio', options: BADGE_TONES },
     children: { control: 'text' },

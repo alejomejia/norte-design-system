@@ -24,7 +24,6 @@ function RouterLink({ href, onClick, ...props }: ComponentProps<'a'> & { href: s
 const meta = {
   title: 'Elements/Actions/Link',
   component: Link,
-  tags: ['beta'],
   argTypes: {
     variant: { control: 'inline-radio', options: LINK_VARIANTS },
     children: { control: 'text' },

@@ -6,7 +6,6 @@ import { KeyboardKey } from '.'
 const meta = {
   title: 'Elements/Indicators/Keyboard key',
   component: KeyboardKey,
-  tags: ['beta'],
   argTypes: { children: { control: 'text' } },
   args: { children: 'K' },
   parameters: {

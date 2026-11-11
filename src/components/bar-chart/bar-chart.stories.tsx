@@ -34,7 +34,6 @@ function tokens(value: number) {
 const meta = {
   title: 'Data/Charts/Bar chart',
   component: BarChart,
-  tags: ['beta'],
   argTypes: {
     data: { control: 'object' },
     labelFont: { control: 'inline-radio', options: ['sans', 'mono'] },

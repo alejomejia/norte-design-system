@@ -10,7 +10,6 @@ import { RUN_STATUSES } from './run-status.const'
 const meta = {
   title: 'AI/Agents/Run status',
   component: RunStatus,
-  tags: ['beta'],
   argTypes: {
     status: { control: 'inline-radio', options: RUN_STATUSES },
     label: { control: 'text' },

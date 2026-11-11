@@ -38,7 +38,6 @@ function fades(list: HTMLElement, side: 'start' | 'end') {
 const meta = {
   title: 'AI/Conversation/Suggestions',
   component: Suggestions,
-  tags: ['beta'],
   argTypes: {
     children: { table: { disable: true } },
     scrollLabels: { table: { disable: true } },

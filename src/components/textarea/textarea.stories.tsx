@@ -9,7 +9,6 @@ const INSTRUCTIONS =
 const meta = {
   title: 'Elements/Form controls/Textarea',
   component: Textarea,
-  tags: ['beta'],
   argTypes: {
     label: { control: 'text' },
     description: { control: 'text' },

@@ -60,7 +60,6 @@ function Demo() {
 const meta = {
   title: 'Components/Feedback/Toast',
   component: ToastProvider,
-  tags: ['beta'],
   argTypes: {
     limit: { control: { type: 'range', min: 1, max: 5 } },
     timeout: { control: { type: 'range', min: 2000, max: 10_000 } },
