@@ -1,0 +1,158 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { Card, Cards } from '@/handbook/blocks/cards'
+import { PageHeader } from '@/handbook/blocks/page-header'
+
+<Meta title="Handbook/How to use" />
+
+<PageHeader section="Handbook" title="How to use">
+  How an app installs Norte, loads its theme and fonts, and builds with its components and helpers: the same steps
+  for a Next.js app as for any React app built with Tailwind.
+</PageHeader>
+
+> **Norte is a private package.** It's published on GitHub Packages for Norte's own apps, so installing it needs a key
+> that can read it. This page is the setup a team with that access follows, step by step. To see it working, open
+> Norte app: an example app built only from this package.
+
+<Cards>
+  <Card title="Norte app" icon="layout-template" href="https://norte-app.alejandromejia.dev">
+    The example app, live: every screen built from the package alone.
+  </Card>
+  <Card title="Norte app's source" icon="file-code" href="https://github.com/alejomejia/norte-app">
+    Its code on GitHub: the install, the theme, the fonts and the screens.
+  </Card>
+</Cards>
+
+## Install
+
+### Give the app a key
+
+Create a classic GitHub token with only `read:packages`, at
+[github.com/settings/tokens/new](https://github.com/settings/tokens/new?scopes=read:packages&description=norte), then
+tell the app where Norte lives in an `.npmrc` next to its `package.json`:
+
+```ini
+@alejomejia:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=ghp_your_token_here
+```
+
+- **Keep `.npmrc` out of git,** like `.env.local`, and commit an `.npmrc.example` with the placeholder instead. The
+  token stays in the project, and nothing outside it sees the key.
+- **The server that builds the app needs the key too,** as a secret it writes into `.npmrc` before installing.
+- **Use a classic token:** GitHub Packages doesn't accept fine-grained ones. When it expires, installs fail with
+  `401`: create a new one.
+
+### Add the package
+
+```bash
+pnpm add @alejomejia/norte-design-system
+```
+
+## Set it up
+
+### The theme
+
+Add the theme to the stylesheet the app's root layout imports, right after Tailwind. The components ship with their
+Tailwind classes, not compiled CSS, so the app's Tailwind builds them together with its own classes: `@source` points
+it at them, relative to this stylesheet.
+
+```css
+@import "tailwindcss";
+@import "@alejomejia/norte-design-system/theme.css";
+@source "../../node_modules/@alejomejia/norte-design-system/dist";
+```
+
+The theme replaces Tailwind's default colors, type sizes, radii and shadows with Norte's, so the app's own classes
+speak Norte too: `bg-surface`, `text-ink-muted`, `rounded-m`.
+
+### The fonts
+
+Norte uses Inter and JetBrains Mono. The app loads them, the way its framework loads fonts best, and hands them to the
+theme as `--nt-font-sans` and `--nt-font-mono`. In Next.js, with `next/font`:
+
+```tsx
+// src/app/layout.tsx
+import { Inter, JetBrains_Mono } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'], variable: '--nt-font-sans' })
+const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--nt-font-mono' })
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`}>
+      <body className="bg-canvas font-sans text-ink antialiased">{children}</body>
+    </html>
+  )
+}
+```
+
+Without them, the theme falls back to the system's fonts.
+
+## Build with it
+
+### Components
+
+Every component comes from the package's root. A component that needs the browser carries its own `'use client'`, so
+Server Components can render them all.
+
+```tsx
+import { Button, Icon } from '@alejomejia/norte-design-system'
+
+export function RunButton() {
+  return (
+    <Button>
+      <Icon name="run" /> Run agent
+    </Button>
+  )
+}
+```
+
+### Helpers
+
+The functions, hooks and motion the components are built with have entries of their own, for the pieces an app builds
+itself:
+
+```tsx
+import { cn, tv, formatElapsed } from '@alejomejia/norte-design-system/utils'
+import { useMediaQuery, useInViewport } from '@alejomejia/norte-design-system/hooks'
+import { AnimatePresence, m, MOTION_DURATION } from '@alejomejia/norte-design-system/motion'
+```
+
+<Cards>
+  <Card title="Utilities" icon="file-code" href="?path=/docs/helpers-utilities--docs">
+    Class names that merge the way Norte's do, and the formatters the components print with.
+  </Card>
+  <Card title="Hooks" icon="mouse-pointer-click" href="?path=/docs/helpers-hooks--docs">
+    Layouts that follow the screen, work that pauses off-screen, and copying.
+  </Card>
+  <Card title="Motion" icon="circle-play" href="?path=/docs/helpers-motion--docs">
+    Norte's timings in Motion's units, and the parts of Motion an app animates with.
+  </Card>
+  <Card title="Pages" icon="layout-template" href="?path=/docs/pages-workspace-sign-in--docs">
+    Whole screens built from all of it, the way an app builds its own.
+  </Card>
+</Cards>
+
+## Theming
+
+Every value is a token, a CSS custom property, and components read roles, never raw colors. To adjust Norte in one
+app, point a role somewhere else after the theme, and every component that reads it follows:
+
+```css
+@theme {
+  --color-accent: var(--color-blue-700);
+}
+```
+
+Every component also takes a `className`, merged last, so one class in the app wins over the component's own without
+a fight over specificity. Use it to place a component, not to restyle it: a component that should look different is a
+change for the design system.
+
+## Upgrading
+
+Apps pin a version and upgrade when they're ready. Read the [Changelog](?path=/docs/handbook-changelog--docs) first:
+while Norte is on `0.x`, a minor version can include a breaking change, and its note says what to change.
+
+```bash
+pnpm add @alejomejia/norte-design-system@0.7.0
+```

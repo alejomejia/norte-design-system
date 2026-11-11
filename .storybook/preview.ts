@@ -88,7 +88,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'Handbook',
-          ['Introduction', 'Composition', 'Roadmap', 'Changelog', 'Contributing'],
+          ['Introduction', 'How to use', 'Composition', 'Roadmap', 'Changelog', 'Contributing'],
           'Foundations',
           ['Colors', 'Typography', 'Spacing', 'Shape', 'Motion', 'Icons'],
           'Elements',
