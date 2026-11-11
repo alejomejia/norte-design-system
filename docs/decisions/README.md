@@ -23,5 +23,6 @@ old one says so.
 | [0015](0015-hand-rolled-data-table.md)           | A hand-rolled data table                  | Accepted           |
 | [0016](0016-visx-for-charts.md)                  | visx for charts                           | Accepted           |
 | [0017](0017-umami-analytics.md)                  | Umami for visitor analytics               | Accepted           |
+| [0018](0018-dokploy-on-a-vps.md)                 | The handbook on a VPS, with Dokploy       | Accepted           |
 
 New record: copy the shape of an existing one, take the next number, and add it to this table.

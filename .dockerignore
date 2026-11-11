@@ -1,0 +1,10 @@
+# What the Dockerfile never needs. `.git` stays: the build fetches the release tags into it.
+node_modules
+dist
+storybook-static
+coverage
+*.log
+.env*
+.DS_Store
+.claude
+.agents

@@ -50,11 +50,18 @@ pnpm dev                                # Storybook on http://localhost:6006
 
 ## Publishing the handbook
 
-`pnpm build:storybook` writes a static site to `storybook-static/`, with Umami's tracker
-([decision 0017](docs/decisions/0017-umami-analytics.md)). It only counts visits on
-`norte-design-system.alejandromejia.dev`, one page view per story, so a local copy of the build sends nothing. To leave
-your own visits out, run `localStorage.setItem('umami.disabled', 1)` once in your browser's console on the published
-site.
+The handbook runs at [norte-design-system.alejandromejia.dev](https://norte-design-system.alejandromejia.dev), on a VPS
+with Dokploy ([decision 0018](docs/decisions/0018-dokploy-on-a-vps.md)). Dokploy builds the `Dockerfile` from `main` on
+every release: the static Storybook, served by an unprivileged nginx on port 8080 (`deploy/`), behind Cloudflare. To
+try the image locally:
+
+```sh
+docker build -t norte-handbook . && docker run --rm -p 8080:8080 norte-handbook   # http://localhost:8080
+```
+
+The build carries Umami's tracker ([decision 0017](docs/decisions/0017-umami-analytics.md)), which only counts visits
+on the published domain, one page view per story. To leave your own visits out, run
+`localStorage.setItem('umami.disabled', 1)` once in your browser's console on the published site.
 
 ## Using it in a Next.js app
 
