@@ -1,5 +1,12 @@
 # @alejomejia/norte-design-system
 
+## 0.6.0
+
+### Minor Changes
+
+- 126d8c5: Add `CodeField`'s `description` and `error`: a wrong code turns the slots red, shakes them once and shows its error under them, on the same field frame as `TextField`, which also ties the label and description to the code for screen readers. The slots now narrow to fit a 320px phone, and a disabled field is gray like a text field instead of faded.
+- 68ca8e2: Publish the package privately on GitHub Packages as `@alejomejia/norte-design-system`. Import from `@alejomejia/norte-design-system` instead of `norte-design-system`, and point the `@alejomejia` scope at `https://npm.pkg.github.com` in your app's `.npmrc`.
+
 ## 0.5.0
 
 ### Minor Changes
