@@ -98,7 +98,7 @@ const preview: Preview = {
             'Form controls',
             ['Text field', 'Textarea', 'Select', 'Checkbox', 'Switch', 'Code field'],
             'Media',
-            ['Logo', 'Icon', 'Avatar'],
+            ['Logo', 'Icon', 'Avatar', 'Topography'],
             'Indicators',
             ['Badge', 'Spinner', 'Skeleton', 'Keyboard key'],
           ],
