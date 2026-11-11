@@ -1,5 +1,11 @@
 # @alejomejia/norte-design-system
 
+## 0.7.2
+
+### Patch Changes
+
+- 7145f88: Fix a hydration error when `VoiceInput` is rendered on a server: before the first recording, its hidden timer reads `0:00` instead of counting from 1970.
+
 ## 0.7.1
 
 ### Patch Changes
