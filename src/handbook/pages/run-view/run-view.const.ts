@@ -20,11 +20,15 @@ export const RUN_VIEW_ELAPSED_AT_OPEN = 246_000
 
 /** Timings of the pretend workspace, in ms. */
 export const RUN_VIEW_TIMING = {
+  /** How long the thread stays empty as the page opens, before Sofía's ask arrives. */
+  open: 800,
+  /** Between Sofía's ask and the agent starting to think about it. */
+  reply: 600,
   /** Between two words of a streamed answer. */
   word: 60,
   /** How long the results take to load as the page opens: long enough to see the skeletons. */
   results: 1400,
-  /** How long the agent thinks before it answers a follow-up. */
+  /** How long the agent thinks before it answers: the ask as the page opens, and each follow-up. */
   think: 1200,
   /** How long deleting the run takes. */
   delete: 800,

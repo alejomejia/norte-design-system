@@ -25,8 +25,8 @@ export type RunViewPageProps = {
 }
 
 /**
- * Run #128 as Sofía sees it: the agent finishing its summary of five competitors' pricing, then waiting for her to
- * approve the email to the leadership team. Built only from Norte's components, so an app can rebuild it from the
+ * Run #128 as Sofía sees it: her ask, the agent finishing its summary of five competitors' pricing, then waiting for her
+ * to approve the email to the leadership team. Built only from Norte's components, so an app can rebuild it from the
  * package.
  */
 export function RunViewPage(props: RunViewPageProps) {

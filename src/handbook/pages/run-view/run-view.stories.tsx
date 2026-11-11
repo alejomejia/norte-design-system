@@ -4,7 +4,7 @@ import { expect, userEvent, waitFor, within } from 'storybook/test'
 import { RunViewPage } from '.'
 import { RUN_VIEW_COPY, RUN_VIEW_REPLIES } from './run-view.const'
 
-/** Long enough for the summary to finish writing, a pretend server, and an answer to stream. */
+/** Long enough for the opening to replay and the summary to finish writing, a pretend server, and an answer to stream. */
 const PATIENCE = { timeout: 8000 }
 
 /** Long enough for Undo action's five seconds to run out. */
@@ -23,7 +23,7 @@ const meta = {
       story: { inline: false, iframeHeight: 760 },
       description: {
         component:
-          'Run #128 as Sofía sees it: the Research agent finishes its summary of five competitors\' pricing, then waits for her to approve the email to the leadership team. Every piece is Norte\'s: Sidebar, Breadcrumb, Run status, Message, Plan, Reasoning, Tool call, Alert, Streaming text, Citation, Source list, Approval request, Suggestions and Prompt input; beside them, Tabs with a Data table, Stats, two charts, an Accordion of settings and an Empty state. Share, the ⋯ menu and ⌘K all work, and the follow-ups get answers.\n\nThe docs\' column shows it at a tablet\'s width. <a href="iframe.html?id=pages-workspace-run-view--waiting-for-approval&viewMode=story" target="_blank" rel="noreferrer">Open the full page in a new tab</a> to see it at your window\'s size, sidebar and panel beside the conversation.',
+          'Run #128 as Sofía sees it: her ask arrives, the Research agent thinks, then finishes its summary of five competitors\' pricing, then waits for her to approve the email to the leadership team. Every piece is Norte\'s: Sidebar, Breadcrumb, Run status, Message, Plan, Reasoning, Tool call, Alert, Streaming text, Citation, Source list, Approval request, Suggestions and Prompt input; beside them, Tabs with a Data table, Stats, two charts, an Accordion of settings and an Empty state. Share, the ⋯ menu and ⌘K all work, and the follow-ups get answers.\n\nThe docs\' column shows it at a tablet\'s width. <a href="iframe.html?id=pages-workspace-run-view--waiting-for-approval&viewMode=story" target="_blank" rel="noreferrer">Open the full page in a new tab</a> to see it at your window\'s size, sidebar and panel beside the conversation.',
       },
     },
   },
@@ -33,8 +33,8 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 /**
- * The page as it opens: the agent writing the last of its summary, the results loading. Run the interactions to go
- * through all of it: the results and a question about two of them, a follow-up, the approval (undone once, then sent),
+ * The page as it opens: Sofía's ask arrives, the agent thinks, then writes the last of its summary, while the results
+ * load. Run the interactions to go through all of it: the results and a question about two of them, a follow-up, the approval (undone once, then sent),
  * Share, deleting from the ⋯ menu, ⌘K to the details and their cost, the settings and the logs.
  */
 export const WaitingForApproval: Story = {
@@ -50,6 +50,12 @@ export const WaitingForApproval: Story = {
       ).toHaveAttribute('aria-current', 'page')
       await expect(canvas.getByRole('main')).toBeInTheDocument()
       await expect(canvas.getByRole('complementary', { name: RUN_VIEW_COPY.panel })).toBeInTheDocument()
+    })
+
+    await step("The thread replays as it opens: Sofía's ask, then the agent thinking about it", async () => {
+      const thread = within(canvas.getByRole('main'))
+      await thread.findByText(RUN_VIEW_COPY.ask, {}, PATIENCE)
+      await thread.findAllByText('Thinking', {}, PATIENCE)
     })
 
     await step('The results load behind skeletons, then show each change with its source', async () => {

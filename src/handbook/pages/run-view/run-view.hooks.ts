@@ -5,7 +5,7 @@ import { type RefObject, useEffect, useEffectEvent, useRef, useState } from 'rea
 import { useReducedMotion } from '@/lib/hooks'
 
 import { RUN_VIEW_COPY, RUN_VIEW_REPLIES, RUN_VIEW_SUMMARY, RUN_VIEW_TIMING } from './run-view.const'
-import { type RunViewTurn } from './run-view.types'
+import { type RunViewOpening, type RunViewTurn } from './run-view.types'
 
 /** How close to the bottom, in px, still counts as reading the latest: the thread keeps following from there. */
 const STICK_SLACK = 32
@@ -24,27 +24,34 @@ export function useAfter(active: boolean, delay: number, onDone: () => void) {
 }
 
 /**
- * The run's summary, written a word at a time as the page opens: the last seconds of run #128. `onDone` runs once it's
- * whole. Under reduced motion it's whole from the start.
+ * The page's opening, replayed so it reads as a conversation: after a moment of empty thread, Sofía's ask arrives, the
+ * agent thinks, then writes its summary a word at a time (the last seconds of run #128). `onDone` runs once the summary
+ * is whole. Under reduced motion it's all there from the start.
  */
-export function useSummary(onDone: () => void) {
+export function useOpening(onDone: () => void) {
   const reduced = useReducedMotion()
   const words = RUN_VIEW_SUMMARY.split(' ')
+  const [stage, setStage] = useState<RunViewOpening>('quiet')
   const [count, setCount] = useState(0)
-  const finished = reduced || count >= words.length
+  const written = reduced || (stage === 'streaming' && count >= words.length)
+  const current = written ? 'done' : stage
   const done = useEffectEvent(onDone)
 
+  useAfter(current === 'quiet', RUN_VIEW_TIMING.open, () => setStage('asked'))
+  useAfter(current === 'asked', RUN_VIEW_TIMING.reply, () => setStage('thinking'))
+  useAfter(current === 'thinking', RUN_VIEW_TIMING.think, () => setStage('streaming'))
+
   useEffect(() => {
-    if (finished) return
-    const timer = window.setInterval(() => setCount((current) => current + 1), RUN_VIEW_TIMING.word)
+    if (current !== 'streaming') return
+    const timer = window.setInterval(() => setCount((latest) => latest + 1), RUN_VIEW_TIMING.word)
     return () => window.clearInterval(timer)
-  }, [finished])
+  }, [current])
 
   useEffect(() => {
-    if (finished) done()
-  }, [finished])
+    if (current === 'done') done()
+  }, [current])
 
-  return { text: finished ? RUN_VIEW_SUMMARY : words.slice(0, count).join(' '), streaming: !finished }
+  return { stage: current, text: written ? RUN_VIEW_SUMMARY : words.slice(0, count).join(' ') }
 }
 
 /** The turns with the latest one changed by `change`. */
