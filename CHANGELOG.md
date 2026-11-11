@@ -1,5 +1,11 @@
 # @alejomejia/norte-design-system
 
+## 0.7.3
+
+### Patch Changes
+
+- b060670: Publish the handbook's Run view with the agent working one job at a time: its plan ticks off step by step, then its reasoning, tool calls and timeout appear in turn before the summary streams.
+
 ## 0.7.2
 
 ### Patch Changes
