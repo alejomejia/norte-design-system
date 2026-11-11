@@ -26,6 +26,7 @@ import {
   RUN_VIEW_ME,
   RUN_VIEW_MODELS,
   RUN_VIEW_PLAN,
+  RUN_VIEW_PLAN_DONE,
   RUN_VIEW_REASONING,
   RUN_VIEW_RECIPIENTS,
   RUN_VIEW_REQUESTED_AT,
@@ -51,7 +52,14 @@ const SUMMARY_TEXT = RUN_VIEW_SUMMARY.replace(/ \[\d+\]/g, '').replaceAll('**', 
 const RUN_STATUS = { writing: 'working', waiting: 'waiting', approved: 'done', rejected: 'done' } as const
 
 /** The agent's answer as the page opens, by stage: not there before it starts thinking about Sofía's ask. */
-const ANSWER_STATUS = { quiet: null, asked: null, thinking: 'thinking', streaming: 'streaming', done: 'done' } as const
+const ANSWER_STATUS = {
+  quiet: null,
+  asked: null,
+  thinking: 'thinking',
+  working: 'streaming',
+  streaming: 'streaming',
+  done: 'done',
+} as const
 
 /** The leadership team, as the approval's avatars: Sofía with her photo. */
 const RECIPIENTS = RUN_VIEW_RECIPIENTS.map((name) => ({
@@ -60,11 +68,14 @@ const RECIPIENTS = RUN_VIEW_RECIPIENTS.map((name) => ({
 }))
 
 /** How many plan steps are done in each phase: the summary is the fourth, the email the fifth. */
-const DONE_STEPS = { writing: 3, waiting: 4, approved: 5, rejected: 4 } as const
+const DONE_STEPS = { writing: RUN_VIEW_PLAN_DONE, waiting: 4, approved: 5, rejected: 4 } as const
 
-/** The plan, by phase: the step after the done ones is active, unless the email was turned down. */
-function planSteps(phase: RunViewPhase): PlanStep[] {
-  const done = DONE_STEPS[phase]
+/**
+ * The plan, by phase: the step after the done ones is active, unless the email was turned down. While the run is
+ * still opening, only `ticked` steps are done: the agent ticks them off one by one, whatever phase the page starts in.
+ */
+function planSteps(phase: RunViewPhase, ticked: number): PlanStep[] {
+  const done = Math.min(DONE_STEPS[phase], ticked)
   return RUN_VIEW_PLAN.map((label, index) => ({
     label,
     status: index < done ? 'done' : index === done && phase !== 'rejected' ? 'active' : 'pending',
@@ -153,29 +164,35 @@ export function RunViewConversation({
             >
               {answer !== 'thinking' && (
                 <Message.Content className={styles.answer()}>
-                  <Plan steps={planSteps(phase)} />
-                  <Reasoning
-                    status="done"
-                    steps={[...RUN_VIEW_REASONING.steps]}
-                    startedAt={0}
-                    endedAt={RUN_VIEW_REASONING.duration}
-                  />
-                  <div className={styles.calls()}>
-                    {RUN_VIEW_TOOL_CALLS.map((call) => (
-                      <ToolCall
-                        key={call.detail}
-                        name={call.name}
-                        detail={call.detail}
-                        status={call.status}
-                        startedAt={0}
-                        endedAt={call.duration}
-                      />
-                    ))}
-                    <span className={styles.more()}>
-                      {RUN_VIEW_COPY.moreCalls(RUN_VIEW_CALLS - RUN_VIEW_TOOL_CALLS.length)}
-                    </span>
-                  </div>
-                  {timedOutShown && (
+                  <Plan steps={planSteps(phase, opening.stage === 'done' ? DONE_STEPS[phase] : opening.ticked)} />
+                  {opening.reasoning && (
+                    <Reasoning
+                      status="done"
+                      steps={[...RUN_VIEW_REASONING.steps]}
+                      startedAt={0}
+                      endedAt={RUN_VIEW_REASONING.duration}
+                    />
+                  )}
+                  {opening.calls > 0 && (
+                    <div className={styles.calls()}>
+                      {RUN_VIEW_TOOL_CALLS.slice(0, opening.calls).map((call) => (
+                        <ToolCall
+                          key={call.detail}
+                          name={call.name}
+                          detail={call.detail}
+                          status={call.status}
+                          startedAt={0}
+                          endedAt={call.duration}
+                        />
+                      ))}
+                      {opening.calls === RUN_VIEW_TOOL_CALLS.length && (
+                        <span className={styles.more()}>
+                          {RUN_VIEW_COPY.moreCalls(RUN_VIEW_CALLS - RUN_VIEW_TOOL_CALLS.length)}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {opening.alert && timedOutShown && (
                     <Alert
                       tone="warning"
                       title={RUN_VIEW_COPY.failedTitle}
@@ -185,8 +202,10 @@ export function RunViewConversation({
                       {RUN_VIEW_COPY.failedBody}
                     </Alert>
                   )}
-                  <StreamingText text={opening.text} streaming={answer === 'streaming'} renderCitation={citation} />
-                  <SourceList sources={RUN_VIEW_SOURCES} />
+                  {(answer === 'streaming' && opening.stage === 'streaming') || answer === 'done' ? (
+                    <StreamingText text={opening.text} streaming={answer === 'streaming'} renderCitation={citation} />
+                  ) : null}
+                  {answer === 'done' && <SourceList sources={RUN_VIEW_SOURCES} />}
                 </Message.Content>
               )}
               {answer === 'done' && (
