@@ -60,13 +60,12 @@ export function VoiceInput({
   const elapsed = useElapsed(rootRef, startedAt, { running: recording })
   useLevelBars(rootRef, barsRef, { active: recording, stream })
 
-  // The button that was pressed disappears, so focus moves to the one that takes its place.
-  const focusedOnce = useRef(false)
+  // The button that was pressed disappears, so focus moves to the one that takes its place. Only when `recording`
+  // changes: React's Strict Mode runs every effect twice on mount, and a "skip the first run" flag would take focus then.
+  const focusedFor = useRef(recording)
   useEffect(() => {
-    if (!focusedOnce.current) {
-      focusedOnce.current = true
-      return
-    }
+    if (focusedFor.current === recording) return
+    focusedFor.current = recording
     ;(recording ? stopRef : micRef).current?.focus()
   }, [recording])
 
