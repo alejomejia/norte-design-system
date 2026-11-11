@@ -1,4 +1,4 @@
-# norte-design-system
+# @alejomejia/norte-design-system
 
 ## 0.5.0
 

@@ -65,13 +65,26 @@ on the published domain, one page view per story. To leave your own visits out, 
 
 ## Using it in a Next.js app
 
+The package is `@alejomejia/norte-design-system`, private on GitHub Packages
+([decision 0019](docs/decisions/0019-private-package-on-github-packages.md)): every release tag publishes it, and only
+accounts given access can install it. In the app, an `.npmrc` next to `package.json` points the scope at GitHub:
+
+```ini
+@alejomejia:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
+
+`NODE_AUTH_TOKEN` is a GitHub token that can read packages: a classic personal access token with `read:packages`, or
+`gh auth token` after `gh auth refresh --scopes read:packages`. The server that builds the app needs it as a secret
+too. Then `pnpm add @alejomejia/norte-design-system`.
+
 The components ship with their Tailwind classes, not compiled CSS, so your app's Tailwind builds them with your own
 classes. In the stylesheet your root layout imports:
 
 ```css
 @import "tailwindcss";
-@import "norte-design-system/theme.css";
-@source "../node_modules/norte-design-system/dist";
+@import "@alejomejia/norte-design-system/theme.css";
+@source "../node_modules/@alejomejia/norte-design-system/dist";
 ```
 
 The theme replaces Tailwind's default colors, type sizes, radii and shadows with Norte's (see

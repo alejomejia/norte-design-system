@@ -98,7 +98,7 @@ the Changelog links to from each name. A breaking change adds one sentence: what
 
 ```md
 ---
-'norte-design-system': minor
+'@alejomejia/norte-design-system': minor
 ---
 
 Rename the `kind` prop of `Button` to `variant`. Replace `kind="…"` with `variant="…"` where you use it.
@@ -123,11 +123,16 @@ pnpm typecheck && pnpm lint && pnpm test && pnpm build   # and read CHANGELOG.md
 git commit -am "chore(release): v0.3.0"
 pnpm release:tag                  # the annotated tag v0.3.0, from package.json, on this commit
 
-# 2. Add it to main, then push
+# 2. Add it to main, then push. The tag publishes the package.
 pnpm release:main                 # one commit on main with dev's files, without a checkout or a merge
 git push origin main dev v0.3.0
 ```
 
+- **Pushing the tag publishes the package** to GitHub Packages, as `@alejomejia/norte-design-system`
+  ([decision 0019](docs/decisions/0019-private-package-on-github-packages.md)). The Publish workflow in
+  `.github/workflows/publish.yml` checks the tag matches `package.json`, builds and publishes. If it fails on something
+  outside the code (GitHub, a token), run it again from the Actions tab on the same tag. A fix in the code is a patch
+  release: a tag never moves, and a version is published only once.
 - **Not `pnpm check` in step 1:** its `changeset status` compares `dev` with the latest tag, and once `release:version`
   has used the changesets, it sees changed files with no note until the new tag exists. Run the other checks on their
   own.
