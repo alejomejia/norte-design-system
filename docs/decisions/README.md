@@ -22,5 +22,6 @@ old one says so.
 | [0014](0014-main-holds-releases.md)              | main holds one commit per release         | Accepted           |
 | [0015](0015-hand-rolled-data-table.md)           | A hand-rolled data table                  | Accepted           |
 | [0016](0016-visx-for-charts.md)                  | visx for charts                           | Accepted           |
+| [0017](0017-umami-analytics.md)                  | Umami for visitor analytics               | Accepted           |
 
 New record: copy the shape of an existing one, take the next number, and add it to this table.

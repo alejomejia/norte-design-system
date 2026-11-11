@@ -48,6 +48,14 @@ pnpm dev                                # Storybook on http://localhost:6006
 | `pnpm release:version` | Turns the waiting changesets into a version bump and `CHANGELOG.md` entries     |
 | `pnpm release:tag`     | Tags the current commit as `vX.Y.Z` (on `main`, after merging the release)      |
 
+## Publishing the handbook
+
+`pnpm build:storybook` writes a static site to `storybook-static/`, with Umami's tracker
+([decision 0017](docs/decisions/0017-umami-analytics.md)). It only counts visits on
+`norte-design-system.alejandromejia.dev`, one page view per story, so a local copy of the build sends nothing. To leave
+your own visits out, run `localStorage.setItem('umami.disabled', 1)` once in your browser's console on the published
+site.
+
 ## Using it in a Next.js app
 
 The components ship with their Tailwind classes, not compiled CSS, so your app's Tailwind builds them with your own

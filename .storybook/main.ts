@@ -3,6 +3,8 @@ import { readFileSync } from 'node:fs'
 
 import { type StorybookConfig } from '@storybook/react-vite'
 
+import { analyticsScript } from './analytics-script.ts'
+
 const { version } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as { version: string }
 
 /**
@@ -44,6 +46,9 @@ const config: StorybookConfig = {
   },
   // The browser tab shows Norte's mark instead of Storybook's. Storybook picks up a favicon served at the root.
   staticDirs: [{ from: './favicon.svg', to: '/favicon.svg' }],
+  // Umami's tracker, in production builds only (decision 0017): `pnpm dev` never loads it. It goes in the manager, the
+  // page around the stories: the preview's iframe would count every visit twice, under URLs nobody shares.
+  managerHead: (head, { configType }) => (configType === 'PRODUCTION' ? `${head ?? ''}${analyticsScript()}` : head),
   core: {
     disableTelemetry: true,
   },
