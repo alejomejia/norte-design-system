@@ -61,7 +61,8 @@
     text-decoration-color var(--duration-base) var(--ease-standard);
 }
 
-#storybook-docs .sbdocs-content .sb-lead a[target="_blank"]::after {
+/* Only on links without an arrow of their own: an MDX link, as in a page header's lead, draws one (`docs-link.tsx`). */
+#storybook-docs .sbdocs-content .sb-lead a[target="_blank"]:not(:has(svg))::after {
   content: "";
   display: inline-block;
   width: 0.875em;
@@ -81,7 +82,7 @@
     text-decoration-color: currentcolor;
   }
 
-  #storybook-docs .sbdocs-content .sb-lead a[target="_blank"]:hover::after {
+  #storybook-docs .sbdocs-content .sb-lead a[target="_blank"]:not(:has(svg)):hover::after {
     translate: 0.125rem -0.125rem; /* 2px, -2px */
   }
 }

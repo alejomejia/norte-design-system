@@ -11,6 +11,7 @@ import { watchCopy } from './manager-copy'
 import { watchEmptyStates } from './manager-empty-states'
 import { watchSidebarGroups } from './manager-groups'
 import { watchSearchResults } from './manager-search'
+import { watchSidebarSections } from './manager-sections'
 import { watchSourceLink } from './manager-source-link'
 import { watchRangeLabels } from './range-controls'
 import { THEME_VARS } from './theme'
@@ -55,6 +56,7 @@ watchCodeBlocks('#storybook-panel-root')
 addons.register('norte/empty-states', (api) => watchEmptyStates(api))
 watchSearchResults()
 watchSidebarGroups()
+watchSidebarSections()
 watchSourceLink()
 watchRangeLabels()
 limitTooltips()

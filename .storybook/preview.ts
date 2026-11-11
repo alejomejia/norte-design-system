@@ -88,7 +88,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'Handbook',
-          ['Introduction', 'Composition', 'Roadmap', 'Changelog', 'Contributing'],
+          ['Introduction', 'How to use', 'Composition', 'Roadmap', 'Changelog', 'Contributing'],
           'Foundations',
           ['Colors', 'Typography', 'Spacing', 'Shape', 'Motion', 'Icons'],
           'Elements',
@@ -98,7 +98,7 @@ const preview: Preview = {
             'Form controls',
             ['Text field', 'Textarea', 'Select', 'Checkbox', 'Switch', 'Code field'],
             'Media',
-            ['Logo', 'Icon', 'Avatar'],
+            ['Logo', 'Icon', 'Avatar', 'Topography'],
             'Indicators',
             ['Badge', 'Spinner', 'Skeleton', 'Keyboard key'],
           ],
@@ -126,6 +126,8 @@ const preview: Preview = {
           ['Charts', ['Line chart', 'Bar chart'], 'Tables', ['Data table', 'Stat']],
           'Pages',
           ['Workspace', ['Sign in', 'Run view', 'Agents']],
+          'Helpers',
+          ['Utilities', 'Hooks', 'Motion'],
         ],
       },
     },

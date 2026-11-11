@@ -16,7 +16,7 @@ let currentTree: HTMLElement | null = null
 let seenGroups = new Set<string>()
 
 /** Every element above the tree with its scroll position, to put it back. */
-function getScrollPositions(element: HTMLElement) {
+export function getScrollPositions(element: HTMLElement) {
   const positions: [HTMLElement, number][] = []
   for (let node = element.parentElement; node; node = node.parentElement) positions.push([node, node.scrollTop])
   return positions

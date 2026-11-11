@@ -5,19 +5,57 @@
  * a section, 2 for the items of a group or the stories of a component, and so on.
  */
 
-/* Sections: a muted label. Storybook opens every section and they stay open: the collapse button is only a label, with
- * no chevron, hover or clicks, and the "Expand all" button goes. */
+/* Sections: rows like a group's, so they read and fold the same way: the label, then the chevron at the end, the whole
+ * row a button that tints on hover, muted while folded and in the text color while open. `manager-sections.ts`
+ * remembers which ones are folded. Storybook's own look for it (a small uppercase label on a ghost button with a hover
+ * of its own) gives way, and "Expand all" goes. */
+#storybook-explorer-tree .sidebar-subheading {
+  border-radius: var(--sb-radius);
+  color: var(--sb-color-text-muted);
+  transition-property: background-color, color;
+  transition-duration: var(--sb-row-duration-out);
+  transition-timing-function: var(--sb-row-ease);
+}
+
+#storybook-explorer-tree .sidebar-subheading:has(> button[data-action="collapse-root"][aria-expanded="true"]) {
+  color: var(--sb-color-text);
+}
+
+@media (hover: hover) {
+  #storybook-explorer-tree .sidebar-subheading:hover {
+    background-color: var(--sb-color-accent);
+    color: var(--sb-color-text);
+    transition-duration: var(--sb-row-duration-in);
+  }
+}
+
 #storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] {
-  padding-left: var(--sb-row-padding);
+  flex: 1;
+  align-items: center;
+  gap: var(--sb-gap);
+  min-height: var(--sb-row-height);
+  padding-block: 0;
+  padding-inline: var(--sb-row-padding);
+  border-radius: inherit;
+  background-color: transparent;
   font-size: var(--sb-font-size);
   font-weight: var(--sb-font-weight-medium);
   letter-spacing: normal;
   text-transform: none;
-  color: var(--sb-color-text-muted);
-  pointer-events: none;
+  color: inherit;
 }
 
-#storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] > div,
+#storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"]:is(:hover, :active) {
+  background-color: transparent;
+}
+
+#storybook-explorer-tree .sidebar-subheading button[data-action="collapse-root"] > div {
+  order: 1;
+  margin-left: auto;
+  color: inherit;
+  transition: transform var(--sb-duration) var(--sb-ease);
+}
+
 #storybook-explorer-tree .sidebar-subheading button[data-action="expand-all"] {
   display: none;
 }

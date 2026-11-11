@@ -1,5 +1,12 @@
 # @alejomejia/norte-design-system
 
+## 0.7.0
+
+### Minor Changes
+
+- f9be52f: Add the helpers' entries: `/utils` (`cn`, `tv`, `toCSSVars`, `formatCompact`, `formatElapsed`, `initials`, `domainOf`), `/hooks` (`useMediaQuery`, `useReducedMotion`, `useInViewport`, `useElapsed`, `useCopy`) and `/motion` (Norte's timings, `loadMotionFeatures`, and Motion's `m`, `AnimatePresence`, `LazyMotion` and `MotionConfig`).
+- 5549916: Add `Topography`: a live topographic map drifting north, dark for a cover or light as a texture behind a panel, drawn with WebGL only while on screen.
+
 ## 0.6.0
 
 ### Minor Changes

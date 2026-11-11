@@ -2,7 +2,7 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 import { Card, Cards } from '@/handbook/blocks/cards'
 import { PageHeader } from '@/handbook/blocks/page-header'
-import { Topography } from '@/handbook/blocks/topography'
+import { Topography } from '@/components/topography'
 
 <Meta title="Handbook/Introduction" />
 
@@ -30,14 +30,17 @@ The project has two halves, and the second is what makes the first worth trustin
 - **The design system:** the `@alejomejia/norte-design-system` package, and this handbook, which documents and tests
   every piece of it.
 - **Norte app:** an example app whose screens are built from the package alone. It installs a released version from a
-  private registry, the way a product team would, so everything here is proven outside the handbook too.
+  private registry, the way a product team would, so everything here is proven outside the handbook too. See it
+  [live](https://norte-app.alejandromejia.dev) and [on GitHub](https://github.com/alejomejia/norte-app), and its setup
+  on [How to use](?path=/docs/handbook-how-to-use--docs).
 
 ## What a design system brings
 
 What an app gains by building on Norte instead of from scratch, and where this project shows it:
 
 - **One look, kept without effort.** Components read token roles, never raw values, so changing a color, a size or a
-  radius reaches every screen at once. See [Foundations](?path=/docs/foundations-colors--docs) and Theming, below.
+  radius reaches every screen at once. See [Foundations](?path=/docs/foundations-colors--docs), and Theming on
+  [How to use](?path=/docs/handbook-how-to-use--docs).
 - **Faster screens.** The app composes tested pieces instead of rebuilding buttons, dialogs and menus, and spends its
   time on the product.
 - **Accessibility, solved once.** Keyboard use, focus, screen reader names and contrast are built into each component
@@ -76,9 +79,15 @@ The sidebar goes from the smallest pieces to whole screens, and each section bui
 </Cards>
 
 Every component has a page with a playground, every variant and state, and a table of its props. The handbook also
-holds pages about the system itself:
+holds the helpers the components are built with, and pages about the system itself:
 
 <Cards>
+  <Card title="How to use" icon="circle-play" href="?path=/docs/handbook-how-to-use--docs">
+    How an app installs Norte, loads its theme and fonts, and builds with it.
+  </Card>
+  <Card title="Helpers" icon="terminal" href="?path=/docs/helpers-utilities--docs">
+    The utilities, hooks and motion the components are built with, for the pieces an app builds itself.
+  </Card>
   <Card title="Composition" icon="layers" href="?path=/docs/handbook-composition--docs">
     How the layers build on each other, and how to tell where a piece belongs.
   </Card>
@@ -113,60 +122,3 @@ Go down the list and stop at the first match:
 
 > States like loading, empty or failed are stories of a component, not new components. The questions behind each step,
 > with examples, are on [Composition](?path=/docs/handbook-composition--docs).
-
-## Using the package
-
-Norte is a private package on GitHub Packages, built and published from each release, so Norte's apps install a
-pinned version and upgrade when they're ready. Tell your app where the `@alejomejia` scope lives, in an `.npmrc` next to
-its `package.json`:
-
-```ini
-@alejomejia:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
-```
-
-`NODE_AUTH_TOKEN` is a GitHub token that can read packages: a classic personal access token with `read:packages`, or
-`gh auth token` once `gh auth refresh --scopes read:packages` has added the scope. The server that builds your app
-needs it too, as a secret. Then install it:
-
-```bash
-pnpm add @alejomejia/norte-design-system
-```
-
-Add the theme to the stylesheet your app's root layout imports. The components ship with their Tailwind classes, not
-compiled CSS, so your Tailwind builds them together with your own classes.
-
-```css
-@import "tailwindcss";
-@import "@alejomejia/norte-design-system/theme.css";
-@source "../node_modules/@alejomejia/norte-design-system/dist";
-```
-
-```tsx
-import { Button, Icon } from '@alejomejia/norte-design-system'
-
-export function RunButton() {
-  return (
-    <Button>
-      <Icon name="run" /> Run agent
-    </Button>
-  )
-}
-```
-
-**Fonts:** Norte uses Inter and JetBrains Mono. With `next/font`, expose them as the `--nt-font-sans` and
-`--nt-font-mono` variables and the theme picks them up.
-
-## Theming
-
-Every value is a token, a CSS custom property, and components read roles, never raw colors. To adjust Norte in one
-app, point a role somewhere else after the theme, and every component that reads it follows:
-
-```css
-@theme {
-  --color-accent: var(--color-blue-700);
-}
-```
-
-Every component also takes a `className`, merged last, so one class in your code wins over the component's own
-without a fight over specificity.

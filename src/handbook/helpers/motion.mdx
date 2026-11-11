@@ -1,0 +1,91 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { StepsDemo } from '@/handbook/blocks/helper-demos'
+import { MotionTimings } from '@/handbook/blocks/helper-examples'
+import { PageHeader } from '@/handbook/blocks/page-header'
+
+<Meta title="Helpers/Motion" />
+
+<PageHeader section="Helpers" title="Motion">
+  Norte's motion in code: its timings in [Motion](https://motion.dev)'s units, the lazy loading its components use,
+  and the parts of Motion an app animates with. What each timing is for, and when to animate at all, is on
+  [Foundations → Motion](?path=/docs/foundations-motion--docs).
+</PageHeader>
+
+```tsx
+'use client'
+
+import { AnimatePresence, LazyMotion, loadMotionFeatures, m, MOTION_DURATION } from '@alejomejia/norte-design-system/motion'
+```
+
+**Take Motion from Norte, not from `motion`.** The components animate with the copy of Motion Norte installs, and
+lazy loading only works within one copy: an app that imports `motion` itself can end up with two, and its animations
+outside the lazy loading. Norte hands out the parts an app needs: `m`, `AnimatePresence`, `LazyMotion` and
+`MotionConfig`, with the `Transition` and `Variants` types.
+
+**CSS first.** Hovers, presses and state changes are CSS transitions with Norte's duration and easing classes
+(`duration-(--duration-base) ease-standard`). Reach for Motion for what CSS can't do: exits, steps, springs and
+layout changes.
+
+## Setup
+
+### `LazyMotion` and `loadMotionFeatures`
+
+Motion's `m` components draw nothing until `LazyMotion` loads their features. `loadMotionFeatures` loads them the first
+time something animates, so `m` costs about 5 KB until then. Wrap what animates once, with `strict` so a full `motion`
+component fails loudly instead of loading everything, and `MotionConfig reducedMotion="user"` so the person's setting
+is respected.
+
+In Next.js, the wrapper is a client component of its own, since a Server Component can't pass a function:
+
+```tsx
+// src/app/motion-provider.tsx
+'use client'
+
+import { LazyMotion, loadMotionFeatures, MotionConfig } from '@alejomejia/norte-design-system/motion'
+
+export function MotionProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <LazyMotion features={loadMotionFeatures} strict>
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+    </LazyMotion>
+  )
+}
+```
+
+## Timings
+
+### `MOTION_DURATION`, `MOTION_EASE` and `MOTION_SPRING`
+
+The duration and easing tokens in the units Motion takes (seconds and Bézier arrays), since a Motion transition can't
+read a CSS variable. Same names, same values, so a CSS transition and a Motion animation feel alike.
+
+<MotionTimings />
+
+## Animating
+
+### `m` and `AnimatePresence`
+
+`m.div`, `m.p` and the rest animate like Motion's `motion.div`, under the `LazyMotion` above. `AnimatePresence` lets
+an element play its exit before it leaves. Here, a flow's steps, the way Sign in moves between its steps: the old one
+leaves fast toward where you came from, and the next one arrives slower, as new content does.
+
+<StepsDemo />
+
+```tsx
+const STEP_MOTION: Variants = {
+  enter: (direction: number) => ({ opacity: 0, x: 8 * direction }),
+  center: { opacity: 1, x: 0, transition: { duration: MOTION_DURATION.appear, ease: MOTION_EASE.enter } },
+  exit: (direction: number) => ({
+    opacity: 0,
+    x: -8 * direction,
+    transition: { duration: MOTION_DURATION.fast, ease: MOTION_EASE.exit },
+  }),
+}
+
+<AnimatePresence mode="wait" initial={false} custom={direction}>
+  <m.div key={step} custom={direction} variants={STEP_MOTION} initial="enter" animate="center" exit="exit">
+    {children}
+  </m.div>
+</AnimatePresence>
+```

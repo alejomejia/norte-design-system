@@ -63,35 +63,19 @@ The build carries Umami's tracker ([decision 0017](docs/decisions/0017-umami-ana
 on the published domain, one page view per story. To leave your own visits out, run
 `localStorage.setItem('umami.disabled', 1)` once in your browser's console on the published site.
 
-## Using it in a Next.js app
+## Using it in an app
 
 The package is `@alejomejia/norte-design-system`, private on GitHub Packages
 ([decision 0019](docs/decisions/0019-private-package-on-github-packages.md)): every release tag publishes it, and only
-accounts given access can install it. In the app, an `.npmrc` next to `package.json` points the scope at GitHub:
+accounts given access can install it. The handbook's **How to use** page walks through the setup: the registry key, the
+theme, the fonts, and the imports. [Norte app](https://github.com/alejomejia/norte-app) is an example app built from it.
 
-```ini
-@alejomejia:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```tsx
+import { Button } from '@alejomejia/norte-design-system' // the components
+import { cn, tv } from '@alejomejia/norte-design-system/utils' // pure helpers, Server Components included
+import { useMediaQuery } from '@alejomejia/norte-design-system/hooks' // client hooks
+import { AnimatePresence, m } from '@alejomejia/norte-design-system/motion' // Motion, with Norte's timings
 ```
-
-`NODE_AUTH_TOKEN` is a GitHub token that can read packages: a classic personal access token with `read:packages`, or
-`gh auth token` after `gh auth refresh --scopes read:packages`. The server that builds the app needs it as a secret
-too. Then `pnpm add @alejomejia/norte-design-system`.
-
-The components ship with their Tailwind classes, not compiled CSS, so your app's Tailwind builds them with your own
-classes. In the stylesheet your root layout imports:
-
-```css
-@import "tailwindcss";
-@import "@alejomejia/norte-design-system/theme.css";
-@source "../node_modules/@alejomejia/norte-design-system/dist";
-```
-
-The theme replaces Tailwind's default colors, type sizes, radii and shadows with Norte's (see
-[decision 0010](docs/decisions/0010-theme-replaces-tailwind-defaults.md)).
-
-- **Fonts:** Norte uses Inter and JetBrains Mono. With `next/font`, expose them as the `--nt-font-sans` and
-  `--nt-font-mono` variables and the theme picks them up. Without them, it falls back to the system fonts.
 
 ## Contributing and versions
 
