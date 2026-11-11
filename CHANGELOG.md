@@ -1,5 +1,12 @@
 # @alejomejia/norte-design-system
 
+## 0.7.1
+
+### Patch Changes
+
+- 7cce147: Fix a hydration warning when `ToolCall` is rendered on a server: its fill's progress is rounded to four decimals, so the server and the browser print the same value.
+- 13bd87e: Fix `VoiceInput` taking focus as it mounts in React's Strict Mode, as in a Next.js app in development: focus only moves when recording starts or stops.
+
 ## 0.7.0
 
 ### Minor Changes
