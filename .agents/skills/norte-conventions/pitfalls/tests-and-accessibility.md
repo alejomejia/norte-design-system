@@ -29,3 +29,8 @@ Each was hit once while building a component. Add a new one at the end of the fi
   hangs still passes. A regex there with two quantifiers that can match the same characters (`[ \t]+[^\n<>]+`) backtracks
   exponentially when a tag doesn't fit: Line chart's `data` prop froze the page. Make each part match one way only, and
   give it a unit test (`story-source.test.ts`).
+- **A page's play test runs past a story's 15 seconds:** it waits on streamed answers, a pretend server and Undo
+  action's five seconds. The storybook project's `testTimeout` is 30 seconds for that (`vitest.config.ts`).
+- **A component's `h3` straight under a page's `h1` fails axe's `heading-order`:** a block that heads a region of the
+  page takes the level that fits through its title's `render` (`(props) => <h2 {...props} />`), as the run view's
+  approval does.

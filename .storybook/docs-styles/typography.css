@@ -40,6 +40,52 @@
   border: 0;
 }
 
+/* The page's lead, in its header: a description written in markdown can run to several paragraphs. The header is
+ * `.sb-unstyled`, so the rule for paragraphs above skips it, and they'd sit flush. */
+#storybook-docs .sbdocs-content .sb-lead p + p {
+  margin-top: 1rem; /* 16px */
+}
+
+/* A link in the lead is a call to act, like opening a page in full, so it stands out from the muted text around it:
+ * accent ink in medium weight, under a soft line that firms on hover. One that opens a new tab ends with Lucide's
+ * arrow-up-right, which steps toward where it leads on hover. */
+#storybook-docs .sbdocs-content .sb-lead a {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-accent-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentcolor 40%, transparent);
+  text-decoration-thickness: 0.125rem; /* 2px */
+  text-underline-offset: 0.25em;
+  transition:
+    color var(--duration-base) var(--ease-standard),
+    text-decoration-color var(--duration-base) var(--ease-standard);
+}
+
+#storybook-docs .sbdocs-content .sb-lead a[target="_blank"]::after {
+  content: "";
+  display: inline-block;
+  width: 0.875em;
+  height: 0.875em;
+  margin-left: 0.25rem; /* 4px */
+  vertical-align: -0.0625em;
+  background-color: currentcolor;
+  mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 7h10v10M7 17 17 7'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  transition: translate var(--duration-base) var(--ease-standard);
+}
+
+@media (hover: hover) {
+  #storybook-docs .sbdocs-content .sb-lead a:hover {
+    color: var(--color-accent-hover);
+    text-decoration-color: currentcolor;
+  }
+
+  #storybook-docs .sbdocs-content .sb-lead a[target="_blank"]:hover::after {
+    translate: 0.125rem -0.125rem; /* 2px, -2px */
+  }
+}
+
 /* Subsections, and each story's title on a component page: a step above the text, set apart by weight and the space
  * above. The paragraph right under one is its description, in muted text. */
 #storybook-docs .sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) {

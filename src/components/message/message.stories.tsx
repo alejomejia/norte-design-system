@@ -41,7 +41,6 @@ function summaryParts() {
 const meta = {
   title: 'AI/Conversation/Message',
   component: Message,
-  tags: ['beta'],
   argTypes: {
     author: { control: 'object' },
     time: { control: false },

@@ -75,8 +75,12 @@ function Notes({ entries, id }: { entries: readonly ChangelogEntry[]; id: string
 
     return (
       <section key={bump} aria-labelledby={`${id}-${bump}`}>
-        <h4 id={`${id}-${bump}`}>
-          {GROUPS[bump]} <span className="font-normal text-ink-subtle">{group.length}</span>
+        <h4 id={`${id}-${bump}`} className="flex items-center gap-2">
+          {GROUPS[bump]}{' '}
+          <span className="sb-unstyled inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-surface-muted px-2 text-caption font-medium text-ink-muted tabular-nums">
+            {group.length}
+            <span className="sr-only">{group.length === 1 ? ' note' : ' notes'}</span>
+          </span>
         </h4>
         <ul className="nt-changelog-notes">
           {group.map(({ text, commit }) => (

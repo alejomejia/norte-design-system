@@ -45,7 +45,6 @@ function page(canvasElement: HTMLElement) {
 const meta = {
   title: 'AI/Sources/Citation',
   component: Citation,
-  tags: ['beta'],
   argTypes: {
     index: { control: { type: 'range', min: 1, max: 20 } },
     delay: { control: { type: 'range', min: 0, max: 1000, step: 50 } },

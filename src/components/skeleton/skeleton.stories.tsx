@@ -39,7 +39,6 @@ const TEXT_CLASSES = {
 const meta = {
   title: 'Elements/Indicators/Skeleton',
   component: Skeleton,
-  tags: ['beta'],
   argTypes: {
     label: { control: 'text' },
     children: { table: { disable: true } },

@@ -10,7 +10,6 @@ import { UNDO_ACTION_AFTER_COMMIT, UNDO_ACTION_TONES } from './undo-action.const
 const meta = {
   title: 'Components/Feedback/Undo action',
   component: UndoAction,
-  tags: ['beta'],
   argTypes: {
     children: { control: 'text' },
     duration: { control: { type: 'range', min: 2000, max: 10_000 } },

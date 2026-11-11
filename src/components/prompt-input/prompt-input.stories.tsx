@@ -16,7 +16,6 @@ const RUN_DURATION = 2500
 const meta = {
   title: 'AI/Conversation/Prompt input',
   component: PromptInput,
-  tags: ['beta'],
   argTypes: {
     running: { control: 'boolean' },
     models: { table: { disable: true } },

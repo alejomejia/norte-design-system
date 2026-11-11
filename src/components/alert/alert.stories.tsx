@@ -39,7 +39,6 @@ function middleOf(element: Element | undefined) {
 const meta = {
   title: 'Components/Feedback/Alert',
   component: Alert,
-  tags: ['beta'],
   argTypes: {
     tone: { control: 'inline-radio', options: ALERT_TONES },
     icon: { control: 'select', options: [false, ...ICON_NAMES] },

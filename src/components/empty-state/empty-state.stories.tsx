@@ -43,7 +43,6 @@ function logsActions(size: 's' | 'm' = 's') {
 const meta = {
   title: 'Components/Feedback/Empty state',
   component: EmptyState,
-  tags: ['beta'],
   argTypes: {
     size: { control: 'inline-radio', options: EMPTY_STATE_SIZES },
     variant: { control: 'inline-radio', options: EMPTY_STATE_VARIANTS },

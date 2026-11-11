@@ -57,7 +57,6 @@ function request(preview = email()) {
 const meta = {
   title: 'AI/Agents/Approval request',
   component: ApprovalRequest,
-  tags: ['beta'],
   argTypes: {
     agent: { control: 'object' },
     time: { control: false },

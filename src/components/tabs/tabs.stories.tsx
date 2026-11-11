@@ -28,7 +28,6 @@ function getIndicator(canvasElement: HTMLElement) {
 const meta = {
   title: 'Components/Navigation/Tabs',
   component: Tabs,
-  tags: ['beta'],
   argTypes: {
     variant: { control: 'inline-radio', options: TABS_VARIANTS },
     size: { control: 'inline-radio', options: TABS_SIZES },

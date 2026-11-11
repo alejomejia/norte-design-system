@@ -6,7 +6,6 @@ import { Switch } from '.'
 const meta = {
   title: 'Elements/Form controls/Switch',
   component: Switch,
-  tags: ['beta'],
   argTypes: {
     children: { control: 'text' },
     // Base UI's escape hatches, and the props a form sets.

@@ -45,7 +45,6 @@ function labelColor(trigger: HTMLElement) {
 const meta = {
   title: 'Components/Content/Accordion',
   component: Accordion,
-  tags: ['beta'],
   argTypes: {
     variant: { control: 'inline-radio', options: ACCORDION_VARIANTS },
     headingLevel: { control: 'inline-radio', options: ACCORDION_HEADING_LEVELS },

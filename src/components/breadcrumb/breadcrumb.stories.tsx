@@ -50,7 +50,6 @@ function longPath() {
 const meta = {
   title: 'Components/Navigation/Breadcrumb',
   component: Breadcrumb,
-  tags: ['beta'],
   argTypes: {
     maxItems: { control: { type: 'range', min: 2, max: 8 } },
     itemsBefore: { control: { type: 'range', min: 1, max: 3 } },

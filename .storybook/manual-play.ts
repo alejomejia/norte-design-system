@@ -1,8 +1,8 @@
 /**
  * Play functions run only when asked: a story opens at rest, and its interactions run from the Interactions panel
- * (Rerun, or stepping through them) or from the sidebar's test runner. Storybook has no option for it (only embed mode
- * skips them), but it reads the current render's `autoplay` after the project's `beforeEach`, so that's where it's set.
- * The component tests (`pnpm test:stories`) run stories without this preview, so they still play every one.
+ * (Rerun, or stepping through them). Storybook has no option for it (only embed mode skips them), but it reads the
+ * current render's `autoplay` after the project's `beforeEach`, so that's where it's set. The component tests
+ * (`pnpm test:stories`) run stories without this preview, so they still play every one.
  */
 import { FORCE_REMOUNT } from 'storybook/internal/core-events'
 import { addons } from 'storybook/preview-api'

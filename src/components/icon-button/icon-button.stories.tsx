@@ -9,7 +9,6 @@ import { IconButton } from '.'
 const meta = {
   title: 'Elements/Actions/Icon button',
   component: IconButton,
-  tags: ['beta'],
   argTypes: {
     icon: { control: 'select', options: ICON_NAMES },
     variant: { control: 'inline-radio', options: BUTTON_VARIANTS },

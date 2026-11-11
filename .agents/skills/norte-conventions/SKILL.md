@@ -16,6 +16,9 @@ Before finishing a change, run the [review checklist](review-checklist.md) and `
 stories and play tests every component has, and an index of the pitfalls already hit, by topic. It replaces reading
 whole components.
 
+**Building a page?** Start from the [page recipe](page-recipe.md): where a page lives, its one story and the link to
+see it in full, layouts that fit every width, its motion and when to check it.
+
 ## Naming and files
 
 - **Everything is kebab-case,** folders and files, components included: `prompt-input/`, `use-in-viewport.ts`. The
@@ -144,7 +147,8 @@ pages and stories are English.
 **Norte:** a component's Storybook docs page is its README, so there's no README per component folder. Every component
 ships in the same change with:
 
-1. a story file with a `Playground` story, one story per variant or state, and the status tag (`ready`, `beta`…);
+1. a story file with a `Playground` story and one story per variant or state. No status tag by default: add one
+   (`beta`, `ready`, `deprecated`) only when asked;
 2. a component description (the meta's `parameters.docs.description.component`), two or three sentences that don't
    repeat what the props table and stories show (the recipe has the rule), and a JSDoc line per non-obvious prop;
 3. its place in the sidebar (`storySort` in `.storybook/preview.ts`);

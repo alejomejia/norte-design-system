@@ -24,7 +24,6 @@ function stepsAt(done: number): PlanStep[] {
 const meta = {
   title: 'AI/Agents/Plan',
   component: Plan,
-  tags: ['beta'],
   argTypes: {
     steps: { table: { disable: true } },
     statusLabels: { table: { disable: true } },

@@ -1,0 +1,43 @@
+# Publishes the package to GitHub Packages when a release tag is pushed (`git push origin main dev vX.Y.Z`), so the
+# version apps install is built from exactly the tagged commit. Why GitHub Packages: docs/decisions/0019.
+name: Publish
+
+on:
+  push:
+    tags: ["v*"]
+  # Re-run a release by hand (Actions → Publish → Run workflow, choosing the tag), if its first run failed.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check the tag matches the version
+        run: |
+          version="v$(node -p "require('./package.json').version")"
+          if [ "$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::$GITHUB_REF_NAME is not the version in package.json ($version)."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://npm.pkg.github.com
+          scope: "@alejomejia"
+
+      # pnpm's version comes from `packageManager`, as in the Dockerfile.
+      - run: npm install --global "$(node -p "require('./package.json').packageManager")"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+      # npm, not pnpm, publishes: it reads the token setup-node wrote, and the package has no workspace links to rewrite.
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

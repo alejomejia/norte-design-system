@@ -3,6 +3,8 @@ import { readFileSync } from 'node:fs'
 
 import { type StorybookConfig } from '@storybook/react-vite'
 
+import { analyticsScript } from './analytics-script.ts'
+
 const { version } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as { version: string }
 
 /**
@@ -29,7 +31,9 @@ function releaseDates(): Record<string, string> {
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.tsx'],
-  addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
+  // `@storybook/addon-vitest` stays out: its test widget filled the bottom of the sidebar, where the repository's card
+  // goes (`manager-source-link.ts`). Its Vitest plugin runs the component tests without it (`vitest.config.ts`).
+  addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
   framework: '@storybook/react-vite',
   typescript: {
     // Reads the props' TypeScript types and their JSDoc, so the docs tables show exactly what consumers get.
@@ -44,6 +48,9 @@ const config: StorybookConfig = {
   },
   // The browser tab shows Norte's mark instead of Storybook's. Storybook picks up a favicon served at the root.
   staticDirs: [{ from: './favicon.svg', to: '/favicon.svg' }],
+  // Umami's tracker, in production builds only (decision 0017): `pnpm dev` never loads it. It goes in the manager, the
+  // page around the stories: the preview's iframe would count every visit twice, under URLs nobody shares.
+  managerHead: (head, { configType }) => (configType === 'PRODUCTION' ? `${head ?? ''}${analyticsScript()}` : head),
   core: {
     disableTelemetry: true,
   },

@@ -5,11 +5,13 @@ import { create } from 'storybook/theming'
 // Storybook bundles the manager with its own esbuild, which doesn't know the `@/` alias.
 import { LOGO_NEEDLE, LOGO_WORDMARK } from '../src/components/logo/logo.const'
 import { STATUSES, statusOf } from '../src/handbook/statuses'
+import { watchPageViews } from './analytics'
 import { watchCodeBlocks } from './code-blocks'
 import { watchCopy } from './manager-copy'
 import { watchEmptyStates } from './manager-empty-states'
 import { watchSidebarGroups } from './manager-groups'
 import { watchSearchResults } from './manager-search'
+import { watchSourceLink } from './manager-source-link'
 import { watchRangeLabels } from './range-controls'
 import { THEME_VARS } from './theme'
 import { limitTooltips } from './tooltips'
@@ -53,5 +55,8 @@ watchCodeBlocks('#storybook-panel-root')
 addons.register('norte/empty-states', (api) => watchEmptyStates(api))
 watchSearchResults()
 watchSidebarGroups()
+watchSourceLink()
 watchRangeLabels()
 limitTooltips()
+// What the published Storybook sends to Umami: one page view per story.
+watchPageViews()

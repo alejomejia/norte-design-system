@@ -74,7 +74,6 @@ Then: export it and its prop types from `src/index.ts` (alphabetical), add it to
 const meta = {
   title: 'Components/<Group>/<Name>',
   component: X,
-  tags: ['beta'],
   argTypes: { variant: { control: 'inline-radio', options: X_VARIANTS }, children: { table: { disable: true } } },
   args: { onValueChange: fn() },
   parameters: { docs: { description: { component: 'What it is, the one or two things worth knowing, its base.' } } },

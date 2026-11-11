@@ -17,7 +17,6 @@ const STEPS = [
 const meta = {
   title: 'AI/Agents/Reasoning',
   component: Reasoning,
-  tags: ['beta'],
   argTypes: {
     status: { control: 'inline-radio', options: REASONING_STATUSES },
     steps: { table: { disable: true } },

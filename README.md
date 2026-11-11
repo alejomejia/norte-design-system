@@ -48,15 +48,43 @@ pnpm dev                                # Storybook on http://localhost:6006
 | `pnpm release:version` | Turns the waiting changesets into a version bump and `CHANGELOG.md` entries     |
 | `pnpm release:tag`     | Tags the current commit as `vX.Y.Z` (on `main`, after merging the release)      |
 
+## Publishing the handbook
+
+The handbook runs at [norte-design-system.alejandromejia.dev](https://norte-design-system.alejandromejia.dev), on a VPS
+with Dokploy ([decision 0018](docs/decisions/0018-dokploy-on-a-vps.md)). Dokploy builds the `Dockerfile` from `main` on
+every release: the static Storybook, served by an unprivileged nginx on port 8080 (`deploy/`), behind Cloudflare. To
+try the image locally:
+
+```sh
+docker build -t norte-handbook . && docker run --rm -p 8080:8080 norte-handbook   # http://localhost:8080
+```
+
+The build carries Umami's tracker ([decision 0017](docs/decisions/0017-umami-analytics.md)), which only counts visits
+on the published domain, one page view per story. To leave your own visits out, run
+`localStorage.setItem('umami.disabled', 1)` once in your browser's console on the published site.
+
 ## Using it in a Next.js app
+
+The package is `@alejomejia/norte-design-system`, private on GitHub Packages
+([decision 0019](docs/decisions/0019-private-package-on-github-packages.md)): every release tag publishes it, and only
+accounts given access can install it. In the app, an `.npmrc` next to `package.json` points the scope at GitHub:
+
+```ini
+@alejomejia:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
+
+`NODE_AUTH_TOKEN` is a GitHub token that can read packages: a classic personal access token with `read:packages`, or
+`gh auth token` after `gh auth refresh --scopes read:packages`. The server that builds the app needs it as a secret
+too. Then `pnpm add @alejomejia/norte-design-system`.
 
 The components ship with their Tailwind classes, not compiled CSS, so your app's Tailwind builds them with your own
 classes. In the stylesheet your root layout imports:
 
 ```css
 @import "tailwindcss";
-@import "norte-design-system/theme.css";
-@source "../node_modules/norte-design-system/dist";
+@import "@alejomejia/norte-design-system/theme.css";
+@source "../node_modules/@alejomejia/norte-design-system/dist";
 ```
 
 The theme replaces Tailwind's default colors, type sizes, radii and shadows with Norte's (see

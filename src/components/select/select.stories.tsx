@@ -13,7 +13,6 @@ const MODELS = [
 const meta = {
   title: 'Elements/Form controls/Select',
   component: Select,
-  tags: ['beta'],
   argTypes: {
     label: { control: 'text' },
     placeholder: { control: 'text' },

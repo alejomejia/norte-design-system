@@ -9,9 +9,8 @@ import viteConfig from './vite.config.ts'
 /**
  * Two projects:
  * - `unit` (`pnpm test`): pure logic, in Node. A `<name>.test.ts` sits next to the file it tests.
- * - `storybook` (`pnpm test:stories`, or the test widget in Storybook's sidebar): every story is a test. It renders in
- *   a real Chromium and fails if it throws, if its `play` function fails or if the accessibility checks find a
- *   violation.
+ * - `storybook` (`pnpm test:stories`): every story is a test. It renders in a real Chromium and fails if it throws, if
+ *   its `play` function fails or if the accessibility checks find a violation.
  */
 export default mergeConfig(
   viteConfig,
@@ -39,6 +38,9 @@ export default mergeConfig(
           plugins: [storybookTest({ configDir: fileURLToPath(new URL('./.storybook', import.meta.url)) })],
           test: {
             name: 'storybook',
+            // A page walks all its states in one play test, waiting on its pretend server, streamed answers and Undo
+            // action's five seconds: more than the 15 seconds a story gets by default.
+            testTimeout: 30_000,
             browser: {
               enabled: true,
               headless: true,

@@ -31,7 +31,6 @@ function costBreakdown() {
 const meta = {
   title: 'Components/Overlays/Popover',
   component: Popover,
-  tags: ['beta'],
   argTypes: {
     children: { table: { disable: true } },
   },

@@ -32,7 +32,6 @@ function centerOf(element: Element) {
 const meta = {
   title: 'Components/Content/Card',
   component: Card,
-  tags: ['beta'],
   argTypes: {
     variant: { control: 'inline-radio', options: CARD_VARIANTS },
     padding: { control: 'inline-radio', options: CARD_PADDINGS },

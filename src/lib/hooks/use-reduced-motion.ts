@@ -1,20 +1,8 @@
 'use client'
 
-import { useSyncExternalStore } from 'react'
-
-const QUERY = '(prefers-reduced-motion: reduce)'
-
-function subscribe(onChange: () => void) {
-  const media = window.matchMedia(QUERY)
-  media.addEventListener('change', onChange)
-  return () => media.removeEventListener('change', onChange)
-}
+import { useMediaQuery } from './use-media-query'
 
 /** Whether the person asked their system for less motion: continuous effects draw one still frame instead. Client-only. */
 export function useReducedMotion(): boolean {
-  return useSyncExternalStore(
-    subscribe,
-    () => window.matchMedia(QUERY).matches,
-    () => false,
-  )
+  return useMediaQuery('(prefers-reduced-motion: reduce)')
 }

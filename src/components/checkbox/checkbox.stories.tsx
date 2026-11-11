@@ -7,7 +7,6 @@ import { Checkbox } from '.'
 const meta = {
   title: 'Elements/Form controls/Checkbox',
   component: Checkbox,
-  tags: ['beta'],
   argTypes: {
     children: { control: 'text' },
     render: { table: { disable: true } },

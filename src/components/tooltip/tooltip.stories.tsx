@@ -18,7 +18,6 @@ const SIDE_CELLS = {
 const meta = {
   title: 'Components/Overlays/Tooltip',
   component: Tooltip,
-  tags: ['beta'],
   argTypes: {
     content: { control: 'text' },
     side: { control: 'inline-radio', options: TOOLTIP_SIDES },

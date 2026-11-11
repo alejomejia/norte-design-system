@@ -12,7 +12,6 @@ const SOFIA_PHOTO = sofiaPhoto
 const meta = {
   title: 'Elements/Media/Avatar',
   component: Avatar,
-  tags: ['beta'],
   argTypes: {
     kind: { control: 'inline-radio', options: AVATAR_KINDS },
     size: { control: 'inline-radio', options: AVATAR_SIZES },

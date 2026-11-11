@@ -33,7 +33,6 @@ const SOURCES = [
 const meta = {
   title: 'AI/Conversation/Streaming text',
   component: StreamingText,
-  tags: ['beta'],
   argTypes: {
     text: { control: 'text' },
     reveal: { control: 'inline-radio', options: STREAMING_TEXT_REVEALS },
