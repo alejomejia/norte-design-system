@@ -386,6 +386,10 @@ button[aria-label^="Go to interaction row"] svg[data-testid="icon-waiting"] {
 
 /* Icons painted by Norte's own additions (empty states, code blocks, docs callouts), named by `data-icon`. Add one here
  * before using it. */
+[data-icon="arrow-up-right"] {
+  --sb-icon: url("lucide-static/icons/arrow-up-right.svg");
+}
+
 [data-icon="atom"] {
   --sb-icon: url("lucide-static/icons/atom.svg");
 }

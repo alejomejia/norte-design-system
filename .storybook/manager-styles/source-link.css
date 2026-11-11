@@ -1,0 +1,73 @@
+/*
+ * The repository's card at the bottom of the sidebar (`manager-source-link.ts`), in GitHub's own colors rather than
+ * Norte's: it reads as a way out to GitHub, not as part of the handbook.
+ */
+.nt-source {
+  --nt-github-surface: #1f2328;
+  --nt-github-surface-hover: #32383f;
+  --nt-github-text: #ffffff;
+  --nt-github-text-muted: #9198a1;
+
+  /* The sidebar is a flex column: the tree's scroll area shrinks to make room, so the card never covers an item. */
+  flex: none;
+  padding: 0.75rem; /* 12px */
+}
+
+.nt-source__link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* 12px */
+  padding: 0.5rem 0.75rem; /* 8px 12px */
+  border-radius: var(--sb-radius);
+  background-color: var(--nt-github-surface);
+  color: var(--nt-github-text);
+  font-family: var(--sb-font-family);
+  text-decoration: none;
+  transition: var(--sb-transition);
+}
+
+@media (hover: hover) {
+  .nt-source__link:hover {
+    background-color: var(--nt-github-surface-hover);
+  }
+}
+
+.nt-source__link:focus-visible {
+  outline: 2px solid var(--sb-color-focus);
+  outline-offset: 2px;
+}
+
+.nt-source__mark {
+  flex: none;
+  width: 1.5rem; /* 24px */
+  height: 1.5rem; /* 24px */
+  fill: currentcolor;
+}
+
+.nt-source__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.nt-source__title {
+  font-size: var(--sb-font-size);
+  font-weight: var(--sb-font-weight-medium);
+}
+
+.nt-source__repo {
+  overflow: hidden;
+  color: var(--nt-github-text-muted);
+  font-size: var(--sb-font-size-s);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nt-source__arrow {
+  flex: none;
+  width: 1rem; /* 16px */
+  height: 1rem; /* 16px */
+  background-color: var(--nt-github-text-muted);
+  mask: var(--sb-icon) center / contain no-repeat;
+}

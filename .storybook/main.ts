@@ -31,7 +31,9 @@ function releaseDates(): Record<string, string> {
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.tsx'],
-  addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
+  // `@storybook/addon-vitest` stays out: its test widget filled the bottom of the sidebar, where the repository's card
+  // goes (`manager-source-link.ts`). Its Vitest plugin runs the component tests without it (`vitest.config.ts`).
+  addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
   framework: '@storybook/react-vite',
   typescript: {
     // Reads the props' TypeScript types and their JSDoc, so the docs tables show exactly what consumers get.

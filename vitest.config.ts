@@ -9,9 +9,8 @@ import viteConfig from './vite.config.ts'
 /**
  * Two projects:
  * - `unit` (`pnpm test`): pure logic, in Node. A `<name>.test.ts` sits next to the file it tests.
- * - `storybook` (`pnpm test:stories`, or the test widget in Storybook's sidebar): every story is a test. It renders in
- *   a real Chromium and fails if it throws, if its `play` function fails or if the accessibility checks find a
- *   violation.
+ * - `storybook` (`pnpm test:stories`): every story is a test. It renders in a real Chromium and fails if it throws, if
+ *   its `play` function fails or if the accessibility checks find a violation.
  */
 export default mergeConfig(
   viteConfig,
