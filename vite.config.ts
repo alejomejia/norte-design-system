@@ -21,7 +21,7 @@ function isExternal(id: string) {
 
 /**
  * Library build (`pnpm build`): ES modules with every dependency left external, `.d.ts` files next to the JS, and
- * `theme.css`. One file per source module (`preserveModules`), so each keeps its own `'use client'` and apps only load
+ * `theme.css`. Four entries: the components (`index`) and the helpers (`utils`, `hooks`, `motion`). One file per source module (`preserveModules`), so each keeps its own `'use client'` and apps only load
  * what they import. No compiled CSS ships: the components keep their Tailwind classes, and the app's own Tailwind
  * generates them (see the README). Storybook reuses this config and drops the library-only parts in
  * `.storybook/main.ts`.
@@ -52,7 +52,8 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'src/index.ts',
+      // The components, then the helpers' entries (`/utils`, `/hooks`, `/motion`): see `exports` in package.json.
+      entry: ['src/index.ts', 'src/utils.ts', 'src/hooks.ts', 'src/motion.ts'],
       formats: ['es'],
     },
     rolldownOptions: {

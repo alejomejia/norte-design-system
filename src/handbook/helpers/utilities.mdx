@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { CssVarsExample, FormatExamples, MergeExamples } from '@/handbook/blocks/helper-examples'
+import { PageHeader } from '@/handbook/blocks/page-header'
+
+<Meta title="Helpers/Utilities" />
+
+<PageHeader section="Helpers" title="Utilities">
+  The functions Norte's components are written with, for the pieces an app builds itself: class names that merge the
+  way Norte's do, and the numbers, times and names formatted the way the components print them. They're plain
+  functions, so they work anywhere, Server Components included.
+</PageHeader>
+
+```tsx
+import { cn, tv, toCSSVars, formatCompact } from '@alejomejia/norte-design-system/utils'
+```
+
+## Styles
+
+### `cn`
+
+Joins class names, drops the ones a later class overrides, and knows Norte's type scale and easings.
+
+A plain tailwind-merge only knows Tailwind's default names. It reads every unknown `text-*` as a color, so a type size
+next to a text color looks like a conflict, and the size is dropped. Norte's theme replaces Tailwind's names, so an app
+needs Norte's `cn` for its own classes too. Each row runs both, live:
+
+<MergeExamples />
+
+```tsx
+<p className={cn('text-body-s text-ink-muted', isSelected && 'text-ink')}>{summary}</p>
+```
+
+### `tv`
+
+[tailwind-variants](https://www.tailwind-variants.org)' `tv`, with the same merge rules as `cn`: a piece's variants,
+slots and defaults in one recipe, typed with `VariantProps`. Import it from Norte, never from `tailwind-variants`, or
+its merges drop Norte's classes as above.
+
+```tsx
+import { tv, type VariantProps } from '@alejomejia/norte-design-system/utils'
+
+const runRow = tv({
+  base: 'flex items-center gap-3 rounded-m px-3 py-2',
+  variants: {
+    state: { active: 'bg-accent-subtle text-accent-ink', idle: 'text-ink-muted' },
+  },
+  defaultVariants: { state: 'idle' },
+})
+
+type RunRowProps = VariantProps<typeof runRow>
+```
+
+### `toCSSVars`
+
+Turns runtime values into CSS variables for `style`, so a class reads them and stays in charge of the styling. Numbers
+become rem (px ÷ 16); strings pass through.
+
+<CssVarsExample />
+
+```tsx
+<div className="w-(--progress) bg-accent" style={toCSSVars({ progress: `${percent}%` })} />
+```
+
+## Formatting
+
+The formatters the components print with, so an app's numbers, times and names match theirs.
+
+- **`formatCompact`:** a number shortened for a glance, in English by default, so a server and a browser print the
+  same.
+- **`formatElapsed`:** a duration as a timer shows it. With `precise`, the tenths stay at every length, for a clock
+  that should visibly move.
+- **`initials`:** a name's initials, as an avatar shows them. Accents and emoji stay whole.
+- **`domainOf`:** the site a link leads to, without `www.`, and `undefined` for a page inside the app.
+
+Each one on a few inputs, run live:
+
+<FormatExamples />

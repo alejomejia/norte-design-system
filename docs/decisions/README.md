@@ -25,5 +25,6 @@ old one says so.
 | [0017](0017-umami-analytics.md)                    | Umami for visitor analytics               | Accepted           |
 | [0018](0018-dokploy-on-a-vps.md)                   | The handbook on a VPS, with Dokploy       | Accepted           |
 | [0019](0019-private-package-on-github-packages.md) | A private package on GitHub Packages      | Accepted           |
+| [0020](0020-helpers-in-their-own-entries.md)       | Helpers in entries of their own           | Accepted           |
 
 New record: copy the shape of an existing one, take the next number, and add it to this table.

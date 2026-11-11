@@ -126,6 +126,8 @@ const preview: Preview = {
           ['Charts', ['Line chart', 'Bar chart'], 'Tables', ['Data table', 'Stat']],
           'Pages',
           ['Workspace', ['Sign in', 'Run view', 'Agents']],
+          'Helpers',
+          ['Utilities', 'Hooks', 'Motion'],
         ],
       },
     },

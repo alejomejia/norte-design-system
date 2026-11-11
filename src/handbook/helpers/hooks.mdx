@@ -1,0 +1,109 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import {
+  CopyDemo,
+  ElapsedDemo,
+  InViewportDemo,
+  MediaQueryDemo,
+  ReducedMotionDemo,
+} from '@/handbook/blocks/helper-demos'
+import { PageHeader } from '@/handbook/blocks/page-header'
+
+<Meta title="Helpers/Hooks" />
+
+<PageHeader section="Helpers" title="Hooks">
+  The React hooks Norte's components are built with: layouts that follow the screen, work that pauses when nobody can
+  see it, and the small moments after a copy. They run in the browser only, so use them in client components.
+</PageHeader>
+
+```tsx
+'use client'
+
+import { useMediaQuery, useInViewport } from '@alejomejia/norte-design-system/hooks'
+```
+
+## Layout and settings
+
+### `useMediaQuery`
+
+Whether the page matches a media query, updated as it changes. Use it for what CSS can't switch, like a sidebar that
+starts collapsed on smaller screens. For styles alone, a responsive class is simpler and has no flash. It's `false` on
+the server and in the first render, so the server's HTML and the browser's agree.
+
+<MediaQueryDemo />
+
+```tsx
+const wide = useMediaQuery('(min-width: 80rem)')
+
+return <Sidebar defaultOpen={wide}>…</Sidebar>
+```
+
+### `useReducedMotion`
+
+Whether the person asked their system for less motion. Norte's durations already drop to zero under that setting, so
+CSS transitions need nothing. Use the hook for what CSS can't reach: a canvas, a replay or a ticking effect should draw
+one still frame instead.
+
+<ReducedMotionDemo />
+
+```tsx
+const reduced = useReducedMotion()
+
+useEffect(() => {
+  if (reduced) return drawOnce()
+  return startLoop()
+}, [reduced])
+```
+
+It's Norte's own, not Motion's hook with the same name: it reads the system setting without Motion loaded.
+
+## Work that pauses
+
+### `useInViewport`
+
+Whether an element is worth animating: on screen, in a tab that's showing. Per-frame work (a canvas, a shader, a
+timer) should run only while it's true, so a page full of live pieces costs nothing for the ones out of sight. It's for
+pausing work, not for animating something in as it scrolls into view.
+
+<InViewportDemo />
+
+```tsx
+const ref = useRef<HTMLCanvasElement>(null)
+const visible = useInViewport(ref)
+
+useEffect(() => {
+  if (!visible) return
+  const frame = requestAnimationFrame(draw)
+  return () => cancelAnimationFrame(frame)
+}, [visible])
+```
+
+### `useElapsed`
+
+The time since something started, in ms, for live timers: a run, a tool call, an agent thinking. It ticks every 100ms
+while running, only while its element is on screen, and holds still once stopped. Print it with
+[`formatElapsed`](?path=/docs/helpers-utilities--docs).
+
+<ElapsedDemo />
+
+```tsx
+const ref = useRef<HTMLDivElement>(null)
+const elapsed = useElapsed(ref, run.startedAt, { running: run.status === 'running', endedAt: run.endedAt })
+
+return <span ref={ref}>{formatElapsed(elapsed)}</span>
+```
+
+## Feedback
+
+### `useCopy`
+
+Copies a text to the clipboard and remembers it for two seconds, long enough to show a check and announce it. A copy
+the browser refuses leaves it unchanged, so the label never claims a copy that didn't happen.
+
+<CopyDemo />
+
+```tsx
+const [copied, copy] = useCopy()
+
+return <Button onClick={() => copy(runUrl)}>{copied ? 'Copied' : 'Copy link'}</Button>
+```

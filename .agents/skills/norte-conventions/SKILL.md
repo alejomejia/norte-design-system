@@ -50,6 +50,9 @@ see it in full, layouts that fit every width, its motion and when to check it.
 ```
 src/
   index.ts          the package's public API: every component and its public types
+  utils.ts          the `/utils` entry: the pure helpers apps may use (decision 0020)
+  hooks.ts          the `/hooks` entry: the client hooks apps may use
+  motion.ts         the `/motion` entry: Norte's timings, the lazy features and the parts of Motion apps use
   components/       one folder per component (what ships)
   lib/utils/        pure, generic helpers, behind the `@/lib/utils` barrel
   lib/hooks/        shared client hooks, behind the `@/lib/hooks` barrel
@@ -101,7 +104,8 @@ says less than a short list where every item works.
 A barrel (an `index.ts` that only re-exports) is allowed only as a `lib/` domain's public surface: `lib/utils`
 (universal), `lib/hooks` and `lib/motion` (client). Members are light, side-effect free and safe in one runtime; `lib/utils`
 imports nothing from `@/`. Code outside the folder imports through the barrel, never a deep path. A component's
-`index.tsx` is its implementation, not a barrel. `src/index.ts` is the package's entry, the one exception.
+`index.tsx` is its implementation, not a barrel. The package's entries (`src/index.ts`, `utils.ts`, `hooks.ts`, `motion.ts`) are the exception: each is a curated list,
+and a helper joins one only when an app needs it, since every export is part of the API.
 
 ## Shared utilities
 
@@ -153,6 +157,10 @@ ships in the same change with:
    repeat what the props table and stories show (the recipe has the rule), and a JSDoc line per non-obvious prop;
 3. its place in the sidebar (`storySort` in `.storybook/preview.ts`);
 4. its export in `src/index.ts`, and a changeset.
+
+A helper exported from `utils.ts`, `hooks.ts` or `motion.ts` ships with its section on its Helpers page
+(`src/handbook/helpers/`): what it's for, when not to use it, an example, and a live demo where one helps.
+`helpers.test.ts` fails if an export isn't on its page.
 
 ### Stories
 
