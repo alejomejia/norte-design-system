@@ -1,7 +1,7 @@
 /*
- * The inspect mode (`measure-inspect.ts`), drawn in the Measure tool's palette: the selection in its content blue,
- * which `measure.ts` no longer paints, and the redlines in the red of the same palette. Labels copy the tool's own:
- * 12px monospace on a rounded tag, in dark text.
+ * The inspect mode (`measure-inspect.ts`), drawn in the Measure tool's palette: the inspected element in its content
+ * blue, which `measure.ts` no longer paints, and the redlines and the story's frame in the red of the same palette. The
+ * grid is Norte's 8px, in ink. Labels copy the tool's own: 12px monospace on a rounded tag, in dark text.
  */
 .nt-inspect {
   --nt-inspect-box: #6fa8dc;
@@ -13,6 +13,11 @@
   z-index: 2147483646;
   inset: 0;
   pointer-events: none;
+  transition: opacity var(--sb-duration) var(--sb-ease);
+
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 .nt-inspect [hidden] {
@@ -24,6 +29,30 @@
   cursor: crosshair !important;
 }
 
+/* Norte's 8px grid, from the story's corner (`--x`, `--y`): what lines up with it is on the grid. */
+.nt-inspect-grid {
+  --nt-inspect-grid: color-mix(in oklab, var(--color-ink) 6%, transparent);
+
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--nt-inspect-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--nt-inspect-grid) 1px, transparent 1px);
+  background-position: var(--x) var(--y);
+  background-size: 0.5rem 0.5rem; /* 8px */
+}
+
+/* The story's bounds, as a faint band like a Figma frame. */
+.nt-inspect-frame {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--w);
+  height: var(--h);
+  outline: 1px solid color-mix(in srgb, var(--nt-inspect-line) 32%, transparent);
+  background-color: color-mix(in srgb, var(--nt-inspect-line) 4%, transparent);
+}
+
 .nt-inspect-box {
   position: absolute;
   top: var(--y);
@@ -33,7 +62,7 @@
   outline: 1px solid var(--nt-inspect-box);
 }
 
-.nt-inspect-box[data-selected] {
+.nt-inspect-box[data-pinned] {
   outline-width: 2px;
 }
 
@@ -64,7 +93,7 @@
   white-space: nowrap;
 }
 
-/* The size, under the selection. */
+/* The size, under the inspected element. */
 .nt-inspect-box > .nt-inspect-label {
   top: calc(100% + 0.5rem); /* 8px */
   left: 50%;
@@ -88,14 +117,16 @@
   translate: 0 -50%;
 }
 
-/* The specs, in a corner away from the selection (`data-x`, `data-y`), bottom right until there's one. */
+/* The readout, in a corner (`data-x`, `data-y`) that doesn't cover what it describes. */
 .nt-inspect-panel {
   position: absolute;
   right: 1rem; /* 16px */
   bottom: 1rem; /* 16px */
   display: grid;
+  width: max-content;
+  min-width: 16rem; /* 256px */
   max-width: 20rem; /* 320px */
-  gap: 0.5rem; /* 8px */
+  gap: 0.75rem; /* 12px */
   padding: 0.75rem; /* 12px */
   border: 1px solid var(--sb-color-border);
   border-radius: 0.5rem; /* 8px */
@@ -121,10 +152,25 @@
   opacity: 0.16;
 }
 
+.nt-inspect-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem; /* 16px */
+}
+
+.nt-inspect-title {
+  margin: 0;
+  font-weight: var(--sb-font-weight-medium);
+}
+
+.nt-inspect-body {
+  display: grid;
+  gap: 0.5rem; /* 8px */
+}
+
 .nt-inspect-name {
   overflow: hidden;
   margin: 0;
-  font-weight: var(--sb-font-weight-medium);
   text-overflow: ellipsis;
   white-space: nowrap;
 }

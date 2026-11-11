@@ -1,12 +1,14 @@
 /**
  * The inspect mode, on top of the Measure tool (the ruler in the toolbar, or M), adapted from the one on
- * alejandromejia.dev. While the ruler is on, a click selects an element instead of pressing it: the panel lists its
- * size, padding, gap, radius and type in Norte's names (`px-3`, `rounded-m`, `text-body-s`), and hovering another
- * element draws the redlines between the two, like Figma. Esc clears the selection; ⌥-click still uses the component,
- * to open a menu and measure it.
+ * alejandromejia.dev. While the ruler is on, an 8px grid anchored to the story and the story's frame lie over the
+ * canvas, so the mode is plain to see. Hovering an element previews it, and a click pins it instead of pressing it: both
+ * show the same readout, the element's box model (the Measure tool's drawing) and a panel with its size, padding, gap,
+ * radius and type in Norte's names (`px-3`, `rounded-m`, `text-body-s`). With one pinned, hovering another draws the
+ * redlines between the two, like Figma. Esc unpins, then exits; ⌥-click still uses the component, to open a menu and
+ * measure it.
  */
 import { type Decorator } from '@storybook/react-vite'
-import { useEffect } from 'storybook/preview-api'
+import { useEffect, useGlobals } from 'storybook/preview-api'
 
 import { TOKENS } from '@/handbook/tokens'
 
@@ -17,12 +19,15 @@ export const INSPECT_ID = 'nt-inspect'
 
 const SCALE = readScale(TOKENS)
 
-/** The events a click is made of: none reaches the story while it selects instead. */
+/** The events a click is made of: none reaches the story while it pins instead. */
 const POINTER_EVENTS = ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick'] as const
+
+/** The panel's corners, by `data-x` and `data-y`. */
+type Corner = [x: 'left' | 'right', y: 'top' | 'bottom']
 
 let selected: Element | null = null
 
-/** The selected element, which the Measure tool alone keeps drawing (`measure.ts`). */
+/** The pinned element, which the Measure tool alone keeps drawing (`measure.ts`). */
 export function inspectedElement() {
   return selected
 }
@@ -40,6 +45,15 @@ export function isInStory(element: Element | null): element is Element {
 /** CSS px per design px: a larger default font scales every rem, and the labels read in the design's px. */
 function rootScale() {
   return (Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16) / 16
+}
+
+/** The story's own element, whose corner anchors the grid: the canvas's padding around it isn't the component's. */
+function storyElement() {
+  return document.getElementById('storybook-root')?.firstElementChild ?? null
+}
+
+function intersects(a: Pick<DOMRect, 'left' | 'top' | 'right' | 'bottom'>, b: typeof a) {
+  return a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom
 }
 
 /** Whether an element has text of its own, not only through its children, so its type is worth listing. */
@@ -105,8 +119,8 @@ function renderSpecs(specs: Spec[]) {
   return list
 }
 
-/** Turns the inspect mode on, and returns what turns it off. */
-function startInspecting() {
+/** Turns the inspect mode on, and returns what turns it off. `exit` turns the ruler off. */
+function startInspecting(exit: () => void) {
   const pointer = { x: 0, y: 0 }
   let hovered: Element | null = null
   let frame = 0
@@ -114,14 +128,22 @@ function startInspecting() {
   const overlay = create('div', 'nt-inspect')
   overlay.id = INSPECT_ID
   overlay.setAttribute('aria-hidden', 'true')
-  const selectedBox = create('div', 'nt-inspect-box')
-  selectedBox.dataset.selected = ''
+  const grid = create('div', 'nt-inspect-grid')
+  const storyFrame = create('div', 'nt-inspect-frame')
+  // The element the panel describes: the pinned one, or the hovered one until there's a pin.
+  const focusBox = create('div', 'nt-inspect-box')
   const sizeLabel = create('span', 'nt-inspect-label')
-  selectedBox.append(sizeLabel)
-  const hoveredBox = create('div', 'nt-inspect-box')
+  focusBox.append(sizeLabel)
+  // The one measured against the pin.
+  const targetBox = create('div', 'nt-inspect-box')
   const lines = create('div', '')
   const panel = create('div', 'nt-inspect-panel')
-  overlay.append(hoveredBox, selectedBox, lines, panel)
+  const panelBody = create('div', 'nt-inspect-body')
+  const panelHint = create('p', 'nt-inspect-hint')
+  const header = create('div', 'nt-inspect-header')
+  header.append(create('p', 'nt-inspect-title', 'Inspect'), create('p', 'nt-inspect-hint', 'Esc to exit'))
+  panel.append(header, panelBody, panelHint)
+  overlay.append(grid, storyFrame, targetBox, focusBox, lines, panel)
   document.body.append(overlay)
   document.documentElement.dataset.ntInspecting = ''
 
@@ -143,33 +165,67 @@ function startInspecting() {
     redrawMeasure()
   }
 
+  /** The 8px grid from the story's corner, and its frame. */
+  function renderGrid() {
+    const story = storyElement()?.getBoundingClientRect()
+    grid.style.setProperty('--x', `${Math.round(story?.left ?? 0)}px`)
+    grid.style.setProperty('--y', `${Math.round(story?.top ?? 0)}px`)
+    storyFrame.hidden = !story?.width || !story.height
+    if (story) place(storyFrame, story)
+  }
+
+  /**
+   * Keeps the panel in its corner unless it would cover the element it describes, then moves it to the nearest free
+   * one: on hover, a panel that hopped at every element would be hard to read.
+   */
+  function placePanel(box: DOMRect) {
+    const [x = 'right', y = 'bottom'] = [panel.dataset.x, panel.dataset.y] as Partial<Corner>
+    const flipX = x === 'left' ? 'right' : 'left'
+    const flipY = y === 'top' ? 'bottom' : 'top'
+    const corners: Corner[] = [
+      [x, y],
+      [flipX, y],
+      [x, flipY],
+      [flipX, flipY],
+    ]
+    const inset = 16 * rootScale()
+    const { offsetWidth: width, offsetHeight: height } = panel
+    const free = corners.find(([cornerX, cornerY]) => {
+      const left = cornerX === 'left' ? inset : innerWidth - inset - width
+      const top = cornerY === 'top' ? inset : innerHeight - inset - height
+      return !intersects({ left, top, right: left + width, bottom: top + height }, box)
+    })
+    const [cornerX, cornerY] = free ?? [x, y]
+    panel.dataset.x = cornerX
+    panel.dataset.y = cornerY
+  }
+
   function render() {
     // A story that renders again replaces its elements.
     if (selected && !selected.isConnected) select(null)
-    const selection = selected
+    if (hovered && !hovered.isConnected) hovered = null
+    const focus = selected ?? hovered
 
-    selectedBox.hidden = !selection
-    hoveredBox.hidden = !selection || !hovered || hovered === selection
+    renderGrid()
+    focusBox.hidden = !focus
+    focusBox.toggleAttribute('data-pinned', selected !== null)
+    targetBox.hidden = !selected || !hovered || hovered === selected
     lines.replaceChildren()
+    panelHint.textContent = selected ? 'Esc to unpin · ⌥-click to use it' : 'Click to pin · ⌥-click to use it'
 
-    if (!selection) {
-      panel.replaceChildren(
-        create('p', 'nt-inspect-name', 'Click an element to inspect it'),
-        create('p', 'nt-inspect-hint', '⌥-click to use it · M to close'),
-      )
-      delete panel.dataset.x
-      delete panel.dataset.y
+    if (!focus) {
+      panelBody.replaceChildren(create('p', 'nt-inspect-name', 'Hover an element to inspect it'))
       return
     }
 
     const scale = rootScale()
-    const box = selection.getBoundingClientRect()
-    place(selectedBox, box)
+    const box = focus.getBoundingClientRect()
+    place(focusBox, box)
     sizeLabel.textContent = `${formatLength(box.width / scale)} × ${formatLength(box.height / scale)}`
 
-    if (hovered && hovered !== selection) {
+    if (selected && hovered && hovered !== selected) {
       const target = hovered.getBoundingClientRect()
-      place(hoveredBox, target)
+      place(targetBox, target)
       for (const { axis, x, y, length } of measureDistances(box, target)) {
         const line = create('div', 'nt-inspect-line')
         line.dataset.axis = axis
@@ -184,15 +240,12 @@ function startInspecting() {
     sizeLabel.hidden = lines.childElementCount > 0
 
     // biome-ignore lint/performance/useDomNodeTextContent: the visible text keeps the breaks between blocks, which `textContent` glues
-    const text = selection instanceof HTMLElement ? selection.innerText : (selection.textContent ?? '')
-    panel.replaceChildren(
-      create('p', 'nt-inspect-name', nameElement(selection.tagName.toLowerCase(), text)),
-      renderSpecs(readSpecs(selection)),
-      create('p', 'nt-inspect-hint', 'Esc to clear · ⌥-click to use it'),
+    const text = focus instanceof HTMLElement ? focus.innerText : (focus.textContent ?? '')
+    panelBody.replaceChildren(
+      create('p', 'nt-inspect-name', nameElement(focus.tagName.toLowerCase(), text)),
+      renderSpecs(readSpecs(focus)),
     )
-    // In the corner away from the selection, so it doesn't cover what it describes.
-    panel.dataset.x = box.left + box.width / 2 > innerWidth / 2 ? 'left' : 'right'
-    panel.dataset.y = box.top + box.height / 2 > innerHeight / 2 ? 'top' : 'bottom'
+    placePanel(box)
   }
 
   /** Draws on the next frame, once, however many events asked for it. */
@@ -218,7 +271,12 @@ function startInspecting() {
     const target = event.target instanceof Element && isInStory(event.target) ? event.target : null
     if (target === hovered) return
     hovered = target
-    if (selected) draw()
+    draw()
+  }
+
+  function handlePointerLeave() {
+    hovered = null
+    draw()
   }
 
   function handlePointer(event: MouseEvent) {
@@ -236,17 +294,21 @@ function startInspecting() {
     if (event.type === 'click') select(target === selected ? null : target)
   }
 
+  /** Esc unpins, then exits; inside an open popup, it's the popup's, to close it. */
   function handleKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Escape' || !selected) return
+    if (event.key !== 'Escape') return
+    if (!selected && event.target instanceof Element && event.target.closest('[data-base-ui-portal]')) return
     event.preventDefault()
     event.stopPropagation()
-    select(null)
+    if (selected) select(null)
+    else exit()
   }
 
   // On the window, in the capture phase: before React's own listeners on the story's root and portals.
   const options = { capture: true }
   document.addEventListener('pointermove', handlePointerMove, { capture: true, passive: true })
   document.addEventListener('pointerover', handlePointerOver, { capture: true, passive: true })
+  document.documentElement.addEventListener('pointerleave', handlePointerLeave)
   for (const type of POINTER_EVENTS) window.addEventListener(type, handlePointer, options)
   window.addEventListener('keydown', handleKeyDown, options)
   window.addEventListener('scroll', draw, { capture: true, passive: true })
@@ -261,6 +323,7 @@ function startInspecting() {
     delete document.documentElement.dataset.ntInspecting
     document.removeEventListener('pointermove', handlePointerMove, options)
     document.removeEventListener('pointerover', handlePointerOver, options)
+    document.documentElement.removeEventListener('pointerleave', handlePointerLeave)
     for (const type of POINTER_EVENTS) window.removeEventListener(type, handlePointer, options)
     window.removeEventListener('keydown', handleKeyDown, options)
     window.removeEventListener('scroll', draw, options)
@@ -273,7 +336,8 @@ function startInspecting() {
  * off (`parameters.measure.disable`). Storybook's own tool is a decorator alike.
  */
 export const withInspect: Decorator = (Story, { globals, parameters, viewMode }) => {
+  const [, updateGlobals] = useGlobals()
   const active = viewMode === 'story' && Boolean(globals.measureEnabled) && !parameters.measure?.disable
-  useEffect(() => (active ? startInspecting() : undefined), [active])
+  useEffect(() => (active ? startInspecting(() => updateGlobals({ measureEnabled: false })) : undefined), [active])
   return Story()
 }
