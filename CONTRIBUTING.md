@@ -130,9 +130,11 @@ git push origin main dev v0.3.0
 
 - **Pushing the tag publishes the package** to GitHub Packages, as `@alejomejia/norte-design-system`
   ([decision 0019](docs/decisions/0019-private-package-on-github-packages.md)). The Publish workflow in
-  `.github/workflows/publish.yml` checks the tag matches `package.json`, builds and publishes. If it fails on something
-  outside the code (GitHub, a token), run it again from the Actions tab on the same tag. A fix in the code is a patch
-  release: a tag never moves, and a version is published only once.
+  `.github/workflows/publish.yml` checks the tag matches `package.json`, builds and publishes. If its run fails or
+  never starts, fix what's wrong on `dev`, push `dev`, and publish the tag by hand from there:
+  `gh workflow run publish.yml --ref dev -f tag=v0.3.0` (or Actions → Publish → Run workflow, from `dev`). The workflow
+  comes from `dev`, the package from the tag's commit. A fix in the package itself is a patch release: a tag never
+  moves, and a version is published only once.
 - **Not `pnpm check` in step 1:** its `changeset status` compares `dev` with the latest tag, and once `release:version`
   has used the changesets, it sees changed files with no note until the new tag exists. Run the other checks on their
   own.

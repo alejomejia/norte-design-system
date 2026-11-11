@@ -5,24 +5,36 @@ name: Publish
 on:
   push:
     tags: ["v*"]
-  # Re-run a release by hand (Actions → Publish → Run workflow, choosing the tag), if its first run failed.
+  # Publish a release by hand, if its tag's run failed or never started: Actions → Publish → Run workflow, from `dev`,
+  # with the tag (`gh workflow run publish.yml --ref dev -f tag=v0.6.0`). The workflow comes from the branch, so a fix
+  # to it applies to a tag that's already pushed, and the package is still built from the tag's own commit.
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "The release tag to publish, like v0.6.0"
+        required: true
+        type: string
 
 permissions:
   contents: read
   packages: write
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: refs/tags/${{ env.TAG }}
 
       - name: Check the tag matches the version
         run: |
           version="v$(node -p "require('./package.json').version")"
-          if [ "$version" != "$GITHUB_REF_NAME" ]; then
-            echo "::error::$GITHUB_REF_NAME is not the version in package.json ($version)."
+          if [ "$version" != "$TAG" ]; then
+            echo "::error::$TAG is not the version in package.json ($version). Publish a release tag, like $version."
             exit 1
           fi
 
@@ -31,6 +43,8 @@ jobs:
           node-version: 24
           registry-url: https://npm.pkg.github.com
           scope: "@alejomejia"
+          # Its cache would run pnpm before the next step installs it. A release doesn't need the cache.
+          package-manager-cache: false
 
       # pnpm's version comes from `packageManager`, as in the Dockerfile.
       - run: npm install --global "$(node -p "require('./package.json').packageManager")"
