@@ -54,6 +54,14 @@ type Story = StoryObj<typeof meta>
 /** Click the mic: the pill grows to the right, and the stop button takes the focus. */
 export const Playground: Story = {
   parameters: { docs: { canvas: { sourceState: 'shown' } } },
+  play: async ({ canvasElement, step }) => {
+    await step(
+      'Before the first recording, the hidden timer reads zero, the same on a server and in the browser',
+      async () => {
+        await expect(canvasElement.textContent).toContain('0:00')
+      },
+    )
+  },
 }
 
 /** Recording, with bars that move on their own: what it looks like without a microphone, as here. */
