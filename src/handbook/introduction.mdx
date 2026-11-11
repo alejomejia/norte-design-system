@@ -7,13 +7,46 @@ import { Topography } from '@/handbook/blocks/topography'
 <Meta title="Handbook/Introduction" />
 
 <PageHeader section="Handbook" title="Norte Design System" cover={<Topography />}>
-  The shared design language of Norte, a workspace where teams run AI agents and review their work: the brand
-  foundations and the React components built on them, in one package.
+  The shared design language of Norte, a fictional workspace where teams run AI agents and review their work: the
+  brand foundations and the React components built on them, in one package.
 </PageHeader>
 
 > **Status: early.** The foundations and the first elements are ready to use, and the components for AI agents come
 > next. A component with a status shows it next to its name: **beta** while its API may still change, **deprecated**
 > on its way out.
+
+## What Norte is
+
+Norte isn't a real product. It's an example brand, invented so a complete design system can be built and shown in
+public, with nothing confidential in it: the brand, the foundations, the components and the process behind them, by
+[Alejandro Mejía](https://alejandromejia.dev).
+
+**Built with AI.** The whole system was made working actively with Anthropic's Claude Opus 5.5 and Claude Sonnet 5.5,
+guided by the conventions and recipes written for them in the repository's
+[`.agents/skills/`](https://github.com/alejomejia/norte-design-system/tree/dev/.agents/skills).
+
+The project has two halves, and the second is what makes the first worth trusting:
+
+- **The design system:** the `@alejomejia/norte-design-system` package, and this handbook, which documents and tests
+  every piece of it.
+- **Norte app:** an example app whose screens are built from the package alone. It installs a released version from a
+  private registry, the way a product team would, so everything here is proven outside the handbook too.
+
+## What a design system brings
+
+What an app gains by building on Norte instead of from scratch, and where this project shows it:
+
+- **One look, kept without effort.** Components read token roles, never raw values, so changing a color, a size or a
+  radius reaches every screen at once. See [Foundations](?path=/docs/foundations-colors--docs) and Theming, below.
+- **Faster screens.** The app composes tested pieces instead of rebuilding buttons, dialogs and menus, and spends its
+  time on the product.
+- **Accessibility, solved once.** Keyboard use, focus, screen reader names and contrast are built into each component
+  and checked by tests: every story renders in a real browser with accessibility checks, and every pair of colors
+  components combine is tested against WCAG AA. Every app inherits it.
+- **Upgrades without surprises.** Each release has a version and a changelog written for the people who install it.
+  Apps pin a version and move when they're ready, reading what changed first.
+- **A shared language.** Design and code call things by the same names, from `accent` to `ApprovalRequest`, and every
+  decision behind the system is written down with what it costs.
 
 ## How this handbook is organized
 
@@ -37,7 +70,8 @@ The sidebar goes from the smallest pieces to whole screens, and each section bui
     Charts and tables, for what agents measure and produce.
   </Card>
   <Card title="Pages" icon="layout-template">
-    Whole screens of the workspace, built from everything above.
+    Whole screens of the workspace, built from everything above. They're examples, not part of the package: each app
+    builds its own screens from the same pieces.
   </Card>
 </Cards>
 
@@ -58,6 +92,13 @@ holds pages about the system itself:
   >
     Branches, commits, changesets and releases.
   </Card>
+  <Card
+    title="Decisions"
+    icon="file-code"
+    href="https://github.com/alejomejia/norte-design-system/tree/dev/docs/decisions"
+  >
+    Why the system is built the way it is: each choice, what it costs, and when to look at it again.
+  </Card>
 </Cards>
 
 ## Where a new component goes
@@ -75,21 +116,34 @@ Go down the list and stop at the first match:
 
 ## Using the package
 
-Install it, then add the theme to the stylesheet your app's root layout imports. The components ship with their
-Tailwind classes, not compiled CSS, so your Tailwind builds them together with your own classes.
+Norte is a private package on GitHub Packages, built and published from each release, so Norte's apps install a
+pinned version and upgrade when they're ready. Tell your app where the `@alejomejia` scope lives, in an `.npmrc` next to
+its `package.json`:
+
+```ini
+@alejomejia:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
+
+`NODE_AUTH_TOKEN` is a GitHub token that can read packages: a classic personal access token with `read:packages`, or
+`gh auth token` once `gh auth refresh --scopes read:packages` has added the scope. The server that builds your app
+needs it too, as a secret. Then install it:
 
 ```bash
-pnpm add norte-design-system
+pnpm add @alejomejia/norte-design-system
 ```
+
+Add the theme to the stylesheet your app's root layout imports. The components ship with their Tailwind classes, not
+compiled CSS, so your Tailwind builds them together with your own classes.
 
 ```css
 @import "tailwindcss";
-@import "norte-design-system/theme.css";
-@source "../node_modules/norte-design-system/dist";
+@import "@alejomejia/norte-design-system/theme.css";
+@source "../node_modules/@alejomejia/norte-design-system/dist";
 ```
 
 ```tsx
-import { Button, Icon } from 'norte-design-system'
+import { Button, Icon } from '@alejomejia/norte-design-system'
 
 export function RunButton() {
   return (
