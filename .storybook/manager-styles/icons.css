@@ -23,6 +23,7 @@
     > div
     > div
     > svg,
+  .sidebar-subheading button[data-action="collapse-root"] > div > svg,
   :is(.sidebar-item, .search-result-item) svg[type],
   .sidebar-item button[data-testid="context-menu"] svg,
   /* Settings menu */
@@ -130,7 +131,8 @@
 }
 
 /* Tree and search results. Storybook turns the chevron's wrapper 90° when a node opens, so it points right. */
-.sidebar-item button[aria-expanded] > div > div > svg {
+:is(.sidebar-item button[aria-expanded] > div > div, .sidebar-subheading button[data-action="collapse-root"] > div)
+  > svg {
   --sb-icon: url("lucide-static/icons/chevron-right.svg");
 }
 
