@@ -125,7 +125,7 @@
   display: grid;
   width: max-content;
   min-width: 16rem; /* 256px */
-  max-width: 20rem; /* 320px */
+  max-width: min(30rem, calc(100% - 2rem)); /* 480px, or the canvas minus its two 16px insets */
   gap: 0.75rem; /* 12px */
   padding: 0.75rem; /* 12px */
   border: 1px solid var(--sb-color-border);
@@ -182,7 +182,7 @@
 
 .nt-inspect-specs {
   display: grid;
-  grid-template-columns: repeat(3, max-content);
+  grid-template-columns: repeat(2, max-content) minmax(0, max-content); /* the utilities wrap before they spill out */
   gap: 0.25rem 1rem; /* 4px 16px */
   margin: 0;
 
@@ -193,6 +193,7 @@
   & dd {
     margin: 0;
     color: var(--sb-color-text-muted);
+    overflow-wrap: anywhere;
   }
 
   & .nt-inspect-value {
