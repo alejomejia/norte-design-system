@@ -6,8 +6,8 @@ import { existsSync, readdirSync, readFileSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 
 const CACHE = join('node_modules', '.cache', 'storybook')
-/** Entries (files and folders) past which the cache is wiped whole. A healthy one holds about 300. */
-const LIMIT = 10_000
+/** Entries (files and folders) past which the cache is wiped whole. A healthy one holds a few hundred. */
+const LIMIT = 3_000
 
 function remove(path: string) {
   rmSync(path, { recursive: true, force: true })
